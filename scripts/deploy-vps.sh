@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
-cd "$(dirname "$0")/.."
-
-echo "==> Build e deploy landing (lp.romulohub.cloud)"
-docker compose build --no-cache landing
-docker compose up -d --force-recreate landing
-docker compose logs landing --tail 30
-
-echo ""
-echo "==> Verificação HTTPS"
-curl -sI "https://lp.romulohub.cloud/" | head -5
-echo ""
+COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.yml}"
+SERVICE="${SERVICE:-landing}"
+HEALTH_URL="${HEALTH_URL:-https://lp.romulohub.cloud/}"
+git pull
+docker compose -f "$COMPOSE_FILE" build --no-cache "$SERVICE"
+docker compose -f "$COMPOSE_FILE" up -d --force-recreate "$SERVICE"
+docker compose -f "$COMPOSE_FILE" ps
+docker compose -f "$COMPOSE_FILE" logs "$SERVICE" --tail 20
+curl -sI "$HEALTH_URL" | head -3
 echo "Deploy landing concluído."
