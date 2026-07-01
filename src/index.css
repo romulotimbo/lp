@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+
+    --text-display-hero: clamp(2.75rem, 4.5vw + 1.25rem, 4.5rem);
+    --text-display-lg: clamp(2rem, 2.5vw + 1rem, 3.25rem);
+    --text-display-md: clamp(1.75rem, 1.5vw + 1rem, 2.5rem);
+    --text-manifesto: clamp(1.625rem, 2vw + 0.75rem, 3rem);
+
+    --space-section-sm: clamp(4rem, 6vw, 5.5rem);
+    --space-section-md: clamp(5rem, 8vw, 7rem);
+    --space-section-lg: clamp(6rem, 10vw, 8.5rem);
+
+    --manifesto-dim: #52525b;
+    --manifesto-lit: #d1d5db;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1.5rem;
+  }
+
+  body {
+    @apply bg-cyber-black font-body text-cyber-titanium antialiased;
+  }
+
+  ::selection {
+    background-color: rgba(196, 30, 58, 0.35);
+    color: #e8eaed;
+  }
+}
+
+@layer components {
+  .section-eyebrow {
+    @apply font-display text-sm uppercase tracking-[0.3em] text-blood-red;
+  }
+
+  .section-title {
+    font-size: var(--text-display-lg);
+    @apply font-display font-bold uppercase leading-[1.05] tracking-tight text-cyber-titanium;
+  }
+
+  .section-lead {
+    @apply text-base leading-relaxed text-cyber-muted sm:text-lg;
+  }
+
+  .section-block {
+    padding-top: var(--space-section-md);
+    padding-bottom: var(--space-section-md);
+  }
+
+  .section-block--tight {
+    padding-top: var(--space-section-sm);
+    padding-bottom: var(--space-section-sm);
+  }
+
+  .section-block--loose {
+    padding-top: var(--space-section-lg);
+    padding-bottom: var(--space-section-lg);
+  }
+
+  .btn-primary {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center rounded-lg border border-blood-red bg-blood-red px-8 py-3 text-center font-display text-sm uppercase tracking-wider text-cyber-titanium transition-[background-color,transform,box-shadow] duration-300 hover:bg-blood-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/60 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-black active:scale-[0.98];
+    transition-timing-function: var(--ease-out-quart);
+  }
+
+  .btn-ghost {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center rounded-lg border border-blood-red/40 bg-transparent px-8 py-3 text-center font-display text-sm uppercase tracking-wider text-blood-red transition-[background-color,border-color,transform] duration-300 hover:border-blood-red/60 hover:bg-blood-red/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-black active:scale-[0.98];
+    transition-timing-function: var(--ease-out-quart);
+  }
+
+  .section-divider {
+    @apply pointer-events-none mx-auto h-px max-w-7xl bg-gradient-to-r from-transparent via-blood-red/20 to-transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-display-hero {
+    font-size: var(--text-display-hero);
+  }
+
+  .text-display-md {
+    font-size: var(--text-display-md);
+  }
+
+  .text-manifesto {
+    font-size: var(--text-manifesto);
+  }
+
+  .spotlight-border {
+    position: relative;
+  }
+
+  .spotlight-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+      300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(196, 30, 58, 0.4),
+      transparent 40%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 250ms var(--ease-out-quart);
+  }
+
+  .spotlight-border:hover::before {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

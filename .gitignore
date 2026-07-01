@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output (gerado no Docker)
+dist/
+
+# IDE / tooling
+.cursor/
+.claude/
+.vscode/
+
+# Env
+.env
+.env.*
+
+# OS
+Thumbs.db
+.DS_Store

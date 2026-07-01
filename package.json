@@ -1,0 +1,46 @@
+{
+  "name": "energi-power-vee",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "teaser:stories": "node scripts/build-teaser-stories.mjs",
+    "og:build": "node scripts/build-og-image.mjs",
+    "avatars:import": "node scripts/import-avatars.mjs",
+    "favicon:build": "node scripts/build-favicon.mjs",
+    "stories:build": "node scripts/build-marketing-stories.mjs",
+    "qna:import": "node scripts/import-qna-story.mjs",
+    "qna:refine": "node scripts/refine-qna-story.mjs",
+    "qna:build": "node scripts/build-qna-stories.mjs",
+    "qna:guide": "node scripts/build-qna-guides.mjs",
+    "modelo:optimize": "node scripts/optimize-modelo-legacy.mjs",
+    "modelo:ref-import": "node scripts/import-modelo-referencia.mjs",
+    "power:textures": "node scripts/build-power-grid-textures.mjs"
+  },
+  "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.12",
+    "@radix-ui/react-tabs": "^1.1.13",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
+    "motion": "^12.40.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "tailwind-merge": "^3.3.0"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@vitejs/plugin-react": "^4.4.1",
+    "autoprefixer": "^10.4.21",
+    "exiftool-vendored": "^35.21.0",
+    "ffmpeg-static": "^5.3.0",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  }
+}
