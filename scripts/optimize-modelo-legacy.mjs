@@ -1,5 +1,6 @@
 /**
- * Converte modelo/1–4.jpg (~1 MB) → WebP 600×800 para o vault.
+ * LEGADO — vault 1–4 usa JPG direto em public/imagens/modelo/.
+ * Este script convertia 1–4.jpg → WebP 600×800; não rodar após migração para JPG.
  */
 import { spawnSync } from "child_process";
 import ffmpegPath from "ffmpeg-static";

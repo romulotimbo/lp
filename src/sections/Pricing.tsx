@@ -18,6 +18,7 @@ interface Plan {
   recommended: boolean;
   ctaLabel: string;
   href: string;
+  value: number;
 }
 
 const CHECKOUT = {
@@ -42,6 +43,7 @@ const plans: Plan[] = [
     recommended: false,
     ctaLabel: "Testar o protocolo",
     href: CHECKOUT.single,
+    value: 97,
   },
   {
     id: "triple",
@@ -60,6 +62,7 @@ const plans: Plan[] = [
     recommended: true,
     ctaLabel: "Garantir agora",
     href: CHECKOUT.triple,
+    value: 237,
   },
   {
     id: "arsenal",
@@ -78,6 +81,7 @@ const plans: Plan[] = [
     recommended: false,
     ctaLabel: "Montar arsenal",
     href: CHECKOUT.arsenal,
+    value: 347,
   },
 ];
 
@@ -158,7 +162,14 @@ function SatellitePlanCard({ plan }: { plan: Plan }) {
       <a
         href={plan.href}
         rel="noopener noreferrer"
-        onClick={(e) => handleCheckoutClick(e, plan.href)}
+        onClick={(e) =>
+          handleCheckoutClick(e, {
+            planId: plan.id,
+            planName: plan.name,
+            value: plan.value,
+            url: plan.href,
+          })
+        }
         className={ctaClassName}
       >
         {plan.ctaLabel}
@@ -226,7 +237,14 @@ function RecommendedPlanCard({ plan }: { plan: Plan }) {
             <MagneticButton
               href={plan.href}
               rel="noopener noreferrer"
-              onClick={(e) => handleCheckoutClick(e, plan.href)}
+              onClick={(e) =>
+                handleCheckoutClick(e, {
+                  planId: plan.id,
+                  planName: plan.name,
+                  value: plan.value,
+                  url: plan.href,
+                })
+              }
               className="w-full sm:w-auto"
             >
               <span className={cn(ctaClassName, "sm:min-w-[220px]")}>

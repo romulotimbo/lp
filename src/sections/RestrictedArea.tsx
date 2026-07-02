@@ -21,10 +21,10 @@ const lockedFiles = [
 ];
 
 const previewAssets = [
-  { src: "/imagens/modelo/1.webp", alt: "Preview exclusivo 01" },
-  { src: "/imagens/modelo/2.webp", alt: "Preview exclusivo 02" },
-  { src: "/imagens/modelo/3.webp", alt: "Preview exclusivo 03" },
-  { src: "/imagens/modelo/4.webp", alt: "Preview exclusivo 04" },
+  { src: "/imagens/modelo/1.jpg", alt: "Preview exclusivo 01" },
+  { src: "/imagens/modelo/2.jpg", alt: "Preview exclusivo 02" },
+  { src: "/imagens/modelo/3.jpg", alt: "Preview exclusivo 03" },
+  { src: "/imagens/modelo/4.jpg", alt: "Preview exclusivo 04" },
   { src: "/imagens/modelo/5.jpg", alt: "Preview exclusivo 05" },
   { src: "/imagens/modelo/6.jpg", alt: "Preview exclusivo 06" },
   { src: "/imagens/modelo/7.jpg", alt: "Preview exclusivo 07" },

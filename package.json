@@ -17,6 +17,7 @@
     "qna:refine": "node scripts/refine-qna-story.mjs",
     "qna:build": "node scripts/build-qna-stories.mjs",
     "qna:guide": "node scripts/build-qna-guides.mjs",
+    "modelo:carousel": "node scripts/optimize-modelo-carousel.mjs",
     "modelo:optimize": "node scripts/optimize-modelo-legacy.mjs",
     "modelo:ref-import": "node scripts/import-modelo-referencia.mjs",
     "power:textures": "node scripts/build-power-grid-textures.mjs"
