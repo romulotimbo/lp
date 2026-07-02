@@ -61,8 +61,14 @@ export function Faq() {
               <p className="section-eyebrow mb-5">Dúvidas</p>
               <h2 className="section-title text-balance">Sem desculpa</h2>
               <p className="mt-5 text-sm leading-relaxed text-cyber-muted">
-                Se ainda tem pergunta, a resposta está aqui. Se não tem, o
+                Discrição, garantia, como tomar — sem rodeio. Resolveu aqui, o
                 protocolo te espera.
+              </p>
+              <p
+                className="mt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-cyber-muted/45"
+                aria-hidden
+              >
+                faq_index · 06 entries · objeções neutralizadas
               </p>
               <a
                 href="#pricing"
@@ -99,7 +105,12 @@ export function Faq() {
                       </span>
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent>{faq.answer}</AccordionContent>
+                  <AccordionContent>
+                    <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-blood-red/55">
+                      ans::{faq.id}
+                    </span>
+                    {faq.answer}
+                  </AccordionContent>
                 </AccordionItem>
               ))}
             </Accordion>

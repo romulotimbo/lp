@@ -1,9 +1,9 @@
 # Copy da landing page — Energi Power by Vee
 
 Transcrição do texto visível na LP (ordem de scroll), para revisão de copy.  
-**Gerado a partir do código em:** `index.html`, `src/sections/*`, `src/components/sticky-cta.tsx`, microcopy de UI em componentes.
+**Gerado a partir do código em:** `index.html`, `src/sections/*`, `src/components/*`.
 
-Última sincronização: estrutura atual do repositório.
+Última sincronização: jul/2026 — pacote completo de revisão Impeccable (copy).
 
 ---
 
@@ -12,7 +12,7 @@ Transcrição do texto visível na LP (ordem de scroll), para revisão de copy.
 | Campo | Texto |
 |-------|--------|
 | `<title>` | Energi Power by Vee |
-| `meta description` | Energi Power by Vee — estimulante natural. Libido, virilidade e discrição. Apresentado por Vee. |
+| `meta description` | Vee apresenta Energi Power — cápsulas naturais, entrega discreta. O protocolo que separa homem de menino. |
 | `og:title` / `twitter:title` | Energi Power by Vee |
 | `og:description` / `twitter:description` | O protocolo que separa homem de menino. Energi Power — estimulante 100% natural. |
 
@@ -29,15 +29,24 @@ Transcrição do texto visível na LP (ordem de scroll), para revisão de copy.
 **Eyebrow**  
 Vee apresenta · Energi Power
 
+**HUD (decorativo)**  
+hero · live_feed · batch EP-vee
+
 **Título (H1)**  
 Vee não perde tempo com homem **fraco**. E você?
 
 **Subtítulo**  
-Estimulante 100% natural. Ereção firme, libido no talo, virilidade que ela exige. Energi Power — o protocolo que separa homem de menino.
+Cápsulas 100% naturais. Libido no talo, ereção firme, entrega discreta. Absorção rápida; resultado em dias, não meses. Ela nota antes de você abrir a boca.
 
 **CTAs**  
 - Quero aguentar o tranco → `#pricing`  
-- Tem algo no final da página → `#restricted-hint`
+- Tem um segredinho no final → `#restricted-hint`
+
+**HUD rodapé do bloco de copy**  
+discreet_ship · natural · release &lt;15m
+
+**HUD produto**  
+HUD::PRODUCT_LOCK
 
 **Alt (imagem produto)**  
 Energi Power — estimulante sexual natural em cápsulas
@@ -49,8 +58,11 @@ Energi Power — estimulante sexual natural em cápsulas
 **Eyebrow**  
 A voz da Vee
 
-**Corpo (texto contínuo)**  
-Eu sou exigente. Corpo, mente e cama. Se você some no meio do jogo, nem chega perto. Energi Power existe pra homem que decide ser potente — natural, sem desculpa. Toma. Performa. Ou assiste de longe. Quem chegar até o fim da página talvez ganhe mais do que cápsulas.
+**HUD (decorativo)**  
+manifesto · voice_profile · scroll_reveal
+
+**Corpo (texto contínuo — scroll reveal)**  
+Eu sou exigente. Corpo, mente e cama. Se você some no meio do jogo, nem chega perto. Energi Power é o protocolo que separa homem de menino. Natural, sem desculpa. Toma. Performa. Ou assiste de longe. Quem chegar até o fim da página descobre o que a Vee guardou além das cápsulas.
 
 ---
 
@@ -65,12 +77,12 @@ Protocolo Vital
 **Intro**  
 Quatro sinais que a Vee exige de quem chega perto: potência, fogo, resistência e entrega — traduzidos do rótulo pra cama.
 
-**Linha decorativa (mono)**  
+**HUD (decorativo)**  
 telemetry · batch EP-vee · readout ao vivo
 
 ### Card — Força
 
-- HUD: `PROTOCOL::FORÇA`  
+- HUD: `PROTOCOL::FORÇA` · `MOD::01`  
 - Stat: **MAX** — potência física  
 - Título: Força  
 - Descrição: Potência física e rigidez quando mais importa. Sem falhar na hora H.  
@@ -78,23 +90,23 @@ telemetry · batch EP-vee · readout ao vivo
 
 ### Card — Vitalidade
 
-- HUD: `PROTOCOL::VITAL`  
+- HUD: `PROTOCOL::VITAL` · `MOD::02`  
 - Stat: **24/7** — disposição contínua  
 - Título: Vitalidade  
 - Descrição: Stamina de sobra — aguenta até ela pedir arrego. Resistência que ela sente.  
 - Telemetria: signal **88%**
 
-### Card — Energia
+### Card — Libido
 
-- HUD: `PROTOCOL::LIBIDO`  
+- HUD: `PROTOCOL::LIBIDO` · `MOD::03`  
 - Stat: **ON** — libido ativa  
-- Título: Energia  
+- Título: Libido  
 - Descrição: Libido acesa, disposição 24h. O fogo que não apaga no meio do jogo.  
 - Telemetria: signal **92%**
 
 ### Card — Desempenho
 
-- HUD: `PROTOCOL::FOCUS`  
+- HUD: `PROTOCOL::FOCUS` · `MOD::04`  
 - Stat: **&lt;15m** — janela de absorção  
 - Título: Desempenho  
 - Descrição: Performance sob pressão. Zero vacilo, zero desculpa, zero segunda chance.  
@@ -122,24 +134,26 @@ Mecanismo Técnico
 Tecnologia Americana
 
 **Intro**  
-O que entra no teu corpo — sem mistério, sem risco desnecessário.
+O que entra no teu corpo — composição clara, lote controlado, sem mistério.
+
+**HUD (decorativo)**  
+mechanism · hud_scan · batch EP-vee
 
 ### Abas
 
-| Aba | Título do painel | Corpo | Stat | Label do stat |
-|-----|------------------|-------|------|----------------|
-| Absorção Rápida | Velocidade de Absorção | Formulação de liberação otimizada — age em minutos, não em horas. Ela não vai esperar. | &lt; 15 min | Tempo médio de absorção |
-| 100% Natural | Composição Natural | Ingredientes naturais, sem química suspeita no corpo. Cada pote contém 30 cápsulas de composição padronizada. | 30 | Cápsulas por pote |
-| Selo USA | Tecnologia Americana | Padrão americano de qualidade — o mesmo que a Vee confia. Matéria-prima importada e controle rigoroso de lote. | USA | Origem tecnológica |
+| Aba | `moduleId` | Título do painel | Corpo | Stat | Label do stat |
+|-----|------------|------------------|-------|------|----------------|
+| Absorção Rápida | SCAN::DOSE | Velocidade de Absorção | Formulação de liberação otimizada — entra rápido no corpo. Ela não vai esperar você "esquentar". | &lt; 15 min | tempo médio de absorção |
+| 100% Natural | SCAN::STACK | Composição Natural | Ingredientes naturais, sem química suspeita no corpo. Cada pote contém 30 cápsulas de composição padronizada. | 30 | cápsulas por pote |
+| Selo USA | SCAN::ORIGIN | Padrão Americano | Padrão americano de qualidade — o mesmo que a Vee confia. Matéria-prima importada e controle rigoroso de lote. | USA | origem tecnológica · lote EP-vee |
 
-**HUD (todas as abas)**  
-- Label: `HUD::TRIPLE_STACK_SCAN`  
-- Alt imagem: Três potes Energi Power — macro de cápsulas  
+### HUD (imagens por aba)
 
-**Readouts decorativos do frame HUD**  
-- absorption_rate: optimal  
-- batch: EP-vee-004  
-- rec ●  
+| Aba | Label HUD | Alt |
+|-----|-----------|-----|
+| Absorção Rápida | HUD::SINGLE_DOSE_SCAN | Energi Power — macro de cápsula, dose única |
+| 100% Natural | HUD::TRIPLE_STACK_SCAN | Três potes Energi Power — macro de cápsulas |
+| Selo USA | HUD::LABEL_ORIGIN_SCAN | Energi Power — rótulo e selo de origem americana |
 
 ---
 
@@ -149,52 +163,32 @@ O que entra no teu corpo — sem mistério, sem risco desnecessário.
 Prova Social
 
 **Título (H2)**  
-Homens que aguentaram
+Quem não vacilou
 
 **Intro**  
-Depoimentos reais de quem entrou no protocolo depois da Vee.
+Relatos de quem entrou no protocolo depois da Vee.
 
-### Depoimento 1 — Rafael M.
+**HUD (decorativo)**  
+social_proof · field_reports · batch readout
 
-**Perfil:** 34 anos · SP  
-
-**Texto:**  
-"Minha parceira notou na primeira semana. Discrição total na entrega — ninguém desconfia."
-
-### Depoimento 2 — Carlos H.
-
-**Perfil:** 41 anos · RJ  
-
-**Texto:**  
-"Voltei a me sentir homem de verdade. Comprei pelo story da Vee e ela não mentiu."
-
-### Depoimento 3 — Diego A.
+### Destaque — Diego A. (`field_report · primary`)
 
 **Perfil:** 38 anos · MG  
 
 **Texto:**  
-"Libido lá em cima, ereção firme. Resultado antes do pote acabar. Já pedi o kit de 3."
+Libido lá em cima, ereção firme. Resultado antes do pote acabar. Já pedi o kit de 3.
 
-### Depoimento 4 — Marcos V.
+**Metadados (desktop):** source · protocol_ep · kit · 3_potes · status · verified
 
-**Perfil:** 29 anos · PR  
+### Marquee — demais relatos
 
-**Texto:**  
-"Testei de tudo antes. Esse é o único que entregou o que prometeu — sem efeito colateral estranho."
-
-### Depoimento 5 — Lucas P.
-
-**Perfil:** 45 anos · BA  
-
-**Texto:**  
-"A mulher comentou sem eu falar nada. Embalagem neutra, chegou rápido. Discreto."
-
-### Depoimento 6 — André F.
-
-**Perfil:** 36 anos · RS  
-
-**Texto:**  
-"Energia e confiança que transbordam. Virilidade que ela sentiu na primeira noite."
+| ID | Nome | Perfil | Texto |
+|----|------|--------|-------|
+| DEP::01 | Rafael M. | 34 anos · SP | Minha parceira notou na primeira semana. Discrição total na entrega — ninguém desconfia. |
+| DEP::02 | Carlos H. | 41 anos · RJ | Voltei a me sentir homem de verdade. Comprei pelo story da Vee e ela não mentiu. |
+| DEP::04 | Marcos V. | 29 anos · PR | Testei de tudo antes. Esse é o único que entregou o que prometeu — sem efeito colateral estranho. |
+| DEP::05 | Lucas P. | 45 anos · BA | A mulher comentou sem eu falar nada. Confiança que ela sentiu na primeira semana. |
+| DEP::06 | André F. | 36 anos · RS | Energia e confiança que transbordam. Virilidade que ela sentiu na primeira noite. |
 
 ---
 
@@ -207,38 +201,38 @@ O Ultimato
 Prove que aguenta
 
 **Intro**  
-Três kits. Uma decisão. Escolhe teu arsenal e mostra que merece.
+Três kits. Uma decisão. O de 3 potes é o que a Vee indica — o resto é teste ou arsenal.
 
-### Kit 1 Pote
+**HUD (decorativo)**  
+checkout · discreet_ship · batch EP-vee
 
-- Nome: 1 Pote  
+### Kit 1 Pote (`KIT::01`)
+
 - Descrição: Teste o protocolo. Veja se aguenta.  
 - Preço: **R$ 97** (R$ 97/pote)  
-- Bullets: 30 cápsulas · Embalagem discreta · Garantia 7 dias  
-- CTA: Garantir agora  
-- Alt imagem: Kit 1 Pote — Energi Power  
+- Features: 30 cápsulas · Embalagem discreta · Garantia 7 dias  
+- CTA: Testar o protocolo  
+- Checkout: Braip `plalx6jk`
 
-### Kit 3 Potes (recomendado)
+### Kit 3 Potes — recomendado (`KIT::03`)
 
 - Badge: O que a Vee usa  
-- Nome: 3 Potes  
-- Descrição: O kit que a Vee indica. Resultado consistente.  
+- Descrição: O kit que a Vee indica. Pra quem não quer testar na hora H.  
 - Preço: **R$ 237** (R$ 79/pote)  
-- Bullets: 90 cápsulas · Frete grátis · discreto · Garantia 30 dias · Resultados em dias, não meses  
+- Features: 90 cápsulas · Frete grátis · discreto · Garantia 30 dias · Resultados em dias, não meses  
 - CTA: Garantir agora  
-- Alt imagem: Kit 3 Potes — Energi Power  
+- Checkout: Braip `plagoemg`
 
-### Kit 5 Potes
+### Kit 5 Potes (`KIT::05`)
 
-- Nome: 5 Potes  
 - Descrição: Arsenal completo. Máximo desconto, zero desculpa.  
 - Preço: **R$ 347** (R$ 69/pote)  
-- Bullets: 150 cápsulas · Frete grátis · discreto · Garantia 60 dias · Protocolo longo prazo  
-- CTA: Garantir agora  
-- Alt imagem: Kit 5 Potes — Energi Power  
+- Features: 150 cápsulas · Frete grátis · discreto · Garantia 60 dias · Protocolo longo prazo  
+- CTA: Montar arsenal  
+- Checkout: Braip `plavx2pj`
 
 **Rodapé (`#restricted-hint`)**  
-// Quem chegar até o fim da página pode ganhar mais do que cápsulas.
+// Quem chegar até o fim da página descobre o que a Vee guardou além das cápsulas.
 
 ---
 
@@ -251,47 +245,53 @@ Dúvidas
 Sem desculpa
 
 **Intro**  
-Discrição, garantia e uso — tudo que você precisa saber antes de decidir.
+Discrição, garantia, como tomar — sem rodeio. Resolveu aqui, o protocolo te espera.
+
+**HUD (decorativo)**  
+faq_index · 06 entries · objeções neutralizadas
+
+**Link lateral**  
+Ver os kits → `#pricing`
 
 ### Perguntas e respostas
 
-**A entrega é discreta?**  
-Sim. Embalagem neutra, sem referência ao produto ou conteúdo adulto na caixa. Ninguém na portaria ou correio vai saber o que você comprou.
+**01 — A entrega é discreta?** (`ans::entrega`)  
+Embalagem neutra, sem referência ao produto na caixa. Ninguém na portaria ou correio vai saber o que você comprou.
 
-**É natural? Tem contraindicação?**  
-Energi Power é composto por ingredientes 100% naturais. Consulte o rótulo e, se tiver condição de saúde ou usar medicamentos, fale com seu médico antes de iniciar.
+**02 — É natural? Tem contraindicação?** (`ans::composicao`)  
+Ingredientes 100% naturais. Se tiver condição de saúde ou usar medicamentos, consulte seu médico antes de iniciar — o rótulo tem a composição completa.
 
-**Quanto tempo para sentir efeito?**  
-A maioria dos homens relata diferença entre 3 e 7 dias de uso contínuo. A absorção rápida pode fazer você sentir disposição já nas primeiras doses.
+**03 — Quanto tempo para sentir efeito?** (`ans::efeito`)  
+A maioria relata diferença entre 3 e 7 dias de uso contínuo. A absorção rápida pode trazer disposição já nas primeiras doses.
 
-**Qual a garantia?**  
-Garantia de satisfação: 7 dias (1 pote), 30 dias (3 potes) e 60 dias (5 potes). Se não sentir resultado, devolvemos seu investimento.
+**04 — Qual a garantia?** (`ans::garantia`)  
+7 dias no kit de 1 pote, 30 dias no de 3 potes e 60 dias no de 5 potes. Se não sentir resultado, devolvemos seu investimento.
 
-**Como devo tomar?**  
+**05 — Como devo tomar?** (`ans::uso`)  
 1 cápsula ao dia, com água — de preferência antes do momento em que você quer estar no auge. Não exceda a dose do rótulo.
 
-**É registrado na Anvisa?**  
-Energi Power é suplemento alimentar conforme legislação vigente. Informações nutricionais completas estão no rótulo do produto.
+**06 — É registrado na Anvisa?** (`ans::anvisa`)  
+Suplemento alimentar conforme legislação vigente. Informações nutricionais completas estão no rótulo do produto.
 
 ---
 
 ## 08 — Área Restrita
 
 **Badge**  
-Prêmio · Só quem chegou até aqui
+PRIZE::SCROLL_REWARD
 
 **Título (H2)**  
 Área Restrita
 
 **Intro**  
-Conteúdo sigiloso da Vee. Segure o botão abaixo para desbloquear o preview exclusivo.
+Você scrollou até aqui. Segura o botão — a Vee liberou um preview que não está no story.
 
 ### Barra de status
 
-- Esquerda: VAULT // SIGILOSO  
-- Direita (bloqueado): 4 arquivos  
-- Direita (escaneando): {progresso}%  
-- Direita (desbloqueado): desbloqueado  
+- Esquerda: VAULT // SIGILOSO // AES-256  
+- Direita (bloqueado): 4 arquivos · locked  
+- Direita (escaneando): scan · {progresso}%  
+- Direita (desbloqueado): status · unlocked  
 
 ### Arquivos (pills)
 
@@ -302,14 +302,15 @@ Conteúdo sigiloso da Vee. Segure o botão abaixo para desbloquear o preview exc
 
 ### Carrossel
 
-- `> preview exclusivo`  
+- `> preview_exclusivo`  
 - deslize → (desktop)  
+- Overlay slides: lock / open  
 - Alt slides: Preview exclusivo 01 … 08  
 
 ### CTA biométrico
 
 **Antes do unlock (instrução)**  
-Segure o botão · as fotos desbloqueiam enquanto você pressiona
+BIO::HOLD · as fotos desbloqueiam enquanto você pressiona
 
 **Botão (bloqueado / escaneando)**  
 Segure para Desbloquear  
@@ -319,10 +320,50 @@ _{progresso}%_ (durante o hold)
 Acesso Liberado
 
 **Link pós-unlock**  
-Acessar Conteúdo Exclusivo → (`#area-restrita`)
+Acessar Conteúdo Exclusivo → (abre modal waitlist)
 
 **Rodapé**  
 owner: VEE · aes-256 · restricted
+
+---
+
+## 09 — Modal waitlist (vault)
+
+**Barra**  
+vault_access · gift_queue · notify_pack
+
+**Título**  
+Presente da Vee
+
+**Corpo**  
+Deixa teu e-mail. Presente agora + aviso quando o pack exclusivo da Vee abrir.
+
+**Campo**  
+E-mail — placeholder: seu@email.com
+
+**CTAs**  
+- Quero meu presente / Registrando…  
+- Agora não  
+
+**Sucesso**  
+status · queued — Presente reservado. A Vee avisa quando o pack estiver no ar.
+
+**Rodapé**  
+discreet_list · aes-256 · owner VEE
+
+---
+
+## 10 — Footer
+
+**Marca**  
+Energi Power  
+by VEE · protocol_ep
+
+**Link**  
+Garantir kit → `#pricing`
+
+**HUD**  
+discreet_ship · natural · batch EP-vee
 
 ---
 
@@ -369,8 +410,8 @@ Não renderizado na página; referência para alinhar tom.
 
 ## Notas para revisão
 
+- **Tagline canônica** (*O protocolo que separa homem de menino*) aparece no Manifesto, OG e meta description.  
 - Preços e garantias estão duplicados em **Pricing** e **FAQ** — alterar nos dois lugares se mudar oferta.  
-- Hero CTA secundário diz **"Tem algo no final da página"**; vault/stories usam **"segredinho"** — decidir unificação de tom.  
-- CTAs de compra apontam para `#` (placeholder) até URLs de checkout reais.  
-- Depoimentos são fictícios no código — revisar conformidade legal antes de publicar.
-![1780337043239](image/copy-pagina/1780337043239.png)![1780337073057](image/copy-pagina/1780337073057.png)
+- Depoimentos no código são **ilustrativos** — revisar conformidade legal antes de publicar; intro usa “Relatos”, não “reais”.  
+- CTAs de checkout apontam para URLs Braip (`plalx6jk`, `plagoemg`, `plavx2pj`).  
+- **story-02** ainda usa “Resultado consistente” no marketing estático — alinhar com Pricing se desejado.

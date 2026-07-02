@@ -5,6 +5,10 @@ interface HudFrameProps {
   className?: string;
   label?: string;
   flash?: boolean;
+  readouts?: {
+    left?: readonly string[];
+    right?: string;
+  };
 }
 
 function HudCorner({ className }: { className?: string }) {
@@ -24,6 +28,10 @@ export function HudFrame({
   className,
   label = "HUD::ACTIVE",
   flash = false,
+  readouts = {
+    left: ["absorption_rate: optimal", "batch: EP-vee-004"],
+    right: "rec ●",
+  },
 }: HudFrameProps) {
   return (
     <div
@@ -72,12 +80,15 @@ export function HudFrame({
 
       {/* Readouts decorativos */}
       <div className="pointer-events-none absolute bottom-4 left-4 space-y-0.5 font-mono text-[9px] text-cyber-muted/40 sm:bottom-6 sm:left-6 sm:text-[10px]">
-        <p>absorption_rate: optimal</p>
-        <p>batch: EP-vee-004</p>
+        {readouts.left?.map((line) => (
+          <p key={line}>{line}</p>
+        ))}
       </div>
-      <div className="pointer-events-none absolute bottom-4 right-4 font-mono text-[9px] text-cyber-muted/40 sm:bottom-6 sm:right-6 sm:text-[10px]">
-        <p className="motion-safe:animate-hud-blink">rec ●</p>
-      </div>
+      {readouts.right ? (
+        <div className="pointer-events-none absolute bottom-4 right-4 font-mono text-[9px] text-cyber-muted/40 sm:bottom-6 sm:right-6 sm:text-[10px]">
+          <p className="motion-safe:animate-hud-blink">{readouts.right}</p>
+        </div>
+      ) : null}
 
       <div className="relative z-10">{children}</div>
     </div>

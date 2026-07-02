@@ -7,7 +7,7 @@ import {
   animate,
   type MotionValue,
 } from "motion/react";
-import { ChevronRight, Fingerprint, Gift, Lock, ShieldAlert } from "lucide-react";
+import { VaultWaitlistModal } from "@/components/vault-waitlist-modal";
 
 const HOLD_DURATION_MS = 2500;
 const LOCKED_BLUR = 8;
@@ -30,6 +30,44 @@ const previewAssets = [
   { src: "/imagens/modelo/7.jpg", alt: "Preview exclusivo 07" },
   { src: "/imagens/modelo/8.jpg", alt: "Preview exclusivo 08" },
 ];
+
+function BiometricHud({ scanning }: { scanning: boolean }) {
+  return (
+    <div
+      className="relative flex h-8 w-8 shrink-0 items-center justify-center sm:h-9 sm:w-9"
+      aria-hidden
+    >
+      <span className="absolute inset-0 border border-blood-red/35" />
+      <span className="absolute left-0 top-0 h-2 w-2 border-l border-t border-blood-red/70" />
+      <span className="absolute right-0 top-0 h-2 w-2 border-r border-t border-blood-red/70" />
+      <span className="absolute bottom-0 left-0 h-2 w-2 border-b border-l border-blood-red/70" />
+      <span className="absolute bottom-0 right-0 h-2 w-2 border-b border-r border-blood-red/70" />
+      <svg
+        viewBox="0 0 24 24"
+        className="h-5 w-5 text-blood-red/85 sm:h-6 sm:w-6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+      >
+        <path d="M12 4c-3.5 0-6 2.8-6 6.5 0 2.2 1.2 4.2 3 5.2" />
+        <path d="M12 4c3.5 0 6 2.8 6 6.5 0 2.2-1.2 4.2-3 5.2" />
+        <path d="M12 15.7v4.3" />
+        <path d="M9.5 20h5" />
+        {scanning ? (
+          <motion.line
+            x1="4"
+            x2="20"
+            initial={{ y1: 6, y2: 6 }}
+            animate={{ y1: [6, 18, 6], y2: [6, 18, 6] }}
+            transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
+            stroke="rgba(196,30,58,0.9)"
+            strokeWidth="0.75"
+          />
+        ) : null}
+      </svg>
+    </div>
+  );
+}
 
 function CensoredSlide({
   src,
@@ -70,9 +108,9 @@ function CensoredSlide({
         />
       )}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-        <div className="flex h-8 w-8 items-center justify-center rounded-full border border-blood-red/40 bg-cyber-black/85">
-          <Lock className="h-3.5 w-3.5 text-blood-red/80" strokeWidth={1.5} />
-        </div>
+        <span className="border border-blood-red/45 bg-cyber-black/90 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.2em] text-blood-red/90">
+          {unlocked ? "open" : "lock"}
+        </span>
       </div>
     </div>
   );
@@ -82,6 +120,7 @@ export function RestrictedArea() {
   const [progress, setProgress] = useState(0);
   const [unlocked, setUnlocked] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
   const animationRef = useRef<ReturnType<typeof animate> | null>(null);
   const progressMotion = useMotionValue(0);
   const blurPx = useTransform(
@@ -130,11 +169,10 @@ export function RestrictedArea() {
       />
 
       <div className="relative mx-auto max-w-3xl">
-        {/* Cabeçalho compacto */}
         <header className="mb-6 text-center sm:mb-8">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-blood-red/30 bg-blood-red/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-blood-red sm:text-xs">
-            <Gift className="h-3 w-3" />
-            Prêmio · Só quem chegou até aqui
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-blood-red/30 bg-blood-red/5 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.2em] text-blood-red sm:text-xs">
+            <span className="inline-block h-1.5 w-1.5 animate-hud-blink rounded-full bg-blood-red" />
+            PRIZE::SCROLL_REWARD
           </div>
 
           <h2 className="text-display-md font-display font-bold uppercase tracking-wide text-cyber-titanium">
@@ -142,33 +180,27 @@ export function RestrictedArea() {
           </h2>
 
           <p className="mx-auto mt-2 max-w-md text-xs leading-relaxed text-cyber-muted sm:text-sm">
-            Conteúdo sigiloso da Vee. Segure o botão abaixo para desbloquear o
-            preview exclusivo.
+            Você scrollou até aqui. Segura o botão — a Vee liberou um preview que
+            não está no story.
           </p>
         </header>
 
-        {/* Painel único: vault + carrossel + CTA — tudo visível de uma vez */}
         <div className="overflow-hidden rounded-xl border border-blood-red/30 bg-cyber-black shadow-inner-dark motion-safe:animate-none">
-          {/* Barra de status */}
           <div
             className={`flex items-center justify-between border-b border-blood-red/15 px-3 py-2 font-mono text-[10px] text-blood-red/60 sm:px-4 sm:text-xs ${
               !unlocked ? "motion-safe:animate-glitch" : ""
             }`}
           >
-            <span className="flex items-center gap-1.5">
-              <ShieldAlert className="h-3 w-3" />
-              VAULT // SIGILOSO
-            </span>
+            <span>VAULT // SIGILOSO // AES-256</span>
             <span className="text-cyber-muted">
               {unlocked
-                ? "desbloqueado"
+                ? "status · unlocked"
                 : isScanning
-                  ? `${progress}%`
-                  : "4 arquivos"}
+                  ? `scan · ${progress}%`
+                  : "4 arquivos · locked"}
             </span>
           </div>
 
-          {/* Arquivos — faixa horizontal compacta (não coluna lateral) */}
           <div className="flex gap-2 overflow-x-auto border-b border-blood-red/10 px-3 py-2 [scrollbar-width:none] sm:px-4 [&::-webkit-scrollbar]:hidden">
             {lockedFiles.map((file) => (
               <span
@@ -183,13 +215,10 @@ export function RestrictedArea() {
             ))}
           </div>
 
-          {/* Carrossel horizontal — altura fixa, peek da próxima imagem */}
           <div className="relative border-b border-blood-red/10 px-3 py-3 sm:px-4">
             <div className="mb-2 flex items-center justify-between font-mono text-[10px] text-cyber-muted">
-              <span>&gt; preview exclusivo</span>
-              <span className="hidden items-center gap-0.5 sm:flex">
-                deslize <ChevronRight className="h-3 w-3" />
-              </span>
+              <span>&gt; preview_exclusivo</span>
+              <span className="hidden sm:inline">deslize →</span>
             </div>
 
             <div
@@ -211,18 +240,16 @@ export function RestrictedArea() {
               ))}
             </div>
 
-            {/* Fade hint — indica mais conteúdo */}
             <div
               className="pointer-events-none absolute right-0 top-8 h-32 w-12 bg-gradient-to-l from-cyber-black to-transparent sm:top-9 sm:h-36"
               aria-hidden
             />
           </div>
 
-          {/* CTA integrado — sempre visível no mesmo painel */}
           <div className="p-3 sm:p-4">
             {!unlocked && (
               <p className="mb-2.5 text-center font-mono text-[10px] uppercase tracking-wider text-blood-red/90 sm:text-xs">
-                Segure o botão · as fotos desbloqueiam enquanto você pressiona
+                BIO::HOLD · as fotos desbloqueiam enquanto você pressiona
               </p>
             )}
 
@@ -249,10 +276,7 @@ export function RestrictedArea() {
               } disabled:cursor-default`}
             >
               <div className="relative z-10 flex items-center justify-center gap-3 px-3">
-                <Fingerprint
-                  className="h-7 w-7 shrink-0 text-blood-red sm:h-8 sm:w-8"
-                  strokeWidth={1}
-                />
+                <BiometricHud scanning={isScanning && !unlocked} />
                 <span className="text-left font-mono text-xs uppercase leading-tight tracking-wide text-blood-red sm:text-sm">
                   {unlocked ? (
                     "Acesso Liberado"
@@ -286,15 +310,16 @@ export function RestrictedArea() {
 
             <AnimatePresence>
               {unlocked && (
-                <motion.a
-                  href="#area-restrita"
+                <motion.button
+                  type="button"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, ease: "easeOut" }}
-                  className="mt-3 flex min-h-[48px] cursor-pointer items-center justify-center rounded-lg border border-blood-red/50 bg-blood-red/10 font-mono text-xs uppercase tracking-wider text-blood-red transition-colors duration-200 hover:bg-blood-red/20 sm:text-sm"
+                  onClick={() => setWaitlistOpen(true)}
+                  className="mt-3 flex min-h-[48px] w-full cursor-pointer items-center justify-center rounded-lg border border-blood-red/50 bg-blood-red/10 font-mono text-xs uppercase tracking-wider text-blood-red transition-colors duration-200 hover:bg-blood-red/20 sm:text-sm"
                 >
                   Acessar Conteúdo Exclusivo →
-                </motion.a>
+                </motion.button>
               )}
             </AnimatePresence>
           </div>
@@ -304,6 +329,11 @@ export function RestrictedArea() {
           owner: VEE · aes-256 · restricted
         </p>
       </div>
+
+      <VaultWaitlistModal
+        open={waitlistOpen}
+        onClose={() => setWaitlistOpen(false)}
+      />
     </section>
   );
 }

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 
 const manifestoText =
-  "Eu sou exigente. Corpo, mente e cama. Se você some no meio do jogo, nem chega perto. Energi Power existe pra homem que decide ser potente — natural, sem desculpa. Toma. Performa. Ou assiste de longe. Quem chegar até o fim da página talvez ganhe mais do que cápsulas.";
+  "Eu sou exigente. Corpo, mente e cama. Se você some no meio do jogo, nem chega perto. Energi Power é o protocolo que separa homem de menino. Natural, sem desculpa. Toma. Performa. Ou assiste de longe. Quem chegar até o fim da página descobre o que a Vee guardou além das cápsulas.";
 
 const words = manifestoText.split(" ");
 
@@ -48,7 +48,15 @@ export function Manifesto() {
           className="pointer-events-none absolute -right-[12%] top-1/2 z-0 w-[min(72vw,28rem)] -translate-y-1/2 select-none object-contain opacity-[0.06] saturate-0 sm:-right-[8%] sm:opacity-[0.07] lg:w-[32rem] lg:opacity-[0.08]"
         />
         <div className="relative z-10 mx-auto max-w-4xl">
-          <p className="section-eyebrow mb-10">A voz da Vee</p>
+          <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-baseline sm:justify-between">
+            <p className="section-eyebrow">A voz da Vee</p>
+            <p
+              className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyber-muted/50"
+              aria-hidden
+            >
+              manifesto · voice_profile · scroll_reveal
+            </p>
+          </div>
 
           <p className="text-manifesto text-balance font-display font-medium uppercase leading-[1.15] tracking-tight">
             {words.map((word, i) => (

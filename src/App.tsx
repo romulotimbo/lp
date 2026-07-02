@@ -1,3 +1,4 @@
+import { PageFooter } from "@/components/page-footer";
 import { StickyCta } from "@/components/sticky-cta";
 import { Hero } from "@/sections/Hero";
 import { Manifesto } from "@/sections/Manifesto";
@@ -19,6 +20,7 @@ export default function App() {
       <Pricing />
       <Faq />
       <RestrictedArea />
+      <PageFooter />
       <StickyCta />
     </main>
   );

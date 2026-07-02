@@ -2,7 +2,6 @@ import {
   PowerPillarCard,
   type PowerPillar,
 } from "@/components/power-pillar-card";
-import { Brain, Dumbbell, HeartPulse, Zap, ChevronRight } from "lucide-react";
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 
@@ -10,13 +9,13 @@ const pillars: PowerPillar[] = [
   {
     id: "forca",
     hudLabel: "PROTOCOL::FORÇA",
+    moduleId: "MOD::01",
     title: "Força",
     description:
       "Potência física e rigidez quando mais importa. Sem falhar na hora H.",
     stat: "MAX",
     statLabel: "potência física",
     telemetry: 96,
-    icon: Dumbbell,
     featured: true,
     image: "/imagens/power/forca.webp",
     className: "md:col-span-4 md:row-span-2",
@@ -24,39 +23,40 @@ const pillars: PowerPillar[] = [
   {
     id: "vitalidade",
     hudLabel: "PROTOCOL::VITAL",
+    moduleId: "MOD::02",
     title: "Vitalidade",
     description:
       "Stamina de sobra — aguenta até ela pedir arrego. Resistência que ela sente.",
     stat: "24/7",
     statLabel: "disposição contínua",
     telemetry: 88,
-    icon: HeartPulse,
     image: "/imagens/power/vitalidade.webp",
     className: "md:col-span-2",
   },
   {
     id: "energia",
     hudLabel: "PROTOCOL::LIBIDO",
-    title: "Energia",
+    moduleId: "MOD::03",
+    title: "Libido",
     description:
       "Libido acesa, disposição 24h. O fogo que não apaga no meio do jogo.",
     stat: "ON",
     statLabel: "libido ativa",
     telemetry: 92,
-    icon: Zap,
     image: "/imagens/power/energia.webp",
     className: "md:col-span-2",
   },
   {
     id: "desempenho",
     hudLabel: "PROTOCOL::FOCUS",
+    moduleId: "MOD::04",
     title: "Desempenho",
     description:
       "Performance sob pressão. Zero vacilo, zero desculpa, zero segunda chance.",
     stat: "<15m",
     statLabel: "janela de absorção",
     telemetry: 94,
-    icon: Brain,
+    wide: true,
     image: "/imagens/power/desempenho.webp",
     className: "md:col-span-6",
   },
@@ -69,11 +69,11 @@ export function PowerGrid() {
   return (
     <section id="power" className="section-block relative overflow-hidden bg-cyber-black px-6 lg:px-8">
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.28]"
+        className="pointer-events-none absolute inset-0 opacity-[0.22]"
         aria-hidden
         style={{
           background:
-            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 30, 58, 0.12), transparent 55%)",
+            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(196, 30, 58, 0.1), transparent 55%)",
         }}
       />
 
@@ -83,13 +83,21 @@ export function PowerGrid() {
           initial={{ opacity: 0, y: 20 }}
           animate={headerInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-14 max-w-2xl lg:mb-20"
+          className="mb-12 flex flex-col gap-5 lg:mb-16 lg:flex-row lg:items-end lg:justify-between"
         >
-          <p className="section-eyebrow mb-5">Os 4 Pilares</p>
-          <h2 className="section-title">Protocolo Vital</h2>
-          <p className="section-lead mt-5 max-w-xl">
-            Quatro sinais que a Vee exige de quem chega perto: potência, fogo,
-            resistência e entrega — traduzidos do rótulo pra cama.
+          <div className="max-w-2xl">
+            <p className="section-eyebrow mb-5">Os 4 Pilares</p>
+            <h2 className="section-title">Protocolo Vital</h2>
+            <p className="section-lead mt-5 max-w-xl">
+              Quatro sinais que a Vee exige de quem chega perto: potência, fogo,
+              resistência e entrega — traduzidos do rótulo pra cama.
+            </p>
+          </div>
+          <p
+            className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyber-muted/55 lg:pb-1 lg:text-right"
+            aria-hidden
+          >
+            telemetry · batch EP-vee · readout ao vivo
           </p>
         </motion.div>
 
@@ -103,22 +111,24 @@ export function PowerGrid() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-5% 0px" }}
-          transition={{ duration: 0.45, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="mt-12 lg:mt-14"
+          transition={{ duration: 0.45, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-12 border-t border-blood-red/15 pt-8 lg:mt-14 lg:pt-10"
         >
-          <div className="mx-auto max-w-3xl rounded-2xl border border-blood-red/25 bg-cyber-graphite/60 p-6 shadow-inner-dark sm:p-8">
-            <div className="flex flex-col items-stretch gap-5 sm:flex-row sm:items-center sm:gap-8">
-              <p className="flex-1 text-sm leading-relaxed text-cyber-muted sm:text-base">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+            <div className="max-w-xl">
+              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-blood-red/70">
+                next_step · pricing
+              </p>
+              <p className="mt-3 text-base leading-relaxed text-cyber-muted sm:text-lg">
                 Os quatro módulos convergem no mesmo objetivo:{" "}
                 <span className="text-cyber-titanium">
                   performar quando ela olha.
                 </span>
               </p>
-              <a href="#pricing" className="btn-primary shrink-0 gap-2 sm:w-auto">
-                Ativar o protocolo
-                <ChevronRight className="h-4 w-4" strokeWidth={2} aria-hidden />
-              </a>
             </div>
+            <a href="#pricing" className="btn-primary shrink-0 sm:min-w-[220px]">
+              Ativar o protocolo
+            </a>
           </div>
         </motion.div>
       </div>

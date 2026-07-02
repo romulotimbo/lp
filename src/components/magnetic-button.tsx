@@ -11,6 +11,8 @@ interface MagneticButtonProps {
   children: ReactNode;
   className?: string;
   href?: string;
+  rel?: string;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   strength?: number;
 }
 
@@ -18,6 +20,8 @@ export function MagneticButton({
   children,
   className,
   href = "#",
+  rel,
+  onClick,
   strength = 0.25,
 }: MagneticButtonProps) {
   const ref = useRef<HTMLAnchorElement>(null);
@@ -45,6 +49,8 @@ export function MagneticButton({
     <motion.a
       ref={ref}
       href={href}
+      rel={rel}
+      onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={reducedMotion ? undefined : { x: springX, y: springY }}
