@@ -1,9 +1,6 @@
 services:
   landing-api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-    image: landing-api:latest
+    image: ghcr.io/romulotimbo/lp-api:${LP_IMAGE_TAG:-latest}
     container_name: landing-api
     restart: unless-stopped
     env_file:
@@ -30,10 +27,7 @@ services:
       start_period: 15s
 
   landing:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: landing:latest
+    image: ghcr.io/romulotimbo/lp:${LP_IMAGE_TAG:-latest}
     container_name: landing
     restart: unless-stopped
     depends_on:

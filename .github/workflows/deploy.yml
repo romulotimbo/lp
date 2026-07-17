@@ -1,0 +1,17 @@
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    uses: romulotimbo/ci/.github/workflows/deploy.yml@main
+    with:
+      app: lp
+      deploy_dir: /srv/data/lp
+      compose_file: docker-compose.yml
+      images: >-
+        [
+          {"suffix":"","dockerfile":"Dockerfile","context":".","build_args":"","target":""},
+          {"suffix":"-api","dockerfile":"api/Dockerfile","context":"./api","build_args":"","target":""}
+        ]
+    secrets: inherit
