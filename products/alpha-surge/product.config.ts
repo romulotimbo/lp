@@ -123,7 +123,7 @@ const alphaSurge: ProductConfig = {
         hudLabel: "SURGE::POWER",
         moduleId: "MOD::01",
         title: "Power",
-        description: "Real physical strength and firmness when it matters most. No letdowns.",
+        description: "Real physical strength and grip when it matters most. No excuses in the gym.",
         stat: "MAX",
         statLabel: "physical power",
         telemetry: 96,
@@ -243,7 +243,7 @@ const alphaSurge: ProductConfig = {
         name: "Jason S.",
         role: "36 · TX",
         avatar: "/imagens/avatars/01.webp",
-        text: "My energy in the gym came back before the first bottle was even half gone. My wife noticed before I said a word.",
+        text: "My energy in the gym came back before the first bottle was even half gone. I'm not crashing by mid-afternoon anymore.",
       },
       {
         id: "mike",
@@ -276,7 +276,7 @@ const alphaSurge: ProductConfig = {
         name: "Anthony K.",
         role: "45 · NY",
         avatar: "/imagens/avatars/05.webp",
-        text: "My wife asked what changed. I just smiled and ordered another bottle.",
+        text: "My energy at the gym is back, and I'm not dragging by dinner time. Already on my second bottle.",
       },
       {
         id: "ryan",
@@ -364,7 +364,7 @@ const alphaSurge: ProductConfig = {
         id: "ingredients",
         question: "What's actually in Alpha Surge?",
         answer:
-          "L-Arginine HCl, Tongkat Ali extract, Maca root extract, Ashwagandha extract, Horny Goat Weed extract, Beet Root extract, and Grape Seed extract — seven ingredients, every dose printed on the label.",
+          "L-Arginine HCl, Tongkat Ali extract, Maca root extract, Ashwagandha extract, Horny Goat Weed extract, Beet Root extract, and Grape Seed extract — seven ingredients, every dose printed on the label. Tongkat Ali and Ashwagandha are included specifically to support the body's natural testosterone production, alongside Maca root for sustained energy.",
       },
       {
         id: "format",
