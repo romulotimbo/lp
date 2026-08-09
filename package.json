@@ -5,6 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:energi-power-vee": "cross-env PRODUCT=energi-power-vee vite --port 5173",
+    "dev:alpha-surge": "cross-env PRODUCT=alpha-surge vite --port 5174",
+    "build:energi-power-vee": "cross-env PRODUCT=energi-power-vee vite build --outDir dist/energi-power-vee",
+    "build:alpha-surge": "cross-env PRODUCT=alpha-surge vite build --outDir dist/alpha-surge",
     "api:dev": "npm --prefix api run dev",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
@@ -38,6 +42,7 @@
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
     "autoprefixer": "^10.4.21",
+    "cross-env": "^10.1.0",
     "exiftool-vendored": "^35.21.0",
     "ffmpeg-static": "^5.3.0",
     "postcss": "^8.5.3",
