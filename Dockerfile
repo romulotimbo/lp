@@ -1,6 +1,10 @@
 # Stage 1 — Vite SSG build
 FROM node:22-slim AS builder
 WORKDIR /app
+# Qual Produto (ver products/<slug>/product.config.ts) esta Instância builda.
+# Default preserva o comportamento anterior (só existia a Vee).
+ARG PRODUCT=energi-power-vee
+ENV PRODUCT=$PRODUCT
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .

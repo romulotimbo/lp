@@ -44,6 +44,20 @@ services:
       - "traefik.http.routers.landing.tls.certresolver=letsencrypt"
       - "traefik.http.services.landing.loadbalancer.server.port=80"
 
+  alpha-surge:
+    image: ghcr.io/romulotimbo/lp-alpha-surge:${LP_IMAGE_TAG:-latest}
+    container_name: alpha-surge
+    restart: unless-stopped
+    networks:
+      - traefik-proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
+      - "traefik.http.routers.alpha-surge.rule=Host(`alphasurge.nothforge.com`)"
+      - "traefik.http.routers.alpha-surge.entrypoints=websecure"
+      - "traefik.http.routers.alpha-surge.tls.certresolver=letsencrypt"
+      - "traefik.http.services.alpha-surge.loadbalancer.server.port=80"
+
 networks:
   traefik-proxy:
     external: true
