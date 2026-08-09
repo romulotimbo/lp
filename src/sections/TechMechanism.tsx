@@ -3,74 +3,19 @@ import { HudFrame } from "@/components/hud-frame";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AnimatePresence, motion, useInView } from "motion/react";
 import { useRef } from "react";
+import { product } from "@/product/active";
 
-const tabs = [
-  {
-    value: "absorption",
-    label: "Absorção Rápida",
-    moduleId: "SCAN::DOSE",
-    title: "Velocidade de Absorção",
-    content:
-      "Formulação de liberação otimizada — entra rápido no corpo. Ela não vai esperar você \"esquentar\".",
-    spec: "< 15 min",
-    specDetail: "tempo médio de absorção",
-    hud: {
-      src: "/imagens/1 POTE CAPSULA.png",
-      alt: "Energi Power — macro de cápsula, dose única",
-      label: "HUD::SINGLE_DOSE_SCAN",
-      readouts: {
-        left: ["release_time: <15m", "absorption_rate: optimal"],
-        right: "rec ●",
-      },
-    },
-  },
-  {
-    value: "capsules",
-    label: "100% Natural",
-    moduleId: "SCAN::STACK",
-    title: "Composição Natural",
-    content:
-      "Ingredientes naturais, sem química suspeita no corpo. Cada pote contém 30 cápsulas de composição padronizada.",
-    spec: "30",
-    specDetail: "cápsulas por pote",
-    hud: {
-      src: "/imagens/3 POTES CAPSULA.png",
-      alt: "Três potes Energi Power — macro de cápsulas",
-      label: "HUD::TRIPLE_STACK_SCAN",
-      readouts: {
-        left: ["composition: natural", "caps_per_unit: 30"],
-        right: "rec ●",
-      },
-    },
-  },
-  {
-    value: "usa",
-    label: "Selo USA",
-    moduleId: "SCAN::ORIGIN",
-    title: "Padrão Americano",
-    content:
-      "Padrão americano de qualidade — o mesmo que a Vee confia. Matéria-prima importada e controle rigoroso de lote.",
-    spec: "USA",
-    specDetail: "origem tecnológica · lote EP-vee",
-    hud: {
-      src: "/imagens/1 POTE.png",
-      alt: "Energi Power — rótulo e selo de origem americana",
-      label: "HUD::LABEL_ORIGIN_SCAN",
-      readouts: {
-        left: ["origin: united_states", "batch: EP-vee-004"],
-        right: "verified ●",
-      },
-    },
-  },
-] as const;
-
+/** Seção opcional "mecanismo" — só montada quando `techMechanism` está configurado (ver product/registry.tsx). */
 export function TechMechanism() {
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true, margin: "-10% 0px" });
-  const [activeTab, setActiveTab] = useState("absorption");
+  const config = product.techMechanism;
+  const [activeTab, setActiveTab] = useState(config?.tabs[0]?.value ?? "");
   const [hudFlash, setHudFlash] = useState(false);
 
-  const active = tabs.find((tab) => tab.value === activeTab) ?? tabs[0];
+  if (!config || config.tabs.length === 0) return null;
+
+  const active = config.tabs.find((tab) => tab.value === activeTab) ?? config.tabs[0];
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
@@ -91,36 +36,33 @@ export function TechMechanism() {
             className="mb-12 flex flex-col gap-5 lg:mb-14 lg:flex-row lg:items-end lg:justify-between"
           >
             <div className="max-w-xl">
-              <p className="section-eyebrow mb-5">Mecanismo Técnico</p>
-              <h2 className="section-title">Tecnologia Americana</h2>
-              <p className="section-lead mt-5 max-w-md">
-                O que entra no teu corpo — composição clara, lote controlado, sem
-                mistério.
-              </p>
+              <p className="section-eyebrow mb-5">{config.eyebrow}</p>
+              <h2 className="section-title">{config.title}</h2>
+              <p className="section-lead mt-5 max-w-md">{config.lead}</p>
             </div>
             <p
               className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyber-muted/55 lg:pb-1 lg:text-right"
               aria-hidden
             >
-              mechanism · hud_scan · batch EP-vee
+              {config.hudTag}
             </p>
           </motion.div>
 
           <div className="grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-14 xl:gap-16">
             <Tabs
-              defaultValue="absorption"
+              defaultValue={config.tabs[0].value}
               className="order-2 lg:order-1"
               onValueChange={handleTabChange}
             >
               <TabsList>
-                {tabs.map((tab) => (
+                {config.tabs.map((tab) => (
                   <TabsTrigger key={tab.value} value={tab.value}>
                     {tab.label}
                   </TabsTrigger>
                 ))}
               </TabsList>
 
-              {tabs.map((tab) => (
+              {config.tabs.map((tab) => (
                 <TabsContent key={tab.value} value={tab.value}>
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}

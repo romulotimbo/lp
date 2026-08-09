@@ -18,8 +18,8 @@
     --space-section-md: clamp(5rem, 8vw, 7rem);
     --space-section-lg: clamp(6rem, 10vw, 8.5rem);
 
-    --manifesto-dim: #52525b;
-    --manifesto-lit: #d1d5db;
+    --manifesto-dim: rgb(var(--color-text-muted));
+    --manifesto-lit: rgb(var(--color-text-primary));
   }
 
   html {
@@ -32,8 +32,8 @@
   }
 
   ::selection {
-    background-color: rgba(196, 30, 58, 0.35);
-    color: #e8eaed;
+    background-color: rgb(var(--color-accent) / 0.35);
+    color: rgb(var(--color-on-accent, 232 234 237));
   }
 }
 
@@ -110,7 +110,7 @@
     padding: 1px;
     background: radial-gradient(
       300px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(196, 30, 58, 0.4),
+      rgb(var(--color-accent) / 0.4),
       transparent 40%
     );
     -webkit-mask:

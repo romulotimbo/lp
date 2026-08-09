@@ -19,8 +19,8 @@ export function BorderBeam({
   size = 100,
   duration = 5,
   borderRadius = 16,
-  colorFrom = "#C41E3A",
-  colorTo = "#8B0000",
+  colorFrom = "rgb(var(--color-accent))",
+  colorTo = "rgb(var(--color-accent-dark))",
   delay = 0,
 }: BorderBeamProps) {
   return (
@@ -38,7 +38,7 @@ export function BorderBeam({
             width: size,
             height: 2,
             background: `linear-gradient(90deg, transparent, ${colorFrom}, ${colorTo}, transparent)`,
-            boxShadow: `0 0 12px ${colorFrom}, 0 0 24px rgba(196, 30, 58, 0.35)`,
+            boxShadow: `0 0 12px ${colorFrom}, 0 0 24px rgb(var(--color-accent) / 0.35)`,
             offsetPath: `rect(0 auto auto 0 round ${borderRadius}px)`,
             offsetRotate: "auto",
             offsetAnchor: "center",

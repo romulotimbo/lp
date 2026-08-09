@@ -18,10 +18,14 @@ export function ProductGlow({ children, className }: ProductGlowProps) {
       )}
     >
       <div
-        className={cn(
-          "relative",
-          "[&_img]:[filter:drop-shadow(0_0_8px_rgba(196,30,58,0.65))_drop-shadow(0_0_20px_rgba(196,30,58,0.38))_drop-shadow(0_0_44px_rgba(196,30,58,0.14))_drop-shadow(0_22px_36px_rgba(0,0,0,0.72))]",
-        )}
+        className="relative"
+        style={{
+          filter:
+            "drop-shadow(0 0 8px rgb(var(--color-accent) / 0.65)) " +
+            "drop-shadow(0 0 20px rgb(var(--color-accent) / 0.38)) " +
+            "drop-shadow(0 0 44px rgb(var(--color-accent) / 0.14)) " +
+            "drop-shadow(0 22px 36px rgba(0, 0, 0, 0.72))",
+        }}
       >
         {children}
       </div>

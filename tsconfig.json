@@ -17,7 +17,8 @@
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@product-config": ["./products/energi-power-vee/product.config.ts"]
     }
   },
   "include": ["src"]

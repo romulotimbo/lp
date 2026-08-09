@@ -1,20 +1,160 @@
-import { fileURLToPath, URL } from "node:url";
-import { defineConfig } from "vite";
+import { fileURLToPath, pathToFileURL, URL } from "node:url";
+import path from "node:path";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
+import type { DesignTokens, ProductConfig, TrackingTag } from "./src/product/types";
+import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product/tokens";
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-  },
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:3001",
-        changeOrigin: true,
+const DEFAULT_PRODUCT = "energi-power-vee";
+const PRODUCT = process.env.PRODUCT || DEFAULT_PRODUCT;
+const productConfigPath = path.resolve(
+  __dirname,
+  "products",
+  PRODUCT,
+  "product.config.ts",
+);
+
+// `<noscript><img>` não é um filho válido de `<noscript>` dentro de `<head>`
+// (o parser HTML rejeita) — por isso o `<script>` de cada tag vai no `<head>`
+// e o fallback `<noscript>` correspondente vai no `<body>`, via placeholders
+// separados.
+function trackingTagHeadHtml(tag: TrackingTag): string {
+  if (tag.type === "meta_pixel") {
+    return `
+    <!-- Meta Pixel (${tag.id}) -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '${tag.id}');
+      fbq('track', 'PageView');
+    </script>`;
+  }
+
+  if (tag.type === "google_ads") {
+    return `
+    <!-- Google Ads (${tag.id}) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${tag.id}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${tag.id}');
+    </script>`;
+  }
+
+  return "";
+}
+
+function trackingTagNoscriptHtml(tag: TrackingTag): string {
+  if (tag.type === "meta_pixel") {
+    return `
+    <noscript>
+      <img height="1" width="1" style="display:none" alt=""
+        src="https://www.facebook.com/tr?id=${tag.id}&ev=PageView&noscript=1" />
+    </noscript>`;
+  }
+  return "";
+}
+
+function tokensStyleTag(tokens: DesignTokens): string {
+  const declarations = (Object.keys(TOKEN_CSS_VAR) as (keyof DesignTokens)[])
+    .map((role) => `      ${TOKEN_CSS_VAR[role]}: ${hexToRgbChannels(tokens[role])};`)
+    .join("\n");
+  return `<style id="product-tokens">\n    :root {\n${declarations}\n      --color-on-accent: ${onAccentChannels(tokens)};\n    }\n    </style>`;
+}
+
+/**
+ * Injeta metadados de SEO/OG e Tags de rastreamento do Produto ativo no `index.html`
+ * em build time — nenhum Pixel/tag fica hardcoded no HTML da Base (ver
+ * openspec/changes/extract-reusable-base/design.md, "Tags injetadas no build").
+ */
+function productHtmlPlugin(config: ProductConfig): Plugin {
+  return {
+    name: "product-html",
+    transformIndexHtml: {
+      order: "pre",
+      handler(html) {
+        const tagsHead = (config.trackingTags ?? []).map(trackingTagHeadHtml).join("\n");
+        const tagsBody = (config.trackingTags ?? []).map(trackingTagNoscriptHtml).join("\n");
+        return html
+          .replace(/lang="[^"]*"/, `lang="${config.locale.language}"`)
+          .replace(/<title>.*<\/title>/, `<title>${config.seo.title}</title>`)
+          .replace(
+            /<meta name="description" content="[^"]*"\s*\/>/,
+            `<meta name="description" content="${config.seo.description}" />`,
+          )
+          .replace(
+            /<meta property="og:title" content="[^"]*"\s*\/>/,
+            `<meta property="og:title" content="${config.seo.title}" />`,
+          )
+          .replace(
+            /<meta property="og:description" content="[^"]*"\s*\/>/,
+            `<meta property="og:description" content="${config.seo.description}" />`,
+          )
+          .replace(
+            /<meta property="og:image" content="[^"]*"\s*\/>/,
+            `<meta property="og:image" content="${config.seo.ogImage}" />`,
+          )
+          .replace(
+            /<meta property="og:url" content="[^"]*"\s*\/>/,
+            `<meta property="og:url" content="${config.seo.url}" />`,
+          )
+          .replace(
+            /<meta property="og:locale" content="[^"]*"\s*\/>/,
+            `<meta property="og:locale" content="${config.locale.ogLocale}" />`,
+          )
+          .replace(
+            /<meta name="twitter:title" content="[^"]*"\s*\/>/,
+            `<meta name="twitter:title" content="${config.seo.title}" />`,
+          )
+          .replace(
+            /<meta name="twitter:description" content="[^"]*"\s*\/>/,
+            `<meta name="twitter:description" content="${config.seo.description}" />`,
+          )
+          .replace(
+            /<meta name="twitter:image" content="[^"]*"\s*\/>/,
+            `<meta name="twitter:image" content="${config.seo.ogImage}" />`,
+          )
+          .replace(
+            /<meta name="theme-color" content="[^"]*"\s*\/>/,
+            `<meta name="theme-color" content="${config.seo.themeColor ?? config.tokens.background}" />`,
+          )
+          .replace("<!-- PRODUCT_TOKENS -->", tokensStyleTag(config.tokens))
+          .replace("<!-- PRODUCT_TRACKING_TAGS -->", tagsHead)
+          .replace("<!-- PRODUCT_TRACKING_NOSCRIPT -->", tagsBody);
       },
     },
-  },
+  };
+}
+
+export default defineConfig(async () => {
+  // Import dinâmico porque o caminho depende de PRODUCT (não dá pra usar `import`
+  // estático no topo do arquivo). tsx/esbuild resolvem o .ts em runtime do config.
+  const activeProduct = (
+    (await import(pathToFileURL(productConfigPath).href)) as { default: ProductConfig }
+  ).default;
+
+  return {
+    plugins: [react(), productHtmlPlugin(activeProduct)],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+        "@product-config": productConfigPath,
+      },
+    },
+    server: {
+      proxy: {
+        "/api": {
+          target: "http://localhost:3001",
+          changeOrigin: true,
+        },
+      },
+    },
+  };
 });

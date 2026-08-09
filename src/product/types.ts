@@ -1,0 +1,344 @@
+/**
+ * Contrato de configuração de Produto — ver CONTEXT.md e
+ * openspec/changes/extract-reusable-base/ para o modelo de domínio completo.
+ *
+ * Um `ProductConfig` é aplicado sobre a Base para produzir uma Instância.
+ * Todo campo marcado como obrigatório aqui é validado em `validateProductConfig`
+ * (build falha se estiver ausente).
+ */
+
+/** Contrato fixo de papéis de token — valores livres por Produto, papéis fixos (ADR-0002). */
+export interface DesignTokens {
+  background: string;
+  surface: string;
+  textPrimary: string;
+  textMuted: string;
+  accent: string;
+  accentDark: string;
+}
+
+/** Seções opcionais que um Produto pode ligar/desligar/ordenar. Hero, Pricing e o rodapé são sempre presentes. */
+export type OptionalSectionId =
+  | "manifesto"
+  | "power-grid"
+  | "tech-mechanism"
+  | "testimonials"
+  | "faq"
+  | "lead-capture"
+  | "restricted";
+
+/** `"pricing"` é obrigatório dentro da lista — sua posição entre as seções é livre, mas precisa estar presente. */
+export type SectionId = OptionalSectionId | "pricing";
+
+export interface Plan {
+  id: string;
+  hudLabel?: string;
+  name: string;
+  image: string;
+  imageAlt: string;
+  price: string;
+  perUnit?: string;
+  description: string;
+  features: string[];
+  recommended?: boolean;
+  ctaLabel: string;
+  href: string;
+  value: number;
+}
+
+export interface MediaPack {
+  /** Identificador estável do Banco de mídia — reaproveitável por Spokespersons de Produtos diferentes. */
+  id: string;
+  heroVideo?: string;
+  heroPoster?: string;
+  heroFallbackPortrait?: string;
+  watermark?: string;
+  avatars: string[];
+  previewGallery: { src: string; alt: string }[];
+}
+
+export interface Spokesperson {
+  name: string;
+  /** Ex.: "o que a Vee usa" — selo de recomendação no Pricing. */
+  recommendationBadge: string;
+  mediaPack: MediaPack;
+  manifesto: {
+    eyebrow: string;
+    text: string;
+  };
+}
+
+export interface PowerPillarContent {
+  id: string;
+  hudLabel: string;
+  moduleId: string;
+  title: string;
+  description: string;
+  stat: string;
+  statLabel: string;
+  telemetry: number;
+  image?: string;
+  featured?: boolean;
+  wide?: boolean;
+  className?: string;
+}
+
+export interface PowerGridContent {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  pillars: PowerPillarContent[];
+  convergenceCopy: string;
+  ctaLabel: string;
+  /** Tag mono no canto superior direito, ex. "telemetry · live batch readout". */
+  telemetryTag: string;
+  /** Tag mono acima do CTA final, ex. "next_step · pricing". */
+  nextStepTag: string;
+}
+
+export interface TechMechanismTab {
+  value: string;
+  label: string;
+  moduleId: string;
+  title: string;
+  content: string;
+  spec: string;
+  specDetail: string;
+  hud: {
+    src: string;
+    alt: string;
+    label: string;
+    readouts: { left: string[]; right: string };
+  };
+}
+
+export interface TechMechanismContent {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  tabs: TechMechanismTab[];
+  /** Tag mono no canto superior direito, ex. "mechanism · hud_scan". */
+  hudTag: string;
+}
+
+export interface TestimonialContent {
+  id: string;
+  depId: string;
+  name: string;
+  role: string;
+  avatar: string;
+  text: string;
+  featured?: boolean;
+}
+
+export interface TestimonialsContent {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  items: TestimonialContent[];
+  /** Tag mono no canto superior direito, ex. "social_proof · field_reports". */
+  hudTag: string;
+  /** Tag mono acima do depoimento em destaque, ex. "field_report · primary". */
+  featuredTag: string;
+  /** Prefixo do alt text dos avatares, ex. "Portrait of" — concatenado com o nome. */
+  avatarAltPrefix: string;
+  /** aria-label da lista de metadados do depoimento em destaque (leitor de tela). */
+  metadataAriaLabel: string;
+}
+
+export interface FaqItemContent {
+  id: string;
+  question: string;
+  answer: string;
+}
+
+export interface FaqContent {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  items: FaqItemContent[];
+  /** Label do link que aponta pra Pricing, ex. "See the plans". */
+  ctaLabel: string;
+}
+
+export interface PricingContent {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  /** Tag mono no canto superior direito, ex. "checkout · discreet_ship". */
+  tag: string;
+}
+
+/**
+ * Captura de lead — opcional, gancho (copy do modal) configurável por Produto
+ * (ver `lead-capture-module`). A seção que dispara o modal (ex. `restrictedArea`)
+ * tem sua própria copy de teaser; este config é só o conteúdo do modal em si.
+ */
+export interface LeadCaptureConfig {
+  modalHeaderTag: string;
+  modalTitle: string;
+  modalDescription: string;
+  modalFooterTag: string;
+  emailLabel: string;
+  emailPlaceholder: string;
+  ctaLabel: string;
+  loadingLabel: string;
+  dismissLabel: string;
+  closeLabel: string;
+  genericErrorMessage: string;
+  networkErrorMessage: string;
+  successMessage: string;
+  alreadyRegisteredMessage: string;
+  /** Identifica esse gancho nos registros da API (`source`). */
+  source: string;
+}
+
+export interface RestrictedAreaContent {
+  eyebrow: string;
+  title: string;
+  description: string;
+  /** Teaser curto mostrado em outras seções (ex. rodapé do Pricing) apontando pra essa seção. */
+  hintFromPricing: string;
+  holdInstructions: string;
+  holdAriaLabel: string;
+  ownerLabel: string;
+  files: { id: string; name: string }[];
+  previewAssets: { src: string; alt: string }[];
+  unlockedCtaLabel: string;
+  /** aria-label da galeria de preview (leitor de tela). */
+  galleryAriaLabel: string;
+}
+
+/** Tag de rastreamento — zero ou mais por Produto, nunca compartilhada entre Produtos. */
+export interface TrackingTag {
+  type: "meta_pixel" | "google_ads";
+  id: string;
+}
+
+/** Idioma, moeda e disclaimers legais — sempre config do Produto, nunca fixo na Base. */
+export interface LocaleConfig {
+  /** BCP-47, ex. "en-US". */
+  language: string;
+  /** Ex. "en_US" — usado em `og:locale`. */
+  ogLocale: string;
+  /** ISO 4217, ex. "USD". */
+  currency: string;
+  /** Obrigatório e bloqueante no build (exigência FTC). */
+  affiliateDisclosure: string;
+  /** Opcional — ativado quando a categoria do Produto exigir (ex. suplemento). */
+  categoryDisclaimers?: string[];
+}
+
+export interface SeoConfig {
+  title: string;
+  description: string;
+  ogImage: string;
+  url: string;
+  themeColor?: string;
+}
+
+export interface HeroContent {
+  eyebrowLine1: string;
+  hudTag: string;
+  headlinePrefix: string;
+  headlineHighlight: string;
+  headlineSuffix: string;
+  body: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
+  microcopy: string;
+  productImage: { src: string; alt: string };
+}
+
+export interface FooterContent {
+  brandName: string;
+  tagline: string;
+  ctaLabel: string;
+  microcopy: string;
+}
+
+export interface StickyCtaContent {
+  label: string;
+}
+
+export interface ProductConfig {
+  slug: string;
+  productName: string;
+  domain: string;
+  locale: LocaleConfig;
+  tokens: DesignTokens;
+  seo: SeoConfig;
+  hero: HeroContent;
+  /** Ordem das seções opcionais + `"pricing"` (obrigatório, posição livre). Hero e rodapé são sempre fixos (abertura/fechamento). */
+  sections: SectionId[];
+  pricing: PricingContent;
+  plans: Plan[];
+  spokesperson?: Spokesperson;
+  powerGrid?: PowerGridContent;
+  techMechanism?: TechMechanismContent;
+  testimonials?: TestimonialsContent;
+  faq?: FaqContent;
+  leadCapture?: LeadCaptureConfig;
+  restrictedArea?: RestrictedAreaContent;
+  trackingTags: TrackingTag[];
+  footer: FooterContent;
+  stickyCta: StickyCtaContent;
+}
+
+/** Ligações entre uma seção opcional e o campo do config que precisa estar presente pra ela renderizar. */
+const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof ProductConfig> = {
+  manifesto: "spokesperson",
+  "power-grid": "powerGrid",
+  "tech-mechanism": "techMechanism",
+  testimonials: "testimonials",
+  faq: "faq",
+  "lead-capture": "leadCapture",
+  restricted: "restrictedArea",
+};
+
+export class ProductConfigError extends Error {}
+
+/**
+ * Valida um ProductConfig antes do build. Lança `ProductConfigError` (falha o build)
+ * quando um campo obrigatório está ausente ou quando uma seção opcional está listada
+ * em `sections` sem o conteúdo correspondente configurado.
+ */
+export function validateProductConfig(config: ProductConfig): void {
+  const missing: string[] = [];
+
+  if (!config.slug) missing.push("slug");
+  if (!config.productName) missing.push("productName");
+  if (!config.locale?.language) missing.push("locale.language");
+  if (!config.locale?.currency) missing.push("locale.currency");
+  if (!config.locale?.affiliateDisclosure?.trim()) {
+    missing.push("locale.affiliateDisclosure");
+  }
+
+  (Object.keys(config.tokens ?? {}) as (keyof DesignTokens)[]).length !== 6 &&
+    missing.push("tokens (background, surface, textPrimary, textMuted, accent, accentDark)");
+
+  if (!config.plans || config.plans.length < 1) missing.push("plans (mínimo 1)");
+  if (!config.sections?.includes("pricing")) {
+    missing.push('sections deve incluir "pricing"');
+  }
+
+  const recommendedCount = (config.plans ?? []).filter((p) => p.recommended).length;
+  if (recommendedCount > 1) {
+    missing.push("plans: no máximo 1 plano marcado como recommended");
+  }
+
+  for (const id of config.sections ?? []) {
+    if (id === "pricing") continue;
+    const dependency = SECTION_DEPENDENCY[id as OptionalSectionId];
+    if (dependency && !config[dependency]) {
+      missing.push(`sections inclui "${id}" mas "${dependency}" não está configurado`);
+    }
+  }
+
+  if (missing.length > 0) {
+    throw new ProductConfigError(
+      `Produto "${config.slug || "?"}" com config inválida — campos ausentes:\n` +
+        missing.map((m) => `  - ${m}`).join("\n"),
+    );
+  }
+}
