@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
+import { product } from "@/product/active";
 
 export function StickyCta() {
   const [visible, setVisible] = useState(false);
@@ -25,7 +26,7 @@ export function StickyCta() {
       )}
     >
       <a href="#pricing" className="btn-primary w-full">
-        Garantir · a partir de R$ 97
+        {product.stickyCta.label}
       </a>
     </div>
   );

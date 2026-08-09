@@ -191,7 +191,7 @@ export function PowerPillarCard({
         className="pointer-events-none absolute inset-0 opacity-[0.035]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(196,30,58,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(196,30,58,0.6) 1px, transparent 1px)",
+            "linear-gradient(rgb(var(--color-accent) / 0.6) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--color-accent) / 0.6) 1px, transparent 1px)",
           backgroundSize: "20px 20px",
         }}
         aria-hidden

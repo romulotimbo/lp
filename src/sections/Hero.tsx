@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { ProductGlow } from "@/components/product-glow";
 import { HeroVideoBackground } from "@/components/hero-video-background";
 import { TiltCard } from "@/components/tilt-card";
+import { product } from "@/product/active";
 
 const stagger = {
   hidden: {},
@@ -21,11 +22,19 @@ const fadeUp = {
 
 export function Hero() {
   const reducedMotion = useReducedMotion();
+  const { hero, spokesperson } = product;
+  const mediaPack = spokesperson?.mediaPack;
 
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden">
       <div className="absolute inset-0 bg-cyber-darker" />
-      <HeroVideoBackground poster="/video/vee-hero-poster.png" />
+      {mediaPack?.heroVideo ? (
+        <HeroVideoBackground
+          src={mediaPack.heroVideo}
+          poster={mediaPack.heroPoster}
+          fallbackPortrait={mediaPack.heroFallbackPortrait}
+        />
+      ) : null}
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center gap-10 px-6 py-20 sm:gap-12 sm:py-24 lg:flex-row lg:items-center lg:justify-between lg:gap-16 lg:px-8 lg:py-28">
         <motion.div
@@ -44,14 +53,12 @@ export function Hero() {
               variants={fadeUp}
               className="flex flex-col items-center gap-2 lg:items-start"
             >
-              <p className="section-eyebrow tracking-[0.35em]">
-                Vee apresenta · Energi Power
-              </p>
+              <p className="section-eyebrow tracking-[0.35em]">{hero.eyebrowLine1}</p>
               <p
                 className="font-mono text-[10px] uppercase tracking-[0.18em] text-cyber-muted/50"
                 aria-hidden
               >
-                hero · live_feed · batch EP-vee
+                {hero.hudTag}
               </p>
             </motion.div>
 
@@ -59,33 +66,33 @@ export function Hero() {
               variants={fadeUp}
               className="text-display-hero text-balance font-display font-bold uppercase leading-[0.95] tracking-tight text-cyber-titanium"
             >
-              Vee não perde tempo com homem{" "}
+              {hero.headlinePrefix}{" "}
               <span className="underline decoration-blood-red decoration-2 underline-offset-[0.2em]">
-                fraco
+                {hero.headlineHighlight}
               </span>
-              . E você?
+              {hero.headlineSuffix}
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
               className="text-balance text-lg leading-relaxed text-cyber-muted/90 sm:text-[1.125rem] sm:leading-relaxed"
             >
-              Cápsulas 100% naturais. Libido no talo, ereção firme, entrega
-              discreta. Absorção rápida; resultado em dias, não meses. Ela nota
-              antes de você abrir a boca.
+              {hero.body}
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <a href="#pricing" className="btn-primary">
-                  Quero aguentar o tranco
+                <a href={hero.primaryCta.href} className="btn-primary">
+                  {hero.primaryCta.label}
                 </a>
-                <a href="#restricted-hint" className="btn-ghost">
-                  Tem um segredinho no final
-                </a>
+                {hero.secondaryCta ? (
+                  <a href={hero.secondaryCta.href} className="btn-ghost">
+                    {hero.secondaryCta.label}
+                  </a>
+                ) : null}
               </div>
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-cyber-muted/45">
-                discreet_ship · natural · release &lt;15m
+                {hero.microcopy}
               </p>
             </motion.div>
           </div>
@@ -109,8 +116,8 @@ export function Hero() {
           </p>
           <ProductGlow className="relative w-full">
             <TiltCard
-              src="/imagens/1 POTE.png"
-              alt="Energi Power — estimulante sexual natural em cápsulas"
+              src={hero.productImage.src}
+              alt={hero.productImage.alt}
               className="relative w-full"
             />
           </ProductGlow>

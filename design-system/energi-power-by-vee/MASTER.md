@@ -5,6 +5,7 @@
 **Stack:** Tailwind 3.4 · motion/react · Vite + React
 
 > Regras de página específica em `design-system/pages/` sobrescrevem este arquivo.
+> Identidade de vídeo para redes sociais: [`LINHA-EDITORIAL.md`](LINHA-EDITORIAL.md).
 
 ---
 

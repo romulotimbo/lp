@@ -1,3 +1,21 @@
+/**
+ * Cores lidas de CSS custom properties injetadas em build a partir do
+ * ProductConfig ativo (ver vite.config.ts + src/product/tokens.ts). O papel de
+ * token é fixo (contrato — ADR-0002); o valor é livre por Produto.
+ *
+ * `cyber-darker` fica consolidado no mesmo token que `cyber-black` — o
+ * contrato de tokens tem só 6 papéis (background/surface/text-primary/
+ * text-muted/accent/accent-dark), sem um terceiro nível de "profundidade".
+ *
+ * @param {string} cssVar
+ */
+function withOpacity(cssVar) {
+  return ({ opacityValue }) =>
+    opacityValue === undefined
+      ? `rgb(var(${cssVar}))`
+      : `rgb(var(${cssVar}) / ${opacityValue})`;
+}
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -5,15 +23,15 @@ export default {
     extend: {
       colors: {
         cyber: {
-          black: "#0A0A0A",
-          darker: "#050505",
-          graphite: "#16161A",
-          titanium: "#D1D5DB",
-          muted: "#52525B",
+          black: withOpacity("--color-background"),
+          darker: withOpacity("--color-background"),
+          graphite: withOpacity("--color-surface"),
+          titanium: withOpacity("--color-text-primary"),
+          muted: withOpacity("--color-text-muted"),
         },
         blood: {
-          red: "#C41E3A",
-          dark: "#8B0000",
+          red: withOpacity("--color-accent"),
+          dark: withOpacity("--color-accent-dark"),
         },
       },
       fontFamily: {
@@ -26,8 +44,8 @@ export default {
         "out-quart": "cubic-bezier(0.25, 1, 0.5, 1)",
       },
       boxShadow: {
-        "neon-red": "0 0 20px rgba(196, 30, 58, 0.4)",
-        "neon-red-soft": "0 0 32px rgba(196, 30, 58, 0.18)",
+        "neon-red": "0 0 20px rgb(var(--color-accent) / 0.4)",
+        "neon-red-soft": "0 0 32px rgb(var(--color-accent) / 0.18)",
         "inner-dark": "inset 0 2px 4px rgba(0, 0, 0, 0.9)",
         "lift-sm": "0 12px 40px rgba(0, 0, 0, 0.45)",
       },

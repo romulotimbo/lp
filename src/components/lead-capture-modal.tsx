@@ -1,7 +1,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { submitVaultWaitlist } from "@/lib/vault-waitlist";
+import { submitLead } from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
+import { product } from "@/product/active";
 
 declare global {
   interface Window {
@@ -11,18 +12,20 @@ declare global {
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-interface VaultWaitlistModalProps {
+interface LeadCaptureModalProps {
   open: boolean;
   onClose: () => void;
 }
 
-export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
+/** Modal de captura de lead — copy vem de `product.leadCapture` (ver product/types.ts). Não é montado se o Produto não configurar `leadCapture`. */
+export function LeadCaptureModal({ open, onClose }: LeadCaptureModalProps) {
   const titleId = useId();
   const descId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const [email, setEmail] = useState("");
   const [state, setState] = useState<FormState>("idle");
   const [message, setMessage] = useState("");
+  const config = product.leadCapture;
 
   useEffect(() => {
     if (!open) return;
@@ -45,31 +48,34 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
     };
   }, [open, onClose]);
 
+  if (!config) return null;
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (state === "loading") return;
+    if (state === "loading" || !config) return;
 
     setState("loading");
     setMessage("");
 
     try {
-      const result = await submitVaultWaitlist(email);
+      const result = await submitLead(email, product.slug, config.source);
       if (result.ok) {
         if (typeof window.fbq === "function") {
           window.fbq("track", "Lead");
         }
         setState("success");
         setMessage(
-          result.message ??
-            "Presente reservado. A Vee avisa quando o pack estiver no ar.",
+          result.alreadyRegistered
+            ? (result.message ?? config.alreadyRegisteredMessage)
+            : (result.message ?? config.successMessage),
         );
         return;
       }
       setState("error");
-      setMessage(result.error ?? "Não foi possível registrar.");
+      setMessage(result.error ?? config.genericErrorMessage);
     } catch {
       setState("error");
-      setMessage("Sem conexão com o servidor. Tente de novo.");
+      setMessage(config.networkErrorMessage);
     }
   }
 
@@ -86,7 +92,7 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
         >
           <button
             type="button"
-            aria-label="Fechar"
+            aria-label={config.closeLabel}
             className="absolute inset-0 bg-cyber-black/80 backdrop-blur-[2px]"
             onClick={onClose}
           />
@@ -107,12 +113,12 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
               aria-hidden
               style={{
                 backgroundImage:
-                  "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(196,30,58,0.5) 2px, rgba(196,30,58,0.5) 3px)",
+                  "repeating-linear-gradient(0deg, transparent, transparent 2px, rgb(var(--color-accent) / 0.5) 2px, rgb(var(--color-accent) / 0.5) 3px)",
               }}
             />
 
             <div className="relative z-10 border-b border-blood-red/20 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-blood-red/80 sm:px-6">
-              vault_access · gift_queue · notify_pack
+              {config.modalHeaderTag}
             </div>
 
             <div className="relative z-10 px-5 py-6 sm:px-6 sm:py-7">
@@ -120,11 +126,10 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
                 id={titleId}
                 className="font-display text-2xl font-bold uppercase leading-tight tracking-tight text-cyber-titanium"
               >
-                Presente da Vee
+                {config.modalTitle}
               </p>
               <p id={descId} className="mt-3 text-sm leading-relaxed text-cyber-muted">
-                Deixa teu e-mail. Presente agora + aviso quando o pack exclusivo
-                da Vee abrir.
+                {config.modalDescription}
               </p>
 
               {state === "success" ? (
@@ -132,22 +137,16 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
                   <p className="font-mono text-[10px] uppercase tracking-wider text-blood-red/90">
                     status · queued
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-cyber-titanium">
-                    {message}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="btn-primary mt-5 w-full"
-                  >
-                    Fechar
+                  <p className="mt-2 text-sm leading-relaxed text-cyber-titanium">{message}</p>
+                  <button type="button" onClick={onClose} className="btn-primary mt-5 w-full">
+                    {config.closeLabel}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="mt-6 space-y-4">
                   <label className="block">
                     <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.16em] text-cyber-muted">
-                      E-mail
+                      {config.emailLabel}
                     </span>
                     <input
                       ref={inputRef}
@@ -157,7 +156,7 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="seu@email.com"
+                      placeholder={config.emailPlaceholder}
                       className="w-full rounded-lg border border-cyber-graphite bg-cyber-darker px-4 py-3 font-body text-sm text-cyber-titanium outline-none transition-[border-color,box-shadow] duration-300 placeholder:text-cyber-muted/50 focus:border-blood-red/50 focus:ring-2 focus:ring-blood-red/25"
                     />
                   </label>
@@ -186,14 +185,10 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
                         state === "loading" && "opacity-70",
                       )}
                     >
-                      {state === "loading" ? "Registrando…" : "Quero meu presente"}
+                      {state === "loading" ? config.loadingLabel : config.ctaLabel}
                     </button>
-                    <button
-                      type="button"
-                      onClick={onClose}
-                      className="btn-ghost w-full sm:w-auto"
-                    >
-                      Agora não
+                    <button type="button" onClick={onClose} className="btn-ghost w-full sm:w-auto">
+                      {config.dismissLabel}
                     </button>
                   </div>
                 </form>
@@ -201,7 +196,7 @@ export function VaultWaitlistModal({ open, onClose }: VaultWaitlistModalProps) {
             </div>
 
             <p className="relative z-10 border-t border-blood-red/10 px-5 py-3 text-center font-mono text-[10px] text-cyber-muted/45 sm:px-6">
-              discreet_list · aes-256 · owner VEE
+              {config.modalFooterTag}
             </p>
           </motion.div>
         </motion.div>

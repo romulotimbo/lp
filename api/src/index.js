@@ -37,8 +37,13 @@ function isRateLimited(req) {
   return false;
 }
 
-const waitlistSchema = z.object({
+// `product` identifica qual Produto/Instância capturou o lead — a API é um
+// serviço único compartilhado entre todas as Instâncias (ver
+// openspec/changes/extract-reusable-base/design.md).
+const leadSchema = z.object({
   email: z.string().trim().email("E-mail inválido").max(320),
+  product: z.string().trim().min(1, "Produto ausente").max(120),
+  source: z.string().trim().min(1).max(120).default("lead_capture_modal"),
   website: z.string().max(0).optional(),
 });
 
@@ -51,7 +56,7 @@ app.get("/api/health", async (_req, res) => {
   }
 });
 
-app.post("/api/vault/waitlist", async (req, res) => {
+app.post("/api/leads", async (req, res) => {
   if (isRateLimited(req)) {
     res.status(429).json({
       ok: false,
@@ -60,7 +65,7 @@ app.post("/api/vault/waitlist", async (req, res) => {
     return;
   }
 
-  const parsed = waitlistSchema.safeParse(req.body);
+  const parsed = leadSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({
       ok: false,
@@ -76,33 +81,25 @@ app.post("/api/vault/waitlist", async (req, res) => {
 
   const email = parsed.data.email.trim();
   const emailNormalized = email.toLowerCase();
+  const { product, source } = parsed.data;
 
   try {
     const insert = await pool.query(
-      `INSERT INTO landing.vault_waitlist (email, email_normalized, source)
-       VALUES ($1, $2, 'vault_modal')
-       ON CONFLICT (email_normalized) DO NOTHING
+      `INSERT INTO landing.lead_capture (email, email_normalized, product_slug, source)
+       VALUES ($1, $2, $3, $4)
+       ON CONFLICT (product_slug, email_normalized) DO NOTHING
        RETURNING id, created_at`,
-      [email, emailNormalized],
+      [email, emailNormalized, product, source],
     );
 
     if (insert.rowCount === 0) {
-      res.status(200).json({
-        ok: true,
-        alreadyRegistered: true,
-        message:
-          "Esse e-mail já está na lista. A Vee avisa quando o pack estiver no ar.",
-      });
+      res.status(200).json({ ok: true, alreadyRegistered: true });
       return;
     }
 
-    res.status(201).json({
-      ok: true,
-      message:
-        "Presente reservado. Você será avisado quando o pack exclusivo estiver disponível.",
-    });
+    res.status(201).json({ ok: true });
   } catch (err) {
-    console.error("[vault/waitlist]", err);
+    console.error("[leads]", err);
     res.status(500).json({
       ok: false,
       error: "Não foi possível registrar agora. Tente de novo em instantes.",

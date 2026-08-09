@@ -1,6 +1,19 @@
 # Energi Power by Vee — Blueprint Estrutural
 
-**Identidade:** Pure Dark · Graphite · Blood Red (isolamento cromático)  
+> **Este repo agora é uma Base reaproveitável para múltiplos Produtos de afiliado**,
+> não só a página da Vee — ver [`CONTEXT.md`](CONTEXT.md) para o glossário
+> (Base, Produto, Instância, Spokesperson, Locale, Seção, Plano, Captura de
+> lead, Banco de mídia, Tag de rastreamento) e
+> [`openspec/changes/extract-reusable-base/`](openspec/changes/extract-reusable-base/)
+> para o racional completo da extração.
+>
+> Este documento descreve especificamente o **Produto Vee** (`products/energi-power-vee/product.config.ts`) —
+> paleta, copy e estrutura de seções continuam válidas como estão, mas agora
+> vivem em config, não hardcoded nos componentes. Um novo Produto usa a mesma
+> Base com sua própria paleta/copy/planos/tracking, ligando só as seções que
+> fizerem sentido pra ele (ver `src/product/types.ts`).
+
+**Identidade:** Pure Dark · Graphite · Blood Red (isolamento cromático) — específica do Produto Vee, não da Base  
 **Stack:** Vite 6 · React 19 · TypeScript · Tailwind 3.4 · `motion/react`  
 **Público:** Homens via stories/DM/perfil da influencer Vee · produto físico primeiro · Área Restrita como easter egg (+18) no fim da página.
 

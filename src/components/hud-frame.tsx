@@ -51,7 +51,7 @@ export function HudFrame({
         className="pointer-events-none absolute inset-0 rounded-2xl opacity-[0.035]"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(196,30,58,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(196,30,58,0.5) 1px, transparent 1px)",
+            "linear-gradient(rgb(var(--color-accent) / 0.5) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--color-accent) / 0.5) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
         }}
         aria-hidden
