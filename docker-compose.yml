@@ -50,6 +50,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik-proxy
+      - landing-internal
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-proxy"
