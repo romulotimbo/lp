@@ -12,9 +12,15 @@ jobs:
       app: lp
       deploy_dir: /srv/data/lp
       compose_file: docker-compose.yml
+      # Sincroniza o checkout (docker-compose.yml, nginx.conf, etc.) pra
+      # deploy_dir na VPS antes do pull/up — necessário porque o compose file
+      # usado no deploy é o que está na VPS, não o do repo. Preserva .env,
+      # data*, logs (ver romulotimbo/ci deploy.yml).
+      sync_host_code: true
       images: >-
         [
           {"suffix":"","dockerfile":"Dockerfile","context":".","build_args":"","target":""},
-          {"suffix":"-api","dockerfile":"api/Dockerfile","context":"./api","build_args":"","target":""}
+          {"suffix":"-api","dockerfile":"api/Dockerfile","context":"./api","build_args":"","target":""},
+          {"suffix":"-alpha-surge","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=alpha-surge","target":""}
         ]
     secrets: inherit
