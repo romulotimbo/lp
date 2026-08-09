@@ -18,20 +18,21 @@ import type { ProductConfig } from "@/product/types";
  * Testemunhos e copy de marketing são originais (não copiados do
  * fornecedor), no mesmo estilo estrutural da Vee.
  *
- * Deploy: nothforge.com/alphasurge (subpath, não subdomínio próprio — ao
- * contrário da Vee). Recomendado rotear via Traefik com PathPrefix(/alphasurge)
- * + StripPrefix, servindo o container normalmente a partir de "/" — evita
- * precisar reescrever os paths de asset hardcoded (`/imagens/...`) no app.
+ * Deploy: alphasurge.nothforge.com — subdomínio próprio (mesmo padrão da
+ * Vee), não o path /alphasurge pedido inicialmente. nothforge.com raiz vive
+ * no Hostinger Website Builder, não na VPS/Traefik — um path não dava pra
+ * rotear pra um container externo. DNS: registro A pra 185.137.92.233.
  *
  * PENDENTE: Pixel/Google Ads ID de rastreamento (trackingTags vazio).
  */
 const CHECKOUT = "https://heroichustle.com/b/order-now.php?aff_id=23898";
 const IMG = "/imagens/alpha-surge";
+const DOMAIN = "https://alphasurge.nothforge.com";
 
 const alphaSurge: ProductConfig = {
   slug: "alpha-surge",
   productName: "Alpha Surge",
-  domain: "nothforge.com/alphasurge",
+  domain: "alphasurge.nothforge.com",
 
   locale: {
     language: "en-US",
@@ -60,8 +61,8 @@ const alphaSurge: ProductConfig = {
     title: "Alpha Surge — Fast-Acting Performance Gummies",
     description:
       "Nova backs Alpha Surge — fast-acting stamina, energy and drive gummies for men. 90-day money-back guarantee.",
-    ogImage: `${IMG}/hero-lifestyle.webp`, // PENDENTE: crop dedicado 1200x630
-    url: "https://nothforge.com/alphasurge/",
+    ogImage: `${DOMAIN}${IMG}/hero-lifestyle.webp`, // PENDENTE: crop dedicado 1200x630
+    url: `${DOMAIN}/`,
     themeColor: "#0A0A0A",
   },
 
