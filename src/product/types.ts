@@ -213,6 +213,13 @@ export interface RestrictedAreaContent {
 export interface TrackingTag {
   type: "meta_pixel" | "google_ads";
   id: string;
+  /**
+   * Google Ads apenas — rótulo da conversion action (`AW-XXX/label`). Quando
+   * presente, todo clique num CTA de checkout dispara `gtag('event',
+   * 'conversion', { send_to: conversionLabel, ... })` em vez do evento
+   * genérico `begin_checkout`.
+   */
+  conversionLabel?: string;
 }
 
 /** Idioma, moeda e disclaimers legais — sempre config do Produto, nunca fixo na Base. */

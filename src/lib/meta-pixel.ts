@@ -27,8 +27,10 @@ export function trackInitiateCheckout(payload: CheckoutPixelPayload): void {
     window.location.assign(payload.url);
   };
 
-  const hasMetaPixel = tags.some((t) => t.type === "meta_pixel") && typeof window.fbq === "function";
-  const hasGoogleAds = tags.some((t) => t.type === "google_ads") && typeof window.gtag === "function";
+  const metaPixel = tags.find((t) => t.type === "meta_pixel");
+  const googleAds = tags.find((t) => t.type === "google_ads");
+  const hasMetaPixel = Boolean(metaPixel) && typeof window.fbq === "function";
+  const hasGoogleAds = Boolean(googleAds) && typeof window.gtag === "function";
 
   if (!hasMetaPixel && !hasGoogleAds) {
     redirect();
@@ -42,6 +44,8 @@ export function trackInitiateCheckout(payload: CheckoutPixelPayload): void {
     redirect();
   };
 
+  // Fallback: se nenhum event_callback disparar (bloqueador de rastreamento,
+  // rede lenta, etc.), redireciona mesmo assim.
   window.setTimeout(go, CHECKOUT_REDIRECT_MS);
 
   if (hasMetaPixel) {
@@ -60,12 +64,24 @@ export function trackInitiateCheckout(payload: CheckoutPixelPayload): void {
     );
   }
 
-  if (hasGoogleAds) {
-    window.gtag!("event", "begin_checkout", {
-      currency: product.locale.currency,
-      value: payload.value,
-      items: [{ item_id: payload.planId, item_name: payload.planName }],
-    });
-    if (!hasMetaPixel) go();
+  if (hasGoogleAds && googleAds) {
+    if (googleAds.conversionLabel) {
+      // Conversion action específica (Google Ads) — dispara no clique de
+      // qualquer CTA de checkout, antes do redirect.
+      window.gtag!("event", "conversion", {
+        send_to: googleAds.conversionLabel,
+        value: payload.value,
+        currency: product.locale.currency,
+        event_callback: go,
+      });
+    } else {
+      // Sem conversion label configurada: só o evento genérico de e-commerce.
+      window.gtag!("event", "begin_checkout", {
+        currency: product.locale.currency,
+        value: payload.value,
+        items: [{ item_id: payload.planId, item_name: payload.planName }],
+      });
+      if (!hasMetaPixel) go();
+    }
   }
 }
