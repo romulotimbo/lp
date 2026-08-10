@@ -1,8 +1,23 @@
 import { motion, useReducedMotion } from "motion/react";
+import type { MouseEvent } from "react";
 import { ProductGlow } from "@/components/product-glow";
 import { HeroVideoBackground } from "@/components/hero-video-background";
 import { TiltCard } from "@/components/tilt-card";
+import { handleCheckoutClick } from "@/lib/checkout-tracking";
 import { product } from "@/product/active";
+
+/**
+ * CTAs do Hero podem apontar direto pro checkout (ex. Alpha Surge) ou pra uma
+ * âncora interna tipo `#pricing` (ex. Vee). Só rastreia/intercepta quando é
+ * link externo de checkout — âncora interna segue o comportamento padrão.
+ */
+function handleHeroCtaClick(
+  e: MouseEvent<HTMLAnchorElement>,
+  cta: { label: string; href: string },
+) {
+  if (cta.href.startsWith("#")) return;
+  handleCheckoutClick(e, { planId: "hero-cta", planName: cta.label, value: 0, url: cta.href });
+}
 
 const stagger = {
   hidden: {},
@@ -82,11 +97,19 @@ export function Hero() {
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-                <a href={hero.primaryCta.href} className="btn-primary">
+                <a
+                  href={hero.primaryCta.href}
+                  className="btn-primary"
+                  onClick={(e) => handleHeroCtaClick(e, hero.primaryCta)}
+                >
                   {hero.primaryCta.label}
                 </a>
                 {hero.secondaryCta ? (
-                  <a href={hero.secondaryCta.href} className="btn-ghost">
+                  <a
+                    href={hero.secondaryCta.href}
+                    className="btn-ghost"
+                    onClick={(e) => handleHeroCtaClick(e, hero.secondaryCta!)}
+                  >
                     {hero.secondaryCta.label}
                   </a>
                 ) : null}

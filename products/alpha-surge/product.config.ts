@@ -400,7 +400,13 @@ const alphaSurge: ProductConfig = {
   // Sem leadCapture nem restrictedArea neste Produto — decisão do usuário
   // (sem gancho natural tipo "área restrita" pra esse nicho).
 
-  trackingTags: [{ type: "google_ads", id: "AW-18351905109" }],
+  trackingTags: [
+    {
+      type: "google_ads",
+      id: "AW-18351905109",
+      conversionLabel: "AW-18351905109/zci5CMmw_d4cENWy765E",
+    },
+  ],
 
   footer: {
     brandName: "Alpha Surge",
