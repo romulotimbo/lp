@@ -400,7 +400,7 @@ const alphaSurge: ProductConfig = {
   // Sem leadCapture nem restrictedArea neste Produto — decisão do usuário
   // (sem gancho natural tipo "área restrita" pra esse nicho).
 
-  trackingTags: [], // PENDENTE: Pixel/Google Ads ID quando a campanha for configurada
+  trackingTags: [{ type: "google_ads", id: "AW-18351905109" }],
 
   footer: {
     brandName: "Alpha Surge",
