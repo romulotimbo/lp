@@ -6,6 +6,10 @@ import { TechMechanism } from "@/sections/TechMechanism";
 import { Testimonials } from "@/sections/Testimonials";
 import { Faq } from "@/sections/Faq";
 import { RestrictedArea } from "@/sections/RestrictedArea";
+import { Pain } from "@/sections/Pain";
+import { Research } from "@/sections/Research";
+import { OfficialClaims } from "@/sections/OfficialClaims";
+import { Verdict } from "@/sections/Verdict";
 
 /**
  * Registro de seções opcionais que renderizam um bloco próprio na página.
@@ -23,4 +27,8 @@ export const OPTIONAL_SECTION_COMPONENTS: Partial<
   testimonials: Testimonials,
   faq: Faq,
   restricted: RestrictedArea,
+  pain: Pain,
+  research: Research,
+  "official-claims": OfficialClaims,
+  verdict: Verdict,
 };

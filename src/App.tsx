@@ -3,16 +3,24 @@ import { StickyCta } from "@/components/sticky-cta";
 import { Hero } from "@/sections/Hero";
 import { Pricing } from "@/sections/Pricing";
 import { OPTIONAL_SECTION_COMPONENTS } from "@/product/registry";
-import { product } from "@/product/active";
+import { activeLayout, product } from "@/product/active";
 import type { OptionalSectionId } from "@/product/types";
 
 export default function App() {
+  const layout = activeLayout();
+
   return (
-    <main className="bg-cyber-black text-cyber-titanium antialiased pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-0">
+    <main
+      data-layout={layout}
+      className="bg-cyber-black text-cyber-titanium antialiased pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-0"
+    >
       <Hero />
 
       {product.sections.map((id) => {
-        if (id === "pricing") return <Pricing key="pricing" />;
+        if (id === "pricing") {
+          if (layout === "review") return null;
+          return <Pricing key="pricing" />;
+        }
 
         const Component = OPTIONAL_SECTION_COMPONENTS[id as OptionalSectionId];
         // Seções desconhecidas ou sem componente próprio (ex. "lead-capture",

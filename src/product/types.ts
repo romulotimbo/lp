@@ -17,7 +17,7 @@ export interface DesignTokens {
   accentDark: string;
 }
 
-/** Seções opcionais que um Produto pode ligar/desligar/ordenar. Hero, Pricing e o rodapé são sempre presentes. */
+/** Seções opcionais que um Produto pode ligar/desligar/ordenar. Hero e o rodapé são sempre presentes. Pricing é obrigatório só em layout `sales`. */
 export type OptionalSectionId =
   | "manifesto"
   | "power-grid"
@@ -25,10 +25,34 @@ export type OptionalSectionId =
   | "testimonials"
   | "faq"
   | "lead-capture"
-  | "restricted";
+  | "restricted"
+  | "pain"
+  | "research"
+  | "official-claims"
+  | "verdict";
 
-/** `"pricing"` é obrigatório dentro da lista — sua posição entre as seções é livre, mas precisa estar presente. */
+/** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review` rejeita esse id. */
 export type SectionId = OptionalSectionId | "pricing";
+
+export type PageLayout = "sales" | "review";
+
+export interface OutboundCta {
+  label: string;
+  href: string;
+}
+
+export interface EditorialFigure {
+  src: string;
+  alt: string;
+}
+
+/** Bloco de artigo para seções editoriais do layout `review`. */
+export interface EditorialBlock {
+  eyebrow?: string;
+  title: string;
+  body: string;
+  figure?: EditorialFigure;
+}
 
 export interface Plan {
   id: string;
@@ -276,10 +300,14 @@ export interface ProductConfig {
   tokens: DesignTokens;
   seo: SeoConfig;
   hero: HeroContent;
-  /** Ordem das seções opcionais + `"pricing"` (obrigatório, posição livre). Hero e rodapé são sempre fixos (abertura/fechamento). */
+  /** Omitido = `"sales"`. */
+  layout?: PageLayout;
+  /** Obrigatório em layout `review`. Ignorado em `sales`. */
+  outboundCta?: OutboundCta;
+  /** Ordem das seções opcionais. `"pricing"` é obrigatório em `sales` e proibido em `review`. Hero e rodapé são sempre fixos. */
   sections: SectionId[];
-  pricing: PricingContent;
-  plans: Plan[];
+  pricing?: PricingContent;
+  plans?: Plan[];
   spokesperson?: Spokesperson;
   powerGrid?: PowerGridContent;
   techMechanism?: TechMechanismContent;
@@ -287,6 +315,10 @@ export interface ProductConfig {
   faq?: FaqContent;
   leadCapture?: LeadCaptureConfig;
   restrictedArea?: RestrictedAreaContent;
+  pain?: EditorialBlock;
+  research?: EditorialBlock;
+  officialClaims?: EditorialBlock;
+  verdict?: EditorialBlock;
   trackingTags: TrackingTag[];
   footer: FooterContent;
   stickyCta: StickyCtaContent;
@@ -301,7 +333,15 @@ const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof ProductConfig> = {
   faq: "faq",
   "lead-capture": "leadCapture",
   restricted: "restrictedArea",
+  pain: "pain",
+  research: "research",
+  "official-claims": "officialClaims",
+  verdict: "verdict",
 };
+
+export function resolveLayout(config: ProductConfig): PageLayout {
+  return config.layout ?? "sales";
+}
 
 export class ProductConfigError extends Error {}
 
@@ -324,21 +364,34 @@ export function validateProductConfig(config: ProductConfig): void {
   (Object.keys(config.tokens ?? {}) as (keyof DesignTokens)[]).length !== 6 &&
     missing.push("tokens (background, surface, textPrimary, textMuted, accent, accentDark)");
 
-  if (!config.plans || config.plans.length < 1) missing.push("plans (mínimo 1)");
-  if (!config.sections?.includes("pricing")) {
-    missing.push('sections deve incluir "pricing"');
-  }
+  const layout = resolveLayout(config);
 
-  const recommendedCount = (config.plans ?? []).filter((p) => p.recommended).length;
-  if (recommendedCount > 1) {
-    missing.push("plans: no máximo 1 plano marcado como recommended");
+  if (layout === "review") {
+    if (!config.outboundCta?.label?.trim()) missing.push("outboundCta.label");
+    if (!config.outboundCta?.href?.trim()) missing.push("outboundCta.href");
+    if ((config.plans?.length ?? 0) > 0) {
+      missing.push('plans não é permitido quando layout é "review"');
+    }
+    if (config.sections?.includes("pricing")) {
+      missing.push('sections não pode incluir "pricing" quando layout é "review"');
+    }
+  } else {
+    if (!config.plans || config.plans.length < 1) missing.push("plans (mínimo 1)");
+    if (!config.sections?.includes("pricing")) {
+      missing.push('sections deve incluir "pricing"');
+    }
+
+    const recommendedCount = (config.plans ?? []).filter((p) => p.recommended).length;
+    if (recommendedCount > 1) {
+      missing.push("plans: no máximo 1 plano marcado como recommended");
+    }
   }
 
   for (const id of config.sections ?? []) {
     if (id === "pricing") continue;
     const dependency = SECTION_DEPENDENCY[id as OptionalSectionId];
     if (dependency && !config[dependency]) {
-      missing.push(`sections inclui "${id}" mas "${dependency}" não está configurado`);
+      missing.push(`sections inclui "${id}" sem o bloco de conteúdo correspondente`);
     }
   }
 

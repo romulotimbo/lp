@@ -4,12 +4,17 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { product } from "@/product/active";
+import { OutboundLink } from "@/components/outbound-link";
+import { cn } from "@/lib/utils";
+import { isReviewLayout, product } from "@/product/active";
 
 /** Seção opcional — só montada quando `faq` está configurado (ver product/registry.tsx). */
 export function Faq() {
   const config = product.faq;
   if (!config || config.items.length === 0) return null;
+
+  const review = isReviewLayout();
+  const ctaHref = review && product.outboundCta ? product.outboundCta.href : "#pricing";
 
   return (
     <>
@@ -21,51 +26,72 @@ export function Faq() {
               <p className="section-eyebrow mb-5">{config.eyebrow}</p>
               <h2 className="section-title text-balance">{config.title}</h2>
               <p className="mt-5 text-sm leading-relaxed text-cyber-muted">{config.lead}</p>
-              <p
-                className="mt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-cyber-muted/45"
-                aria-hidden
-              >
-                faq_index · {config.items.length} entries
-              </p>
-              <a
-                href="#pricing"
-                className="group mt-8 inline-flex items-center gap-2 font-display text-sm uppercase tracking-wider text-blood-red transition-colors duration-300 hover:text-cyber-titanium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-black"
-              >
-                {config.ctaLabel}
-                <span
+              {!review ? (
+                <p
+                  className="hud-tag mt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-cyber-muted/45"
                   aria-hidden
-                  className="transition-transform duration-300 group-hover:translate-x-0.5"
                 >
-                  →
-                </span>
-              </a>
+                  faq_index · {config.items.length} entries
+                </p>
+              ) : null}
+              {review && product.outboundCta ? (
+                <OutboundLink
+                  href={ctaHref}
+                  label={config.ctaLabel}
+                  className="group mt-8 inline-flex items-center gap-2 font-body text-sm font-semibold text-blood-red transition-colors duration-300 hover:text-cyber-titanium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-black"
+                />
+              ) : (
+                <a
+                  href={ctaHref}
+                  className="group mt-8 inline-flex items-center gap-2 font-display text-sm uppercase tracking-wider text-blood-red transition-colors duration-300 hover:text-cyber-titanium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-black"
+                >
+                  {config.ctaLabel}
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-300 group-hover:translate-x-0.5"
+                  >
+                    →
+                  </span>
+                </a>
+              )}
             </header>
 
             <Accordion
               type="single"
               collapsible
               defaultValue={config.items[0]?.id}
-              className="relative border-t border-cyber-graphite/50"
+              className="relative border-t border-cyber-graphite/50 review-rule"
             >
               {config.items.map((faq, index) => (
                 <AccordionItem key={faq.id} value={faq.id}>
                   <AccordionTrigger>
                     <span className="flex min-w-0 flex-1 items-baseline gap-4 sm:gap-5">
+                      {!review ? (
+                        <span
+                          className="shrink-0 font-display text-sm tabular-nums text-blood-red/55 transition-colors duration-300 group-data-[state=open]:text-blood-red"
+                          aria-hidden
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                      ) : null}
                       <span
-                        className="shrink-0 font-display text-sm tabular-nums text-blood-red/55 transition-colors duration-300 group-data-[state=open]:text-blood-red"
-                        aria-hidden
+                        className={cn(
+                          "font-semibold leading-snug tracking-tight text-cyber-titanium transition-colors duration-300 group-data-[state=open]:text-inherit sm:text-lg",
+                          review
+                            ? "font-body text-base"
+                            : "font-display text-base uppercase",
+                        )}
                       >
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="font-display text-base font-semibold uppercase leading-snug tracking-tight text-cyber-titanium transition-colors duration-300 group-data-[state=open]:text-inherit sm:text-lg">
                         {faq.question}
                       </span>
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent>
-                    <span className="mb-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-blood-red/55">
-                      ans::{faq.id}
-                    </span>
+                  <AccordionContent className={review ? "pl-0 sm:pl-0" : undefined}>
+                    {!review ? (
+                      <span className="hud-tag mb-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-blood-red/55">
+                        ans::{faq.id}
+                      </span>
+                    ) : null}
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
