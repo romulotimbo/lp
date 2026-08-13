@@ -192,6 +192,8 @@ export function Pricing() {
   const inView = useInView(gridRef, { once: true, margin: "-8% 0px" });
 
   const { plans, spokesperson, pricing } = product;
+  if (!plans?.length || !pricing) return null;
+
   const recommended =
     plans.length === 1 ? plans[0] : plans.find((p) => p.recommended);
   const satellites = recommended ? plans.filter((p) => p.id !== recommended.id) : plans;

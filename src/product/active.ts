@@ -5,7 +5,12 @@
 // Um build = um Produto = uma Instância (ver CONTEXT.md). Não há troca de
 // Produto em runtime.
 import productConfig from "@product-config";
-import { validateProductConfig, type ProductConfig } from "./types";
+import {
+  resolveLayout,
+  validateProductConfig,
+  type PageLayout,
+  type ProductConfig,
+} from "./types";
 
 validateProductConfig(productConfig);
 
@@ -13,4 +18,12 @@ export const product: ProductConfig = productConfig;
 
 export function hasSection(id: ProductConfig["sections"][number]): boolean {
   return product.sections.includes(id);
+}
+
+export function activeLayout(): PageLayout {
+  return resolveLayout(product);
+}
+
+export function isReviewLayout(): boolean {
+  return activeLayout() === "review";
 }

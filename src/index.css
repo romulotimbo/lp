@@ -79,6 +79,103 @@
   .section-divider {
     @apply pointer-events-none mx-auto h-px max-w-7xl bg-gradient-to-r from-transparent via-blood-red/20 to-transparent;
   }
+
+  .editorial-figure {
+    @apply overflow-hidden border border-cyber-graphite;
+  }
+
+  .editorial-figure img {
+    @apply block;
+  }
+}
+
+[data-layout="review"] .section-eyebrow {
+  display: none;
+}
+
+[data-layout="review"] .section-title {
+  font-family: Barlow, sans-serif;
+  font-size: clamp(1.5rem, 1.1vw + 1.15rem, 2.125rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  text-transform: none;
+}
+
+[data-layout="review"] .text-display-hero {
+  font-size: clamp(1.85rem, 2.4vw + 0.85rem, 3.15rem);
+  letter-spacing: -0.03em;
+  line-height: 1.12;
+}
+
+[data-layout="review"] .btn-primary,
+[data-layout="review"] .btn-ghost {
+  font-family: Barlow, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  white-space: normal;
+  height: auto;
+  min-height: 3rem;
+  line-height: 1.3;
+  padding-block: 0.8rem;
+}
+
+[data-layout="review"] .btn-primary {
+  color: rgb(var(--color-on-accent));
+}
+
+[data-layout="review"] .hud-tag {
+  display: none;
+}
+
+[data-layout="review"] .shadow-lift-sm {
+  box-shadow: 0 10px 28px rgb(27 58 92 / 0.1);
+}
+
+[data-layout="review"] .section-divider {
+  background: rgb(var(--color-text-primary) / 0.1);
+  max-width: 72rem;
+}
+
+[data-layout="review"] .editorial-figure {
+  border-color: rgb(var(--color-text-primary) / 0.12);
+  background: rgb(var(--color-surface));
+}
+
+[data-layout="review"] .editorial-figure img {
+  height: auto;
+  object-fit: contain;
+}
+
+[data-layout="review"] .review-product-shot {
+  background: rgb(var(--color-surface));
+  border: 1px solid rgb(var(--color-text-primary) / 0.1);
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+[data-layout="review"] .review-product-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+[data-layout="review"] .review-micro {
+  color: rgb(var(--color-text-muted));
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+[data-layout="review"] .review-initials {
+  background: rgb(var(--color-accent) / 0.08);
+  border-color: rgb(var(--color-accent) / 0.28);
+}
+
+[data-layout="review"] .review-rule,
+[data-layout="review"] #faq .border-t,
+[data-layout="review"] #faq .border-b,
+[data-layout="review"] footer .border-t {
+  border-color: rgb(var(--color-text-primary) / 0.12);
 }
 
 @layer utilities {
