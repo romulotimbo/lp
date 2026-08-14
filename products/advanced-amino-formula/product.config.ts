@@ -74,13 +74,18 @@ const advancedAminoFormula: ProductConfig = {
     body: "I wanted a clearer picture of what this essential-amino formula actually claims — and what it does not. This is a first-person walkthrough of the official page, not a kit storefront.",
     primaryCta: outboundCta,
     microcopy: "Affiliate disclosure in the footer · the button opens the official site",
+    chips: [
+      { label: "90-day guarantee", detail: "company terms" },
+      { label: "Made in the USA" },
+      { label: "Eight essential amino acids" },
+    ],
     productImage: {
       src: `${IMG}/1-Unit.jpg`,
       alt: "Advanced Amino Formula — 150-tablet bottle from Advanced Bionutritionals",
     },
   },
 
-  sections: ["pain", "research", "official-claims", "testimonials", "verdict", "faq"],
+  sections: ["pain", "trust", "research", "official-claims", "testimonials", "mid-cta", "verdict", "faq"],
 
   pain: {
     eyebrow: "The gap",
@@ -90,6 +95,29 @@ const advancedAminoFormula: ProductConfig = {
       src: `${IMG}/man-running.webp`,
       alt: "Runner on an open road — the training context that started this review",
     },
+  },
+
+  trust: {
+    eyebrow: "On the record",
+    title: "What the company already puts in writing.",
+    items: [
+      {
+        label: "90-day money-back",
+        detail: "Guarantee described on official orders.",
+      },
+      {
+        label: "Made in the USA",
+        detail: "Alongside vegan, soy-free, dairy-free, gluten-free, non-GMO marks.",
+      },
+      {
+        label: "Eight essential amino acids",
+        detail: "The published list — not a proprietary blend I reverse-engineered.",
+      },
+      {
+        label: "99% utilization claim",
+        detail: "Their chart, dated on this review as of August 2026.",
+      },
+    ],
   },
 
   research: {
@@ -110,6 +138,13 @@ const advancedAminoFormula: ProductConfig = {
       src: `${IMG}/8-amino-acids.jpg`,
       alt: "Official graphic of the eight essential amino acids listed for Advanced Amino Formula",
     },
+  },
+
+  midCta: {
+    eyebrow: "Next step",
+    title: "The eight-acid list, the chart, and current pricing live on their site.",
+    body: "This review does not quote a dollar amount. Use the hop when you want the live offer next to the 90-day terms.",
+    ctaLabel: "See the official page",
   },
 
   testimonials: {

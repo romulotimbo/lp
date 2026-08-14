@@ -24,7 +24,10 @@ export function StickyCta() {
   return (
     <div
       className={cn(
-        "fixed bottom-0 left-0 right-0 z-50 border-t border-blood-red/25 bg-cyber-black p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-lift-sm transition-transform duration-500 ease-out-expo md:hidden",
+        "fixed bottom-0 left-0 right-0 z-50 border-t p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-lift-sm transition-transform duration-500 ease-out-expo md:hidden",
+        review
+          ? "border-cyber-titanium/15 bg-cyber-black"
+          : "border-blood-red/25 bg-cyber-black",
         visible ? "translate-y-0" : "translate-y-full",
       )}
     >

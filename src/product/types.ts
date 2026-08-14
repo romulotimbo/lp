@@ -29,7 +29,13 @@ export type OptionalSectionId =
   | "pain"
   | "research"
   | "official-claims"
-  | "verdict";
+  | "verdict"
+  | "trust"
+  | "highlights"
+  | "ritual"
+  | "compare"
+  | "guarantee"
+  | "mid-cta";
 
 /** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review` rejeita esse id. */
 export type SectionId = OptionalSectionId | "pricing";
@@ -44,6 +50,9 @@ export interface OutboundCta {
 export interface EditorialFigure {
   src: string;
   alt: string;
+  /** Tamanho intrínseco do arquivo — evita upscale e CLS. */
+  width?: number;
+  height?: number;
 }
 
 /** Bloco de artigo para seções editoriais do layout `review`. */
@@ -268,6 +277,78 @@ export interface SeoConfig {
   themeColor?: string;
 }
 
+export interface TrustChip {
+  label: string;
+  detail?: string;
+}
+
+export interface TrustContent {
+  eyebrow?: string;
+  title?: string;
+  items: TrustChip[];
+}
+
+export interface HighlightItem {
+  title: string;
+  body: string;
+}
+
+export interface HighlightsContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  attribution?: string;
+  items: HighlightItem[];
+}
+
+export interface RitualStep {
+  title: string;
+  body: string;
+}
+
+export interface RitualContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  steps: RitualStep[];
+}
+
+export interface CompareRow {
+  label: string;
+  us: string;
+  them: string;
+}
+
+export interface CompareContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  usLabel: string;
+  themLabel: string;
+  rows: CompareRow[];
+}
+
+export interface GuaranteeBonus {
+  title: string;
+  body?: string;
+}
+
+export interface GuaranteeContent {
+  eyebrow?: string;
+  title: string;
+  body: string;
+  note?: string;
+  bonuses?: GuaranteeBonus[];
+  ctaLabel?: string;
+}
+
+export interface MidCtaContent {
+  eyebrow?: string;
+  title: string;
+  body?: string;
+  ctaLabel?: string;
+}
+
 export interface HeroContent {
   eyebrowLine1: string;
   hudTag: string;
@@ -279,6 +360,8 @@ export interface HeroContent {
   secondaryCta?: { label: string; href: string };
   microcopy: string;
   productImage: { src: string; alt: string };
+  /** Chips de confiança no Hero (review). Omitir em sales. */
+  chips?: TrustChip[];
 }
 
 export interface FooterContent {
@@ -319,6 +402,12 @@ export interface ProductConfig {
   research?: EditorialBlock;
   officialClaims?: EditorialBlock;
   verdict?: EditorialBlock;
+  trust?: TrustContent;
+  highlights?: HighlightsContent;
+  ritual?: RitualContent;
+  compare?: CompareContent;
+  guarantee?: GuaranteeContent;
+  midCta?: MidCtaContent;
   trackingTags: TrackingTag[];
   footer: FooterContent;
   stickyCta: StickyCtaContent;
@@ -337,6 +426,12 @@ const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof ProductConfig> = {
   research: "research",
   "official-claims": "officialClaims",
   verdict: "verdict",
+  trust: "trust",
+  highlights: "highlights",
+  ritual: "ritual",
+  compare: "compare",
+  guarantee: "guarantee",
+  "mid-cta": "midCta",
 };
 
 export function resolveLayout(config: ProductConfig): PageLayout {

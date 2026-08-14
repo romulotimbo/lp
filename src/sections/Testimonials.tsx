@@ -250,7 +250,7 @@ export function Testimonials() {
   ));
 
   return (
-    <section className="section-block--tight overflow-hidden bg-cyber-black">
+    <section className={cn("section-block--tight overflow-hidden", review ? "bg-cyber-graphite" : "bg-cyber-black")}>
       <div className="px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 flex flex-col gap-5 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">

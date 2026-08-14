@@ -7,6 +7,7 @@ import { TiltCard } from "@/components/tilt-card";
 import { handleCheckoutClick } from "@/lib/checkout-tracking";
 import { cn } from "@/lib/utils";
 import { isReviewLayout, product } from "@/product/active";
+import { isDarkBackground } from "@/product/tokens";
 
 /**
  * CTAs do Hero podem apontar direto pro checkout (ex. Alpha Surge) ou pra uma
@@ -43,6 +44,8 @@ export function Hero() {
   const mediaPack = spokesperson?.mediaPack;
   const review = isReviewLayout();
   const primaryCta = review && outboundCta ? outboundCta : hero.primaryCta;
+  const darkReview = review && isDarkBackground(product.tokens);
+  const chips = review ? hero.chips ?? [] : [];
 
   return (
     <section
@@ -50,6 +53,7 @@ export function Hero() {
       className={cn("relative min-h-screen", review ? "overflow-x-clip" : "overflow-hidden")}
     >
       <div className="absolute inset-0 bg-cyber-darker" />
+      {review ? <div className="review-hero-glow pointer-events-none absolute inset-0" aria-hidden /> : null}
       {!review && mediaPack?.heroVideo ? (
         <HeroVideoBackground
           src={mediaPack.heroVideo}
@@ -73,6 +77,12 @@ export function Hero() {
           ) : null}
 
           <div className="relative flex flex-col gap-7 lg:gap-8">
+            {review && hero.eyebrowLine1 ? (
+              <motion.p variants={fadeUp} className="section-eyebrow">
+                {hero.eyebrowLine1}
+              </motion.p>
+            ) : null}
+
             {!review ? (
               <motion.div
                 variants={fadeUp}
@@ -94,14 +104,14 @@ export function Hero() {
               variants={fadeUp}
               className={cn(
                 "text-display-hero text-balance font-bold tracking-tight text-cyber-titanium",
-                review ? "font-body leading-[1.12]" : "font-display uppercase leading-[0.95]",
+                review ? "font-review-display leading-[1.05]" : "font-display uppercase leading-[0.95]",
               )}
             >
               {hero.headlinePrefix}{" "}
               <span
                 className={
                   review
-                    ? "font-semibold"
+                    ? "font-semibold text-blood-red"
                     : "underline decoration-blood-red decoration-2 underline-offset-[0.2em]"
                 }
               >
@@ -121,6 +131,21 @@ export function Hero() {
             </motion.p>
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
+              {chips.length > 0 ? (
+                <ul className="flex flex-wrap justify-center gap-2 lg:justify-start">
+                  {chips.map((chip) => (
+                    <li
+                      key={chip.label}
+                      className="review-chip px-3 py-1.5 text-left text-xs leading-snug text-cyber-titanium sm:text-sm"
+                    >
+                      <span className="font-semibold">{chip.label}</span>
+                      {chip.detail ? (
+                        <span className="text-cyber-muted"> · {chip.detail}</span>
+                      ) : null}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                 {review ? (
                   <OutboundLink
@@ -171,7 +196,9 @@ export function Hero() {
           className="relative z-10 w-full max-w-[min(100%,22rem)] shrink-0 sm:max-w-md lg:max-w-lg lg:flex-1"
         >
           {review ? (
-            <figure className="review-product-shot">
+            <figure
+              className={cn("review-product-shot", !darkReview && "review-product-shot--plate")}
+            >
               <img
                 src={hero.productImage.src}
                 alt={hero.productImage.alt}
