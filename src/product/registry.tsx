@@ -10,6 +10,12 @@ import { Pain } from "@/sections/Pain";
 import { Research } from "@/sections/Research";
 import { OfficialClaims } from "@/sections/OfficialClaims";
 import { Verdict } from "@/sections/Verdict";
+import { Trust } from "@/sections/Trust";
+import { Highlights } from "@/sections/Highlights";
+import { Ritual } from "@/sections/Ritual";
+import { Compare } from "@/sections/Compare";
+import { Guarantee } from "@/sections/Guarantee";
+import { MidCta } from "@/sections/MidCta";
 
 /**
  * Registro de seções opcionais que renderizam um bloco próprio na página.
@@ -31,4 +37,10 @@ export const OPTIONAL_SECTION_COMPONENTS: Partial<
   research: Research,
   "official-claims": OfficialClaims,
   verdict: Verdict,
+  trust: Trust,
+  highlights: Highlights,
+  ritual: Ritual,
+  compare: Compare,
+  guarantee: Guarantee,
+  "mid-cta": MidCta,
 };

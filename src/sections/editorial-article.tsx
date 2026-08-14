@@ -16,10 +16,10 @@ function Figure({ block }: { block: EditorialBlock }) {
       <img
         src={block.figure.src}
         alt={block.figure.alt}
-        width={960}
-        height={720}
+        width={block.figure.width ?? 960}
+        height={block.figure.height ?? 720}
         decoding="async"
-        className="w-full object-contain"
+        className="mx-auto h-auto w-auto max-w-full object-contain"
       />
     </figure>
   );
@@ -44,6 +44,7 @@ export function EditorialArticle({
       <div className="section-divider" aria-hidden />
       <section id={id} className="section-block px-6 lg:px-8">
         <div className="mx-auto max-w-3xl lg:max-w-5xl">
+          {block.eyebrow ? <p className="section-eyebrow mb-3">{block.eyebrow}</p> : null}
           <h2 className="section-title text-balance">{block.title}</h2>
 
           <div

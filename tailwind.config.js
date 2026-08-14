@@ -38,6 +38,8 @@ export default {
         display: ["Barlow Condensed", "sans-serif"],
         body: ["Barlow", "sans-serif"],
         mono: ["JetBrains Mono", "monospace"],
+        "review-display": ["Bricolage Grotesque", "sans-serif"],
+        "review-body": ["Atkinson Hyperlegible", "sans-serif"],
       },
       transitionTimingFunction: {
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",
