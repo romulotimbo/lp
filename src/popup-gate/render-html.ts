@@ -34,9 +34,13 @@ function inlineJson(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
-/** Plano usado como valor da conversão — o recomendado é o desfecho mais provável do clique. */
-function conversionPlan(plans: Plan[]): Plan | undefined {
-  return plans.find((plan) => plan.recommended) ?? plans[0];
+/**
+ * Plano usado como valor da conversão — o recomendado é o desfecho mais provável
+ * do clique. Um Produto em layout `review` pode não ter Planos; nesse caso a
+ * conversão vai sem valor e a réplica de fundo fica sem os cards.
+ */
+function conversionPlan(plans: Plan[] | undefined): Plan | undefined {
+  return (plans ?? []).find((plan) => plan.recommended) ?? plans?.[0];
 }
 
 /** URL de checkout com o parâmetro de origem já aplicado — usada no `href` do CTA (funciona sem JS). */
@@ -57,6 +61,27 @@ function backdropCard(plan: Plan, gate: PopupGateConfig): string {
           <p class="co-card__desc">${escapeHtml(plan.description)}</p>
           <p class="co-card__btn">${escapeHtml(gate.backdrop.cardCtaLabel)}</p>
         </article>`;
+}
+
+/**
+ * Banda de conteúdo abaixo dos cards, montada a partir dos pilares do Produto —
+ * existe só pra réplica encher a tela em viewports altos, senão sobra uma faixa
+ * lisa embaixo que denuncia que o fundo não é uma página de verdade.
+ */
+function backdropBand(config: ProductConfig): string {
+  const pillars = (config.powerGrid?.pillars ?? []).slice(0, 3);
+  if (pillars.length === 0) return "";
+  return `
+        <div class="co-band">${pillars
+          .map(
+            (pillar) => `
+          <div class="co-band__item">
+            <p class="co-band__title">${escapeHtml(pillar.title)}</p>
+            <p class="co-band__text">${escapeHtml(pillar.description)}</p>
+          </div>`,
+          )
+          .join("")}
+        </div>`;
 }
 
 function styles(gate: PopupGateConfig): string {
@@ -82,6 +107,8 @@ function styles(gate: PopupGateConfig): string {
     .stage__page {
       position: absolute;
       inset: -4%;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
       filter: blur(7px);
       transform: scale(1.04);
@@ -150,6 +177,21 @@ function styles(gate: PopupGateConfig): string {
       text-transform: uppercase;
     }
     .co-note { margin: 26px auto 0; max-width: 1060px; padding: 0 24px; text-align: center; color: #495057; font-size: 15px; }
+    .co-band {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1060px;
+      margin: 34px auto 0;
+      padding: 34px 24px 0;
+      border-top: 1px solid #dee2e6;
+    }
+    .co-band__title { margin: 0 0 8px; font-size: 19px; font-weight: 800; }
+    .co-band__text { margin: 0; color: #495057; font-size: 14px; line-height: 1.5; }
+    /* margin-top auto (com o .stage__page em coluna) ancora o rodapé no fim da
+       tela — sem isso sobra uma faixa lisa embaixo em viewports altos. */
+    .co-foot { margin-top: auto; background: var(--dark); color: #adb5bd; padding: 26px 24px; text-align: center; font-size: 13px; }
+    .co-foot strong { display: block; margin-bottom: 6px; color: var(--accent); letter-spacing: 0.14em; text-transform: uppercase; }
 
     /* --- Popup --- */
     .gate { position: fixed; inset: 0; display: grid; place-items: center; padding: 20px; }
@@ -203,7 +245,7 @@ function styles(gate: PopupGateConfig): string {
     .gate__close:hover { color: var(--dark); }
 
     @media (max-width: 720px) {
-      .co-grid { grid-template-columns: 1fr; }
+      .co-grid, .co-band { grid-template-columns: 1fr; }
       .co-ribbon { font-size: 17px; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -353,9 +395,13 @@ export function renderPopupGateHtml(config: ProductConfig, tracking: TrackingMar
       <div class="stage__page" aria-hidden="true">
         <div class="co-bar"><em>${escapeHtml(config.productName)}</em></div>
         <p class="co-ribbon">${escapeHtml(gate.backdrop.headline)}</p>
-        <div class="co-grid">${config.plans.map((plan) => backdropCard(plan, gate)).join("")}
+        <div class="co-grid">${(config.plans ?? []).map((plan) => backdropCard(plan, gate)).join("")}
         </div>
-        <p class="co-note">${escapeHtml(gate.backdrop.reassurance)}</p>
+        <p class="co-note">${escapeHtml(gate.backdrop.reassurance)}</p>${backdropBand(config)}
+        <div class="co-foot">
+          <strong>${escapeHtml(config.footer.brandName)}</strong>
+          ${escapeHtml(config.footer.tagline)}
+        </div>
       </div>
       <div class="stage__veil"></div>
     </div>
