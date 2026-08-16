@@ -375,6 +375,51 @@ export interface StickyCtaContent {
   label: string;
 }
 
+/**
+ * Página-popup — módulo opcional da Base: uma segunda página estática da mesma
+ * Instância, servida num path próprio, com uma única decisão na tela (o popup)
+ * sobre uma réplica desfocada da página de checkout. Estratégia diferente da
+ * página de review, que é a raiz do domínio.
+ *
+ * A origem do clique viaja pro checkout no parâmetro `sourceParam` — o valor
+ * vem do querystring da própria página (ex. `/alphasurge?src=PopUp`) e cai em
+ * `defaultSource` quando ausente, de forma que a mesma página serve várias
+ * criações de anúncio com origens distintas.
+ *
+ * A réplica de fundo é montada a partir do que já existe no config (nome do
+ * Produto e `plans`) — só a copy que não existe em nenhum outro lugar entra aqui.
+ */
+export interface PopupGateConfig {
+  /** Segmento de path onde a página é publicada, sem barras. Ex.: "alphasurge" -> `/alphasurge`. */
+  path: string;
+  /** Nome do parâmetro de origem, lido da URL da página e repassado ao checkout. */
+  sourceParam: string;
+  /** Valor assumido quando a URL não traz o parâmetro de origem. */
+  defaultSource: string;
+  /** Link de afiliado de destino — o mesmo da página de review. */
+  checkoutHref: string;
+  title: string;
+  body: string;
+  ctaLabel: string;
+  /** Link secundário discreto — mesma ação do CTA (decisão do usuário). */
+  closeLabel: string;
+  /** Cores da página, independentes dos tokens do Produto (imitam o checkout do fornecedor). */
+  colors: {
+    /** Barra/superfícies escuras. */
+    dark: string;
+    /** Cor de ação (CTA, fita, destaques). */
+    accent: string;
+  };
+  backdrop: {
+    /** Chamada da fita amarela, no topo da réplica de checkout. */
+    headline: string;
+    /** Linha de reforço abaixo dos cards (garantia/frete). */
+    reassurance: string;
+    /** Label do botão dos cards da réplica (decorativo, não clicável). */
+    cardCtaLabel: string;
+  };
+}
+
 export interface ProductConfig {
   slug: string;
   productName: string;
@@ -411,6 +456,8 @@ export interface ProductConfig {
   trackingTags: TrackingTag[];
   footer: FooterContent;
   stickyCta: StickyCtaContent;
+  /** Página-popup opcional, publicada num path próprio da mesma Instância. */
+  popupGate?: PopupGateConfig;
 }
 
 /** Ligações entre uma seção opcional e o campo do config que precisa estar presente pra ela renderizar. */
@@ -480,6 +527,16 @@ export function validateProductConfig(config: ProductConfig): void {
     if (recommendedCount > 1) {
       missing.push("plans: no máximo 1 plano marcado como recommended");
     }
+  }
+
+  const gate = config.popupGate;
+  if (gate) {
+    if (!gate.path?.trim() || gate.path.includes("/")) {
+      missing.push("popupGate.path (um único segmento de path, sem barras)");
+    }
+    if (!gate.checkoutHref?.trim()) missing.push("popupGate.checkoutHref");
+    if (!gate.sourceParam?.trim()) missing.push("popupGate.sourceParam");
+    if (!gate.defaultSource?.trim()) missing.push("popupGate.defaultSource");
   }
 
   for (const id of config.sections ?? []) {

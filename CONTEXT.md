@@ -52,6 +52,10 @@ _Avoid_: assets da persona, mídia da personagem (usar "Banco de mídia" para o 
 Um pixel/tag de anúncio (Meta Pixel, Google Ads, etc.) configurado por Produto — zero ou mais por Produto, cada um com seu próprio ID, injetado no build da Instância. O mecanismo de evento (ex. `InitiateCheckout` antes do redirect de checkout) é genérico na Base; só a lista de tags e seus IDs vem da config do Produto.
 _Avoid_: Pixel (Pixel é um tipo específico de Tag de rastreamento — o do Meta)
 
+**Página-popup**:
+Módulo opcional da Base: uma segunda página estática da mesma Instância, publicada num path próprio (ex. `/alphasurge`), com uma única decisão na tela — um popup sobre uma réplica desfocada da página de checkout do fornecedor. Estratégia alternativa à página de review que ocupa a raiz do domínio; carrega a origem do tráfego num parâmetro de URL que segue pro link de afiliado.
+_Avoid_: modal (o modal de Captura de lead é outro componente, dentro da página de review), gate
+
 ## Decisions
 
 - A Base vive neste mesmo repositório (não um repo de template separado) — Energi Power by Vee se torna o primeiro Produto extraído da Base.
@@ -66,4 +70,5 @@ _Avoid_: Pixel (Pixel é um tipo específico de Tag de rastreamento — o do Met
 - Cada Produto configura suas próprias Tags de rastreamento (Meta Pixel, Google Ads, possivelmente outras depois) — nunca uma tag compartilhada entre Produtos.
 - Seções são um menu opcional (Hero/Pricing/rodapé obrigatórios, resto módulo por Produto), não um esqueleto fixo de 8 blocos — permite categorias de produto além de suplemento físico.
 - Produto continua 1:1 com Instância. A mesma oferta de afiliado vendida em dois mercados/idiomas vira dois Produtos (config duplicada e adaptada), não um Produto com múltiplas Instâncias — não existe hierarquia "oferta acima do Produto".
+- Uma Instância pode publicar mais de uma página (raiz = review, path próprio = Página-popup), mas segue 1:1 com o Produto — páginas extras são estratégias de aquisição do mesmo Produto, não Produtos separados. A Página-popup é HTML estático gerado no build (sem React), porque uma rota da SPA carregaria o bundle inteiro da review só pra desenhar um popup.
 - Disclaimer de afiliado é obrigatório e bloqueante no build de toda Instância. Disclaimers de categoria (ex. saúde/suplemento) são opcionais, ativados por Produto quando aplicável.

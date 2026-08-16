@@ -1,4 +1,7 @@
 import type { ProductConfig } from "@/product/types";
+// Extensão explícita: este arquivo é carregado pelo Node (import dinâmico no
+// vite.config.ts), não pelo resolver do Vite — ESM nativo exige a extensão.
+import { createPopupGate } from "./popup/popup.config.ts";
 
 /**
  * Produto #2 sobre a Base — Alpha Surge (mercado EUA/EN-US), spokesperson
@@ -418,6 +421,9 @@ const alphaSurge: ProductConfig = {
   stickyCta: {
     label: "Get Alpha Surge · from $49/bottle",
   },
+
+  // Segunda página desta Instância, em /alphasurge — ver popup/popup.config.ts.
+  popupGate: createPopupGate(CHECKOUT),
 };
 
 export default alphaSurge;
