@@ -4,6 +4,7 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import type { DesignTokens, ProductConfig, TrackingTag } from "./src/product/types";
 import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product/tokens";
+import { renderPopupGateHtml } from "./src/popup-gate/render-html";
 
 const DEFAULT_PRODUCT = "energi-power-vee";
 const PRODUCT = process.env.PRODUCT || DEFAULT_PRODUCT;
@@ -133,6 +134,45 @@ function productHtmlPlugin(config: ProductConfig): Plugin {
   };
 }
 
+/**
+ * Emite a Página-popup do Produto (quando configurada) como um HTML estático
+ * num path próprio da mesma Instância — ver `PopupGateConfig`. Em dev, um
+ * middleware serve o mesmo HTML no mesmo path, pra que `/alphasurge` funcione
+ * igual em `npm run dev:alpha-surge` e no build.
+ */
+function popupGatePlugin(config: ProductConfig): Plugin {
+  const gate = config.popupGate;
+  const render = () =>
+    renderPopupGateHtml(config, {
+      head: (config.trackingTags ?? []).map(trackingTagHeadHtml).join("\n"),
+      noscript: (config.trackingTags ?? []).map(trackingTagNoscriptHtml).join("\n"),
+    });
+
+  return {
+    name: "product-popup-gate",
+    configureServer(server) {
+      if (!gate) return;
+      server.middlewares.use((req, res, next) => {
+        const pathname = (req.url ?? "/").split("?")[0].replace(/\/+$/, "");
+        if (pathname !== `/${gate.path}`) {
+          next();
+          return;
+        }
+        res.setHeader("Content-Type", "text/html; charset=utf-8");
+        res.end(render());
+      });
+    },
+    generateBundle() {
+      if (!gate) return;
+      this.emitFile({
+        type: "asset",
+        fileName: `${gate.path}/index.html`,
+        source: render(),
+      });
+    },
+  };
+}
+
 export default defineConfig(async () => {
   // Import dinâmico porque o caminho depende de PRODUCT (não dá pra usar `import`
   // estático no topo do arquivo). tsx/esbuild resolvem o .ts em runtime do config.
@@ -141,7 +181,7 @@ export default defineConfig(async () => {
   ).default;
 
   return {
-    plugins: [react(), productHtmlPlugin(activeProduct)],
+    plugins: [react(), productHtmlPlugin(activeProduct), popupGatePlugin(activeProduct)],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
