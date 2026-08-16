@@ -1,4 +1,7 @@
 import type { ProductConfig } from "@/product/types";
+// Extensão explícita: este arquivo é carregado pelo Node (import dinâmico no
+// vite.config.ts), não pelo resolver do Vite — ESM nativo exige a extensão.
+import { createPopupGate } from "./popup/popup.config.ts";
 
 /**
  * Produto #3 — Advanced Amino Formula (ponte editorial ClickBank, en-US).
@@ -275,6 +278,9 @@ const advancedAminoFormula: ProductConfig = {
   stickyCta: {
     label: "See the official page",
   },
+
+  // Segunda página desta Instância, em /advanced-amino — ver popup/popup.config.ts.
+  popupGate: createPopupGate(HOP),
 };
 
 export default advancedAminoFormula;

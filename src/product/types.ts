@@ -386,9 +386,24 @@ export interface StickyCtaContent {
  * `defaultSource` quando ausente, de forma que a mesma página serve várias
  * criações de anúncio com origens distintas.
  *
- * A réplica de fundo é montada a partir do que já existe no config (nome do
- * Produto e `plans`) — só a copy que não existe em nenhum outro lugar entra aqui.
+ * A réplica de fundo usa `backdrop.cards` quando o Produto declara (review, sem
+ * `plans`). Senão cai em `plans` (sales). Só a copy que não existe em nenhum
+ * outro lugar do config entra aqui.
  */
+export interface PopupGateBackdropCard {
+  name: string;
+  image: string;
+  price: string;
+  perUnit?: string;
+  description: string;
+  /** Card em destaque na réplica — equivalente a `Plan.recommended`. */
+  featured?: boolean;
+  /** Id estável pra evento de conversão. Omitido = `popupGate.path`. */
+  id?: string;
+  /** Valor da conversão. Omitido = 0. */
+  value?: number;
+}
+
 export interface PopupGateConfig {
   /** Segmento de path onde a página é publicada, sem barras. Ex.: "alphasurge" -> `/alphasurge`. */
   path: string;
@@ -398,6 +413,11 @@ export interface PopupGateConfig {
   defaultSource: string;
   /** Link de afiliado de destino — o mesmo da página de review. */
   checkoutHref: string;
+  /**
+   * Fragmento âncora no destino (sem `#`). Ex.: `"Order"` → `#Order`,
+   * seção `row text-order` da oficial. Omitido = sem hash.
+   */
+  checkoutHash?: string;
   title: string;
   body: string;
   ctaLabel: string;
@@ -409,14 +429,21 @@ export interface PopupGateConfig {
     dark: string;
     /** Cor de ação (CTA, fita, destaques). */
     accent: string;
+    /** Texto sobre `accent`. Omitido = `dark` (CTA claro tipo amarelo). */
+    onAccent?: string;
   };
   backdrop: {
-    /** Chamada da fita amarela, no topo da réplica de checkout. */
+    /** Chamada da fita de destaque, no topo da réplica de checkout. */
     headline: string;
     /** Linha de reforço abaixo dos cards (garantia/frete). */
     reassurance: string;
     /** Label do botão dos cards da réplica (decorativo, não clicável). */
     cardCtaLabel: string;
+    /**
+     * Cards da réplica quando o Produto não tem `plans` (layout review).
+     * Omitido = montar a partir de `plans`.
+     */
+    cards?: PopupGateBackdropCard[];
   };
 }
 
@@ -537,6 +564,11 @@ export function validateProductConfig(config: ProductConfig): void {
     if (!gate.checkoutHref?.trim()) missing.push("popupGate.checkoutHref");
     if (!gate.sourceParam?.trim()) missing.push("popupGate.sourceParam");
     if (!gate.defaultSource?.trim()) missing.push("popupGate.defaultSource");
+    (gate.backdrop?.cards ?? []).forEach((card, index) => {
+      if (!card.name?.trim()) missing.push(`popupGate.backdrop.cards[${index}].name`);
+      if (!card.image?.trim()) missing.push(`popupGate.backdrop.cards[${index}].image`);
+      if (!card.price?.trim()) missing.push(`popupGate.backdrop.cards[${index}].price`);
+    });
   }
 
   for (const id of config.sections ?? []) {

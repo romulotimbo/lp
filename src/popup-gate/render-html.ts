@@ -10,7 +10,11 @@
  * nenhum ganho. Os metadados de SEO/OG e as Tags de rastreamento são os mesmos
  * da página de review porque saem do mesmo `ProductConfig`.
  */
-import type { Plan, PopupGateConfig, ProductConfig } from "../product/types";
+import type {
+  PopupGateBackdropCard,
+  PopupGateConfig,
+  ProductConfig,
+} from "../product/types";
 
 /** Tags de rastreamento já renderizadas pelo vite.config (mesma fonte da página de review). */
 export interface TrackingMarkup {
@@ -34,31 +38,63 @@ function inlineJson(value: unknown): string {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
+/** Cards da réplica: `backdrop.cards` ganha de `plans` (review não tem planos). */
+function replicaCards(config: ProductConfig, gate: PopupGateConfig): PopupGateBackdropCard[] {
+  if ((gate.backdrop.cards?.length ?? 0) > 0) return gate.backdrop.cards ?? [];
+  return (config.plans ?? []).map((plan) => ({
+    name: plan.name,
+    image: plan.image,
+    price: plan.price,
+    perUnit: plan.perUnit,
+    description: plan.description,
+    featured: plan.recommended,
+    id: plan.id,
+    value: plan.value,
+  }));
+}
+
 /**
- * Plano usado como valor da conversão — o recomendado é o desfecho mais provável
- * do clique. Um Produto em layout `review` pode não ter Planos; nesse caso a
- * conversão vai sem valor e a réplica de fundo fica sem os cards.
+ * Valor da conversão — card featured / plano recommended, senão o primeiro.
+ * Sem os dois: nome do Produto e value 0.
  */
-function conversionPlan(plans: Plan[] | undefined): Plan | undefined {
-  return (plans ?? []).find((plan) => plan.recommended) ?? plans?.[0];
+function conversionTarget(
+  config: ProductConfig,
+  gate: PopupGateConfig,
+): { id: string; name: string; value: number } {
+  const cards = replicaCards(config, gate);
+  const featured = cards.find((card) => card.featured) ?? cards[0];
+  if (!featured) {
+    return { id: gate.path, name: config.productName, value: 0 };
+  }
+  return {
+    id: featured.id ?? gate.path,
+    name: featured.name,
+    value: featured.value ?? 0,
+  };
 }
 
 /** URL de checkout com o parâmetro de origem já aplicado — usada no `href` do CTA (funciona sem JS). */
+function applyCheckoutHash(url: URL, hash: string | undefined): void {
+  const fragment = (hash ?? "").replace(/^#/, "").trim();
+  if (fragment) url.hash = fragment;
+}
+
 function checkoutUrlWithSource(gate: PopupGateConfig, source: string): string {
   const url = new URL(gate.checkoutHref);
   url.searchParams.set(gate.sourceParam, source);
+  applyCheckoutHash(url, gate.checkoutHash);
   return url.toString();
 }
 
-function backdropCard(plan: Plan, gate: PopupGateConfig): string {
-  const featured = plan.recommended ? " co-card--featured" : "";
+function backdropCard(card: PopupGateBackdropCard, gate: PopupGateConfig): string {
+  const featured = card.featured ? " co-card--featured" : "";
   return `
         <article class="co-card${featured}">
-          <header class="co-card__head">${escapeHtml(plan.name)}</header>
-          <img class="co-card__img" src="${escapeHtml(plan.image)}" alt="" />
-          <p class="co-card__price">${escapeHtml(plan.price)}</p>
-          <p class="co-card__per">${escapeHtml(plan.perUnit ?? "")}</p>
-          <p class="co-card__desc">${escapeHtml(plan.description)}</p>
+          <header class="co-card__head">${escapeHtml(card.name)}</header>
+          <img class="co-card__img" src="${escapeHtml(card.image)}" alt="" />
+          <p class="co-card__price">${escapeHtml(card.price)}</p>
+          <p class="co-card__per">${escapeHtml(card.perUnit ?? "")}</p>
+          <p class="co-card__desc">${escapeHtml(card.description)}</p>
           <p class="co-card__btn">${escapeHtml(gate.backdrop.cardCtaLabel)}</p>
         </article>`;
 }
@@ -90,6 +126,7 @@ function styles(gate: PopupGateConfig): string {
     :root {
       --dark: ${gate.colors.dark};
       --accent: ${gate.colors.accent};
+      --on-accent: ${gate.colors.onAccent ?? gate.colors.dark};
     }
     html, body { height: 100%; }
     body {
@@ -129,7 +166,7 @@ function styles(gate: PopupGateConfig): string {
     .co-bar em { color: var(--accent); font-style: normal; }
     .co-ribbon {
       background: var(--accent);
-      color: var(--dark);
+      color: var(--on-accent);
       text-align: center;
       font-size: 22px;
       font-weight: 800;
@@ -151,7 +188,7 @@ function styles(gate: PopupGateConfig): string {
       text-align: center;
       padding-bottom: 16px;
     }
-    .co-card--featured { border-color: var(--accent); box-shadow: 0 0 0 3px rgb(255 193 7 / 0.45); }
+    .co-card--featured { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent); }
     .co-card__head {
       background: var(--dark);
       color: #fff;
@@ -161,7 +198,7 @@ function styles(gate: PopupGateConfig): string {
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    .co-card--featured .co-card__head { background: var(--accent); color: var(--dark); }
+    .co-card--featured .co-card__head { background: var(--accent); color: var(--on-accent); }
     .co-card__img { display: block; width: 100%; height: 190px; object-fit: contain; padding: 14px; }
     .co-card__price { margin: 0; font-size: 36px; font-weight: 800; line-height: 1; }
     .co-card__per { margin: 6px 0 0; color: #6c757d; font-size: 14px; }
@@ -169,7 +206,7 @@ function styles(gate: PopupGateConfig): string {
     .co-card__btn {
       margin: 16px 18px 0;
       background: var(--accent);
-      color: var(--dark);
+      color: var(--on-accent);
       border-radius: 6px;
       padding: 13px;
       font-size: 15px;
@@ -219,7 +256,7 @@ function styles(gate: PopupGateConfig): string {
       border: 0;
       border-radius: 8px;
       background: var(--accent);
-      color: var(--dark);
+      color: var(--on-accent);
       padding: 14px 16px;
       font: inherit;
       font-size: 15px;
@@ -227,9 +264,9 @@ function styles(gate: PopupGateConfig): string {
       text-align: center;
       text-decoration: none;
       cursor: pointer;
-      transition: background-color 0.15s ease, transform 0.15s ease;
+      transition: background-color 0.15s ease, transform 0.15s ease, filter 0.15s ease;
     }
-    .gate__cta:hover { background: #ffcd39; }
+    .gate__cta:hover { filter: brightness(1.08); }
     .gate__cta:active { transform: translateY(1px); }
     .gate__cta:focus-visible, .gate__close:focus-visible { outline: 3px solid var(--dark); outline-offset: 2px; }
     .gate__close {
@@ -256,7 +293,7 @@ function styles(gate: PopupGateConfig): string {
 
 /** Dispara as Tags de rastreamento e só então redireciona — mesmo contrato de `trackInitiateCheckout`. */
 function script(config: ProductConfig, gate: PopupGateConfig): string {
-  const plan = conversionPlan(config.plans);
+  const conversion = conversionTarget(config, gate);
   const metaPixel = (config.trackingTags ?? []).find((tag) => tag.type === "meta_pixel");
   const googleAds = (config.trackingTags ?? []).find((tag) => tag.type === "google_ads");
 
@@ -264,10 +301,11 @@ function script(config: ProductConfig, gate: PopupGateConfig): string {
     checkoutHref: gate.checkoutHref,
     sourceParam: gate.sourceParam,
     defaultSource: gate.defaultSource,
+    checkoutHash: gate.checkoutHash ?? "",
     currency: config.locale.currency,
-    planId: plan?.id ?? gate.path,
-    planName: plan?.name ?? config.productName,
-    value: plan?.value ?? 0,
+    planId: conversion.id,
+    planName: conversion.name,
+    value: conversion.value,
     hasMetaPixel: Boolean(metaPixel),
     googleAdsLabel: googleAds?.conversionLabel ?? null,
   };
@@ -285,6 +323,7 @@ function script(config: ProductConfig, gate: PopupGateConfig): string {
 
         var checkout = new URL(S.checkoutHref);
         checkout.searchParams.set(S.sourceParam, source);
+        if (S.checkoutHash) checkout.hash = S.checkoutHash;
         var checkoutUrl = checkout.toString();
 
         // Os dois links levam ao mesmo destino — o secundário ("Close") não
@@ -395,7 +434,9 @@ export function renderPopupGateHtml(config: ProductConfig, tracking: TrackingMar
       <div class="stage__page" aria-hidden="true">
         <div class="co-bar"><em>${escapeHtml(config.productName)}</em></div>
         <p class="co-ribbon">${escapeHtml(gate.backdrop.headline)}</p>
-        <div class="co-grid">${(config.plans ?? []).map((plan) => backdropCard(plan, gate)).join("")}
+        <div class="co-grid">${replicaCards(config, gate)
+          .map((card) => backdropCard(card, gate))
+          .join("")}
         </div>
         <p class="co-note">${escapeHtml(gate.backdrop.reassurance)}</p>${backdropBand(config)}
         <div class="co-foot">
