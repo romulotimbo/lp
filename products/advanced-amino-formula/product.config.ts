@@ -22,7 +22,8 @@ import type { ProductConfig } from "@/product/types";
  * Copy de review, FAQ de apoio e depoimentos são originais. Fotos de
  * "testimonial" do fornecedor não são usadas como avatar.
  *
- * Deploy: advanced-amino.thebuylens.com. trackingTags vazio até existir Pixel/Ads.
+ * Deploy: advanced-amino.thebuylens.com. Google Ads AW-18351905109 (gtag
+ * config / page view). Sem conversionLabel: clique outbound da review não é checkout.
  */
 const OFFER =
   "https://www.advancedbionutritionals.com/DS24/Advanced-Amino/Muscle-Mass-Loss/HD.htm#aff=romulotsilva21c8";
@@ -286,7 +287,7 @@ const advancedAminoFormula: ProductConfig = {
     ],
   },
 
-  trackingTags: [],
+  trackingTags: [{ type: "google_ads", id: "AW-18351905109" }],
 
   footer: {
     brandName: "Advanced Amino Formula",

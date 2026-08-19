@@ -49,7 +49,7 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 
 - `energi-power-vee` — sales, pt-BR, Spokesperson Vee.
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
-- `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. `trackingTags: []`.
+- `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 
 **Não fazer**
@@ -64,7 +64,7 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Amino e do Audifort (`trackingTags: []`).
+- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view).
 - Terceiro layout além de sales/review.
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
