@@ -1,3 +1,4 @@
+import { AminoFaq } from "@/sections/amino-faq";
 import {
   Accordion,
   AccordionContent,
@@ -12,6 +13,10 @@ import { isReviewLayout, product } from "@/product/active";
 export function Faq() {
   const config = product.faq;
   if (!config || config.items.length === 0) return null;
+
+  if (product.slug === "advanced-amino-formula") {
+    return <AminoFaq config={config} />;
+  }
 
   const review = isReviewLayout();
   const ctaHref = review && product.outboundCta ? product.outboundCta.href : "#pricing";
