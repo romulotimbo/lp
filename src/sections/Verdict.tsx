@@ -1,4 +1,3 @@
-import { InkSignature } from "@/components/ink-signature";
 import { OutboundLink } from "@/components/outbound-link";
 import { product } from "@/product/active";
 import { EditorialArticle } from "@/sections/editorial-article";
