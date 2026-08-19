@@ -91,6 +91,12 @@
 
 [data-layout="review"] {
   font-family: "Atkinson Hyperlegible", sans-serif;
+  scrollbar-color: rgb(var(--color-accent) / 0.45) rgb(var(--color-surface));
+  caret-color: rgb(var(--color-accent));
+}
+
+[data-layout="review"] a {
+  text-underline-offset: 0.18em;
 }
 
 [data-layout="review"] .section-eyebrow {
@@ -140,7 +146,12 @@
 
 [data-layout="review"] .btn-primary {
   color: rgb(var(--color-on-accent));
-  box-shadow: 0 12px 28px rgb(var(--color-accent) / 0.28);
+  box-shadow: 0 10px 22px rgb(var(--color-text-primary) / 0.12);
+}
+
+[data-layout="review"] .btn-primary:focus-visible,
+[data-layout="review"] .btn-ghost:focus-visible {
+  --tw-ring-offset-color: rgb(var(--color-background));
 }
 
 [data-layout="review"] .hud-tag {
@@ -168,6 +179,553 @@
   max-width: 100%;
   height: auto;
   object-fit: contain;
+}
+
+[data-layout="review"] .editorial-cinema-prose {
+  position: relative;
+  z-index: 1;
+}
+
+[data-layout="review"] .editorial-media--stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+[data-layout="review"] .util-source-label {
+  margin-bottom: 0.55rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .util-source-plate .editorial-figure {
+  width: 100%;
+}
+
+[data-layout="review"] .util-source-plate .editorial-figure img {
+  max-height: 9.75rem;
+  width: 100%;
+}
+
+[data-layout="review"] .util-figure {
+  margin: 0;
+  view-timeline-name: --util-ink;
+  view-timeline-axis: block;
+}
+
+[data-layout="review"] .util-caption {
+  display: block;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .util-dateline {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .util-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 1.15rem;
+  margin: 0.8rem 0 0.55rem;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .util-swatch {
+  display: inline-block;
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.4rem;
+  vertical-align: -0.08em;
+}
+
+[data-layout="review"] .util-swatch--protein {
+  background: rgb(var(--color-text-primary) / 0.7);
+}
+
+[data-layout="review"] .util-swatch--waste {
+  background: rgb(var(--color-text-primary) / 0.14);
+}
+
+[data-layout="review"] .util-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.45rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .util-rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-layout="review"] .util-row + .util-row {
+  margin-top: 0.62rem;
+}
+
+[data-layout="review"] .util-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.38rem;
+}
+
+[data-layout="review"] .util-source {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .util-value {
+  flex: 0 0 auto;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .util-track {
+  position: relative;
+  height: 0.55rem;
+  overflow: hidden;
+  background: rgb(var(--color-text-primary) / 0.12);
+}
+
+[data-layout="review"] .util-protein {
+  display: block;
+  height: 100%;
+  width: var(--bar);
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+  background: rgb(var(--color-text-primary) / 0.7);
+}
+
+[data-layout="review"] .util-row--emphasis .util-track {
+  height: 0.82rem;
+}
+
+[data-layout="review"] .util-row--emphasis .util-protein {
+  background: rgb(var(--color-accent));
+}
+
+[data-layout="review"] .util-row--emphasis .util-source,
+[data-layout="review"] .util-row--emphasis .util-value {
+  color: rgb(var(--color-accent-dark));
+}
+
+@supports (animation-timeline: view()) {
+  [data-layout="review"] .util-protein {
+    animation: util-ink linear both;
+    animation-timeline: --util-ink;
+  }
+
+  [data-layout="review"] .util-row:nth-child(1) .util-protein {
+    animation-range: cover 26% cover 40%;
+  }
+
+  [data-layout="review"] .util-row:nth-child(2) .util-protein {
+    animation-range: cover 30% cover 45%;
+  }
+
+  [data-layout="review"] .util-row:nth-child(3) .util-protein {
+    animation-range: cover 34% cover 50%;
+  }
+
+  [data-layout="review"] .util-row:nth-child(4) .util-protein {
+    animation-range: cover 38% cover 55%;
+  }
+
+  [data-layout="review"] .util-row:nth-child(5) .util-protein {
+    animation-range: cover 42% cover 60%;
+  }
+}
+
+@keyframes util-ink {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review"] .util-protein {
+    animation: none;
+  }
+}
+
+[data-layout="review"] .acid-figure {
+  margin: 0;
+  view-timeline-name: --acid-ink;
+  view-timeline-axis: block;
+}
+
+[data-layout="review"] .acid-caption {
+  display: block;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .acid-dateline {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .acid-roster {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-layout="review"] .acid-row {
+  display: grid;
+  grid-template-columns: 2.15rem 1.15rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.55rem 0.7rem;
+  padding: 0.38rem 0;
+  border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
+}
+
+[data-layout="review"] .acid-glyph {
+  display: block;
+  width: 2.15rem;
+  height: 2.15rem;
+  color: rgb(var(--color-text-primary));
+  overflow: visible;
+}
+
+[data-layout="review"] .acid-glyph path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+
+[data-layout="review"] .acid-code {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: rgb(var(--color-accent-dark));
+}
+
+[data-layout="review"] .acid-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.55rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .acid-abbr {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgb(var(--color-text-muted));
+}
+
+@supports (animation-timeline: view()) {
+  [data-layout="review"] .acid-glyph path {
+    animation: acid-draw linear both;
+    animation-timeline: --acid-ink;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(1) path {
+    animation-range: cover 24% cover 34%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(2) path {
+    animation-range: cover 27% cover 38%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(3) path {
+    animation-range: cover 30% cover 42%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(4) path {
+    animation-range: cover 33% cover 46%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(5) path {
+    animation-range: cover 36% cover 50%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(6) path {
+    animation-range: cover 39% cover 54%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(7) path {
+    animation-range: cover 42% cover 57%;
+  }
+
+  [data-layout="review"] .acid-row:nth-child(8) path {
+    animation-range: cover 45% cover 60%;
+  }
+}
+
+@keyframes acid-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review"] .acid-glyph path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  [data-layout="review"] #official-claims .editorial-media {
+    order: -1;
+  }
+}
+
+[data-layout="review"] .guarantee-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 2.5rem;
+}
+
+[data-layout="review"] .guarantee-panel > header {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 1024px) {
+  [data-layout="review"] .guarantee-panel {
+    grid-template-columns: minmax(0, 1fr) 8.75rem;
+  }
+
+  [data-layout="review"] .guarantee-panel .pill-figure {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+  }
+
+  [data-layout="review"] .guarantee-panel .guarantee-prose {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  [data-layout="review"] .guarantee-panel .guarantee-prose > .mt-6 {
+    margin-top: 0;
+  }
+}
+
+[data-layout="review"] .pill-figure {
+  margin: 1.1rem 0 0;
+  max-width: 8.75rem;
+  view-timeline-name: --pill-ink;
+  view-timeline-axis: block;
+}
+
+[data-layout="review"] .pill-caption {
+  display: block;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .pill-dateline {
+  display: block;
+  margin-top: 0.35rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  line-height: 1.35;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .pill-bottle {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .pill-outline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+[data-layout="review"] .pill-level {
+  fill: rgb(var(--color-accent) / 0.42);
+  transform: translateY(86%);
+}
+
+[data-layout="review"] .pill-last {
+  fill: rgb(var(--color-accent));
+}
+
+@supports (animation-timeline: view()) {
+  [data-layout="review"] .pill-level {
+    animation: pill-drain linear both;
+    animation-timeline: --pill-ink;
+    animation-range: cover 18% cover 62%;
+  }
+}
+
+@keyframes pill-drain {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(86%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review"] .pill-level {
+    animation: none;
+    transform: translateY(86%);
+  }
+}
+
+[data-layout="review"] .pain-ghost {
+  position: absolute;
+  left: -0.12em;
+  top: -0.55em;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-layout="review"] .pain-ghost-num {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: clamp(4.25rem, 10vw, 6rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  line-height: 0.82;
+  color: rgb(var(--color-accent));
+}
+
+[data-layout="review"] .pain-ghost-date {
+  margin-top: 0.4rem;
+  max-width: 14rem;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  letter-spacing: 0.03em;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review"] .pain-ink {
+  position: relative;
+  display: inline-block;
+  font-weight: 700;
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review"] .pain-ink-count {
+  display: inline-block;
+  min-width: 3.15ch;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+[data-layout="review"] .pain-ink-rule {
+  position: absolute;
+  right: 0;
+  bottom: 0.06em;
+  left: 0;
+  display: block;
+  height: 0.13em;
+  pointer-events: none;
+  border-radius: 1px 2px 1px 2px;
+  background: rgb(var(--color-accent));
+  transform-origin: 0 50%;
+}
+
+[data-layout="review"] .trust-ledger {
+  max-width: 42rem;
+}
+
+[data-layout="review"] .trust-entry {
+  position: relative;
+  padding: 1.15rem 0 1.35rem;
+}
+
+[data-layout="review"] .trust-entry + .trust-entry {
+  border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
+}
+
+[data-layout="review"] .trust-rule {
+  position: absolute;
+  top: -1px;
+  right: 0;
+  left: 0;
+  height: 1.5px;
+  background: rgb(var(--color-accent));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+[data-layout="review"] .trust-entry-body {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review"] .trust-rule {
+    transform: none;
+  }
+
+  [data-layout="review"] .trust-entry-body {
+    clip-path: none;
+  }
 }
 
 [data-layout="review"] .review-product-shot {
@@ -206,17 +764,166 @@
   border-color: rgb(var(--color-text-primary) / 0.12);
 }
 
+[data-layout="review"] .review-notes {
+  max-width: 38rem;
+  margin-inline: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-layout="review"] .review-note {
+  padding-block: clamp(1.6rem, 4vw, 2.85rem);
+  border-top: 1px solid rgb(var(--color-text-primary) / 0.12);
+}
+
+[data-layout="review"] .review-note-quote {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgb(var(--color-text-primary));
+}
+
+@supports (animation-timeline: view()) {
+  [data-layout="review"] .review-note-quote {
+    color: rgb(var(--color-text-muted));
+    animation: note-focus linear none;
+    animation-timeline: view(block 26% 26%);
+    animation-range: cover 0% cover 100%;
+  }
+}
+
+@keyframes note-focus {
+  0%,
+  100% {
+    color: rgb(var(--color-text-muted));
+  }
+
+  18%,
+  82% {
+    color: rgb(var(--color-text-primary));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review"] .review-note-quote {
+    animation: none;
+    color: rgb(var(--color-text-primary));
+  }
+}
+
 [data-layout="review"] .review-hero-glow {
   background: radial-gradient(
-    70% 60% at 80% 40%,
-    rgb(var(--color-accent) / 0.22),
+    62% 52% at calc(var(--lx, 0.8) * 100%) calc(var(--ly, 0.4) * 100%),
+    rgb(var(--color-accent) / 0.42),
     transparent 70%
   );
 }
 
 [data-layout="review"] .review-chip {
   border: 1px solid rgb(var(--color-text-primary) / 0.14);
-  background: rgb(var(--color-surface) / 0.72);
+  background: rgb(var(--color-surface) / 0.88);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.7),
+    inset 0 1px 2px rgb(var(--color-text-primary) / 0.07);
+}
+
+@property --lx {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.32;
+}
+
+@property --ly {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.28;
+}
+
+.review-still-stage {
+  --lx: 0.32;
+  --ly: 0.28;
+  perspective: 900px;
+}
+
+[data-layout="review"] .review-still-rig {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+[data-layout="review"] .review-still-ground {
+  position: absolute;
+  z-index: 0;
+  left: 14%;
+  right: 14%;
+  bottom: 1%;
+  height: 16%;
+  border-radius: 50%;
+  background: rgb(var(--color-text-primary) / 0.3);
+  filter: blur(22px);
+  transform: translate3d(
+    calc((0.5 - var(--lx)) * 52px),
+    calc((var(--ly) - 0.2) * 12px),
+    0
+  );
+}
+
+[data-layout="review"] .review-still-life {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  border-radius: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 2.75rem);
+  transform-origin: 50% 88%;
+  transform: rotateX(calc((0.5 - var(--ly)) * 10deg))
+    rotateY(calc((var(--lx) - 0.5) * 18deg));
+  box-shadow:
+    calc((0.5 - var(--lx)) * 48px) calc(20px + (0.5 - var(--ly)) * 22px) 48px -6px
+      rgb(var(--color-text-primary) / 0.32),
+    0 24px 44px rgb(var(--color-text-primary) / 0.1),
+    inset calc((var(--lx) - 0.5) * 16px) calc((var(--ly) - 0.5) * 12px) 20px
+      rgb(255 255 255 / 0.7);
+}
+
+[data-layout="review"] .review-still-fill,
+[data-layout="review"] .review-still-key,
+[data-layout="review"] .review-still-specular {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+[data-layout="review"] .review-still-fill {
+  background: radial-gradient(
+    70% 76% at calc((1 - var(--lx)) * 100%) calc((0.58 + var(--ly) * 0.1) * 100%),
+    rgb(var(--color-accent) / 0.22),
+    transparent 66%
+  );
+  mix-blend-mode: multiply;
+}
+
+[data-layout="review"] .review-still-key {
+  background: radial-gradient(
+    52% 46% at calc(var(--lx) * 100%) calc(var(--ly) * 100%),
+    rgb(255 255 255 / 0.62),
+    transparent 58%
+  );
+  mix-blend-mode: screen;
+}
+
+[data-layout="review"] .review-still-specular {
+  background: radial-gradient(
+    18% 28% at calc(var(--lx) * 92%) calc(var(--ly) * 100% + 4%),
+    rgb(255 255 255 / 0.85),
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review"] .review-still-life,
+  [data-layout="review"] .review-still-ground {
+    transform: none;
+  }
 }
 
 @layer utilities {

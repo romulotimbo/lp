@@ -6,15 +6,19 @@ export function PageFooter() {
   const { footer, locale, outboundCta } = product;
   const review = isReviewLayout();
   const ctaHref = review && outboundCta ? outboundCta.href : "#pricing";
-  const ctaClassName = cn(
-    "transition-colors duration-300 hover:text-blood-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-darker",
-    review
-      ? "font-body text-sm font-semibold text-cyber-muted"
-      : "font-display text-xs uppercase tracking-wider text-cyber-muted",
-  );
+  const ctaClassName = review
+    ? "btn-primary"
+    : "font-display text-xs uppercase tracking-wider text-cyber-muted transition-colors duration-300 hover:text-blood-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-darker";
 
   return (
-    <footer className="border-t border-blood-red/12 bg-cyber-darker px-6 py-8 lg:px-8">
+    <footer
+      className={cn(
+        "border-t px-6 py-8 lg:px-8",
+        review
+          ? "review-rule border-cyber-titanium/12 bg-cyber-black"
+          : "border-blood-red/12 bg-cyber-darker",
+      )}
+    >
       <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:gap-8">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>

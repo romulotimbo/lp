@@ -8,6 +8,7 @@ interface OutboundLinkProps {
 }
 
 export function OutboundLink({ href, label, className }: OutboundLinkProps) {
+  // href cru — não parsear URL. Hash de afiliado (#aff=) tem que sobreviver.
   return (
     <a
       href={href}

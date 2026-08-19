@@ -198,18 +198,36 @@ function DossierCard({
 function ReviewQuoteList({
   items,
   avatarAltPrefix,
+  readingFocus = false,
 }: {
   items: TestimonialContent[];
   avatarAltPrefix: string;
+  readingFocus?: boolean;
 }) {
   return (
-    <ul className="mt-10 grid gap-6 sm:grid-cols-2">
+    <ul
+      className={
+        readingFocus
+          ? "review-notes mt-10"
+          : "mt-10 grid gap-6 sm:grid-cols-2"
+      }
+    >
       {items.map((testimonial) => (
         <li
           key={testimonial.id}
-          className="review-rule border-t border-cyber-graphite/70 pt-5"
+          className={
+            readingFocus
+              ? "review-note"
+              : "review-rule border-t border-cyber-graphite/70 pt-5"
+          }
         >
-          <blockquote className="text-sm leading-relaxed text-cyber-muted sm:text-base">
+          <blockquote
+            className={
+              readingFocus
+                ? "review-note-quote"
+                : "text-sm leading-relaxed text-cyber-muted sm:text-base"
+            }
+          >
             {testimonial.text}
           </blockquote>
           <footer className="mt-4 flex items-center gap-3">
@@ -278,7 +296,11 @@ export function Testimonials() {
           />
 
           {review && rest.length > 0 ? (
-            <ReviewQuoteList items={rest} avatarAltPrefix={config.avatarAltPrefix} />
+            <ReviewQuoteList
+              items={rest}
+              avatarAltPrefix={config.avatarAltPrefix}
+              readingFocus={product.slug === "advanced-amino-formula"}
+            />
           ) : null}
         </div>
       </div>

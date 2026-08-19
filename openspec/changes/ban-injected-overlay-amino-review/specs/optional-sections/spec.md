@@ -1,18 +1,4 @@
-# optional-sections Specification
-
-## Purpose
-TBD - created by archiving change extract-reusable-base. Update Purpose after archive.
-## Requirements
-### Requirement: Mandatory core sections
-Every sales Instância SHALL include a Hero section, a Pricing section, and a footer, regardless of optional modules. Every review Instância SHALL include a Hero section, an outbound CTA, and a footer, and SHALL NOT be required to include Pricing.
-
-#### Scenario: Minimal sales Produto config
-- **WHEN** a sales Produto config specifies no optional sections at all
-- **THEN** the built Instância SHALL still render Hero, Pricing, and the footer
-
-#### Scenario: Minimal review Produto config
-- **WHEN** a review Produto config specifies no optional sections at all
-- **THEN** the built Instância SHALL still render Hero, the outbound CTA, and the footer, and SHALL NOT render Pricing
+## MODIFIED Requirements
 
 ### Requirement: Optional section modules
 A Produto config SHALL be able to independently enable, disable, and order each of the following section modules: Manifesto/Spokesperson, mechanism sections (e.g. Power Grid, Tech Mechanism), Testimonials, FAQ, lead capture, a restricted/bonus-content section, the editorial modules pain, research, official-claims, and verdict, and the review conversion modules trust, highlights, ritual, compare, guarantee, and mid-cta.
@@ -32,3 +18,7 @@ A Produto config SHALL be able to independently enable, disable, and order each 
 #### Scenario: Review Produto orders conversion modules
 - **WHEN** a review Produto lists `trust` before `research` and `mid-cta` before `verdict`
 - **THEN** the Instância SHALL render those modules in that list order
+
+#### Scenario: Complete review places guarantee in the article order
+- **WHEN** a review Produto lists `guarantee` after `official-claims` and before `testimonials`
+- **THEN** the Instância SHALL render the guarantee module in that position, using the shared outbound CTA

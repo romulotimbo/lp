@@ -38,7 +38,7 @@ export function Faq() {
                 <OutboundLink
                   href={ctaHref}
                   label={config.ctaLabel}
-                  className="group mt-8 inline-flex items-center gap-2 font-body text-sm font-semibold text-blood-red transition-colors duration-300 hover:text-cyber-titanium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-black"
+                  className="btn-primary mt-8"
                 />
               ) : (
                 <a

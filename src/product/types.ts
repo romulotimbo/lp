@@ -556,19 +556,10 @@ export function validateProductConfig(config: ProductConfig): void {
     }
   }
 
-  const gate = config.popupGate;
-  if (gate) {
-    if (!gate.path?.trim() || gate.path.includes("/")) {
-      missing.push("popupGate.path (um único segmento de path, sem barras)");
-    }
-    if (!gate.checkoutHref?.trim()) missing.push("popupGate.checkoutHref");
-    if (!gate.sourceParam?.trim()) missing.push("popupGate.sourceParam");
-    if (!gate.defaultSource?.trim()) missing.push("popupGate.defaultSource");
-    (gate.backdrop?.cards ?? []).forEach((card, index) => {
-      if (!card.name?.trim()) missing.push(`popupGate.backdrop.cards[${index}].name`);
-      if (!card.image?.trim()) missing.push(`popupGate.backdrop.cards[${index}].image`);
-      if (!card.price?.trim()) missing.push(`popupGate.backdrop.cards[${index}].price`);
-    });
+  if (config.popupGate) {
+    missing.push(
+      "popupGate é proibido (injected overlay / Google Ads malicious injected overlay)",
+    );
   }
 
   for (const id of config.sections ?? []) {

@@ -69,7 +69,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-proxy"
-      - "traefik.http.routers.advanced-amino-formula.rule=Host(`advanced-amino.nothforge.com`)"
+      - "traefik.http.routers.advanced-amino-formula.rule=Host(`advanced-amino.thebuylens.com`) || Host(`advanced-amino.nothforge.com`)"
       - "traefik.http.routers.advanced-amino-formula.entrypoints=websecure"
       - "traefik.http.routers.advanced-amino-formula.tls.certresolver=letsencrypt"
       - "traefik.http.services.advanced-amino-formula.loadbalancer.server.port=80"

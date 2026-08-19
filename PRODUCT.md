@@ -30,9 +30,9 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 - Scripts `dev:<slug>` / `build:<slug>` por Produto. Deploy no padrão Traefik/container, host próprio.
 - Mercado declarado da Base: EUA e Canadá primeiro; Locale (idioma, moeda, disclaimers) é sempre config do Produto.
 - Sales: CTA de checkout; evento `InitiateCheckout` / conversion só nesses cliques.
-- Review: CTA único `outboundCta` (hop / página oficial); clique **na raiz** não é checkout. Página-popup da mesma Instância (path próprio) dispara o evento de checkout das Tags, quando existirem.
+- Review: CTA único `outboundCta` (hop / página oficial, inclusive Digistore24); clique **não** é checkout.
 - Captura de lead é módulo opcional (backend compartilhado, `source` por Produto).
-- Vocabulário canônico: Base, Produto, Instância, Spokesperson, Locale, Disclaimer de afiliado, Disclaimer de categoria, Seção, Plano, Banco de mídia, Tag de rastreamento, Página-popup. Ver `CONTEXT.md`.
+- Vocabulário canônico: Base, Produto, Instância, Spokesperson, Locale, Disclaimer de afiliado, Disclaimer de categoria, Seção, Plano, Banco de mídia, Tag de rastreamento. Ver `CONTEXT.md`. Página-popup é anti-padrão, não capacidade.
 
 ## Capabilities and Constraints
 
@@ -42,21 +42,21 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 - Seções ligáveis/ordenáveis; Pricing obrigatório só em sales; review exige `outboundCta` e rejeita `plans` / `"pricing"`.
 - Contrato fixo de 6 papéis de token; valores livres por Produto (incluindo fundo claro).
 - Spokesperson, Power Grid, Tech Mechanism, Testimonials, FAQ, lead capture e Área Restrita são opcionais.
-- Review acrescenta `pain`, `research`, `official-claims`, `verdict`, e módulos de conversão opt-in: `trust`, `highlights`, `ritual`, `compare`, `guarantee`, `mid-cta`.
-- Página-popup opcional (`popupGate`) na mesma Instância: HTML estático num path próprio; review pode declarar cards decorativos no popup sem `plans`.
+- Review acrescenta `pain`, `research`, `official-claims`, `verdict`, e módulos de conversão opt-in: `trust`, `highlights`, `ritual`, `compare`, `guarantee`, `mid-cta`. CTA outbound no fim de cada dobra editorial.
 - Tags de rastreamento por Produto, nunca compartilhadas.
 
 **Produtos no ar / em curso**
 
 - `energi-power-vee` — sales, pt-BR, Spokesperson Vee.
-- `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado). Página-popup em `/alphasurge`.
-- `advanced-amino-formula` — review, en-US, hop ClickBank, sem Spokesperson. Página-popup em `/advanced-amino` (`?src=PopUp`); preços só na réplica desfocada, não na review. `trackingTags: []`.
+- `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
+- `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. `trackingTags: []`.
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 
 **Não fazer**
 
-- Inventar preço, kit ou checkout na **página de review** (a réplica da Página-popup pode mostrar preços públicos oficiais, decorativos e não clicáveis).
-- Disparar evento de checkout no hop da review na raiz (o clique do popup é outro contrato).
+- Inventar preço, kit ou checkout na **página de review**.
+- Disparar evento de checkout no `outboundCta` da review (hop, Digistore24 ou letter oficial).
+- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir.
 - Reusar foto de fornecedor como avatar de reviewer inventado.
 - Fabricar claim de resultado, número de reviews ou garantia que a fonte oficial não afirma.
 - Compartilhar Pixel/Ads entre Produtos.
@@ -67,7 +67,7 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 - IDs de Pixel/Ads do Amino e do Audifort (`trackingTags: []`).
 - Terceiro layout além de sales/review.
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
-- Deploy DNS/Traefik de `advanced-amino.nothforge.com` e `audifort.nothforge.com` (infra, não verdade de produto).
+- Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
 
 ## Brand Commitments
 
@@ -83,9 +83,9 @@ A Base não tem voz de marca única. Voz, nome e assets são do Produto.
 
 - Configs: `products/*/product.config.ts`.
 - Assets Vee/Alpha em `public/imagens/` e vídeo em `public/video/`.
-- Assets Amino em `products/advanced-amino-formula/recursos/` (publicados o necessário em `public/imagens/advanced-amino-formula/`). Página-popup em `products/advanced-amino-formula/popup/popup.config.ts` (path `/advanced-amino`; mesma lista `trackingTags` da review).
+- Assets Amino em `products/advanced-amino-formula/recursos/` (publicados o necessário em `public/imagens/advanced-amino-formula/`).
 - Assets Audifort em `products/audifort/recursos/` (publicados o necessário em `public/imagens/audifort/`: `bottle-label.webp`, `person3_up.jpeg`). Kits `PRODx*` e as demais `person*` ficam só em recursos. A dor usa o upscale Magnific de `person3` (1344 px).
-- Domínio e hop do Amino estão no config; a página oficial é a fonte dos claims (8 EAAs, chart de utilization, garantia 90 dias, reviews datados ago/2026).
+- Domínio (`advanced-amino.thebuylens.com`) e URL Digistore24 do Amino estão no config; a letter oficial é a fonte dos claims (perda de massa muscular, 8 EAAs, chart de utilization, garantia 90 dias, reviews datados ago/2026).
 - Domínio e hop do Audifort estão no config (`audifort.nothforge.com`; hop ClickBank `pid=pre1`). Claims da oficial (agosto de 2026): gotas 60 ml, lista em destaque, garantia 90 dias. Widget de reviews na oficial datado 14 ago 2026 (4.98/5, 2300+) — atribuído, não republicado como prova nossa. Paleta escura de sala de escuta (`#16131A`).
 - Copy de review e depoimentos do Amino e do Audifort são originais, não verbatim do fornecedor.
 

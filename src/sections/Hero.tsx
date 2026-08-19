@@ -3,6 +3,7 @@ import type { MouseEvent } from "react";
 import { OutboundLink } from "@/components/outbound-link";
 import { ProductGlow } from "@/components/product-glow";
 import { HeroVideoBackground } from "@/components/hero-video-background";
+import { ReviewStillLife, useStudioLight } from "@/components/review-still-life";
 import { TiltCard } from "@/components/tilt-card";
 import { handleCheckoutClick } from "@/lib/checkout-tracking";
 import { cn } from "@/lib/utils";
@@ -38,6 +39,23 @@ const fadeUp = {
   },
 };
 
+const stampStagger = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.09, delayChildren: 0.28 },
+  },
+};
+
+const stamp = {
+  hidden: { opacity: 0, scale: 1.14, y: -8 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 520, damping: 24 },
+  },
+};
+
 export function Hero() {
   const reducedMotion = useReducedMotion();
   const { hero, spokesperson, outboundCta } = product;
@@ -45,12 +63,19 @@ export function Hero() {
   const review = isReviewLayout();
   const primaryCta = review && outboundCta ? outboundCta : hero.primaryCta;
   const darkReview = review && isDarkBackground(product.tokens);
+  const stillLife = review && !darkReview;
+  const studioRef = useStudioLight(stillLife);
   const chips = review ? hero.chips ?? [] : [];
 
   return (
     <section
       id="hero"
-      className={cn("relative min-h-screen", review ? "overflow-x-clip" : "overflow-hidden")}
+      ref={studioRef}
+      className={cn(
+        "relative min-h-screen",
+        review ? "overflow-x-clip" : "overflow-hidden",
+        stillLife && "review-still-stage",
+      )}
     >
       <div className="absolute inset-0 bg-cyber-darker" />
       {review ? <div className="review-hero-glow pointer-events-none absolute inset-0" aria-hidden /> : null}
@@ -132,19 +157,23 @@ export function Hero() {
 
             <motion.div variants={fadeUp} className="flex flex-col gap-4">
               {chips.length > 0 ? (
-                <ul className="flex flex-wrap justify-center gap-2 lg:justify-start">
+                <motion.ul
+                  variants={reducedMotion ? undefined : stampStagger}
+                  className="flex flex-wrap justify-center gap-2 lg:justify-start"
+                >
                   {chips.map((chip) => (
-                    <li
+                    <motion.li
                       key={chip.label}
-                      className="review-chip px-3 py-1.5 text-left text-xs leading-snug text-cyber-titanium sm:text-sm"
+                      variants={reducedMotion ? undefined : stamp}
+                      className="review-chip origin-center px-3 py-1.5 text-left text-xs leading-snug text-cyber-titanium sm:text-sm"
                     >
                       <span className="font-semibold">{chip.label}</span>
                       {chip.detail ? (
                         <span className="text-cyber-muted"> · {chip.detail}</span>
                       ) : null}
-                    </li>
+                    </motion.li>
                   ))}
-                </ul>
+                </motion.ul>
               ) : null}
               <div className="flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
                 {review ? (
@@ -193,12 +222,18 @@ export function Hero() {
             delay: 0.35,
             ease: [0.16, 1, 0.3, 1] as const,
           }}
-          className="relative z-10 w-full max-w-[min(100%,22rem)] shrink-0 sm:max-w-md lg:max-w-lg lg:flex-1"
+          className={cn(
+            "relative z-10 w-full max-w-[min(100%,22rem)] shrink-0 sm:max-w-md lg:max-w-lg lg:flex-1",
+            stillLife && "[transform-style:preserve-3d]",
+          )}
         >
-          {review ? (
-            <figure
-              className={cn("review-product-shot", !darkReview && "review-product-shot--plate")}
-            >
+          {stillLife ? (
+            <ReviewStillLife
+              src={hero.productImage.src}
+              alt={hero.productImage.alt}
+            />
+          ) : review ? (
+            <figure className="review-product-shot">
               <img
                 src={hero.productImage.src}
                 alt={hero.productImage.alt}
