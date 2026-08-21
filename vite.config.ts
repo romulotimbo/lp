@@ -2,11 +2,12 @@ import { fileURLToPath, pathToFileURL, URL } from "node:url";
 import path from "node:path";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
-import type { DesignTokens, ProductConfig, SpaProductConfig, TrackingTag } from "./src/product/types";
+import type { DesignTokens, ProductConfig, SpaProductConfig } from "./src/product/types";
 import { isCloneProduct, validateProductConfig } from "./src/product/types";
 import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product/tokens";
 import { renderPopupGateHtml } from "./src/popup-gate/render-html";
 import { cloneProductPlugin } from "./vite.product-clone";
+import { trackingTagHeadHtml, trackingTagNoscriptHtml } from "./vite.tracking-tags";
 
 const DEFAULT_PRODUCT = "energi-power-vee";
 const PRODUCT = process.env.PRODUCT || DEFAULT_PRODUCT;
@@ -16,54 +17,6 @@ const productConfigPath = path.resolve(
   PRODUCT,
   "product.config.ts",
 );
-
-// `<noscript><img>` não é um filho válido de `<noscript>` dentro de `<head>`
-// (o parser HTML rejeita) — por isso o `<script>` de cada tag vai no `<head>`
-// e o fallback `<noscript>` correspondente vai no `<body>`, via placeholders
-// separados.
-function trackingTagHeadHtml(tag: TrackingTag): string {
-  if (tag.type === "meta_pixel") {
-    return `
-    <!-- Meta Pixel (${tag.id}) -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '${tag.id}');
-      fbq('track', 'PageView');
-    </script>`;
-  }
-
-  if (tag.type === "google_ads") {
-    return `
-    <!-- Google Ads (${tag.id}) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=${tag.id}"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${tag.id}');
-    </script>`;
-  }
-
-  return "";
-}
-
-function trackingTagNoscriptHtml(tag: TrackingTag): string {
-  if (tag.type === "meta_pixel") {
-    return `
-    <noscript>
-      <img height="1" width="1" style="display:none" alt=""
-        src="https://www.facebook.com/tr?id=${tag.id}&ev=PageView&noscript=1" />
-    </noscript>`;
-  }
-  return "";
-}
 
 function tokensStyleTag(tokens: DesignTokens): string {
   const declarations = (Object.keys(TOKEN_CSS_VAR) as (keyof DesignTokens)[])

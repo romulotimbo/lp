@@ -52,13 +52,13 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
-- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). `trackingTags: []`.
+- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18351905109` + conversionLabel.
 
 **Não fazer**
 
 - Inventar preço, kit ou checkout na **página de review**.
 - Disparar evento de checkout no `outboundCta` da review (hop, Digistore24 ou letter oficial).
-- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet vive **na raiz da Instância clone**, não reativa `popupGate`; não usar `cooljet.thebuylens.shop` como destino Google Ads até revisão de política.
+- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet vive **na raiz da Instância clone**, não reativa `popupGate`.
 - Reusar foto de fornecedor como avatar de reviewer inventado.
 - Fabricar claim de resultado, número de reviews ou garantia que a fonte oficial não afirma.
 - Compartilhar Pixel/Ads entre Produtos.
@@ -66,7 +66,7 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Audifort e do CoolJet (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view).
+- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
 - DNS/TLS de `cooljet.thebuylens.shop` (infra; o compose já declara o Host).
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.

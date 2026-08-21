@@ -7,8 +7,7 @@ import type { CloneProductConfig } from "@/product/types";
  * Fonte visual: products/cooljet/Get CoolJet Now.html (dump, não servir).
  * Página publicada: products/cooljet/page/index.html.
  *
- * Deploy: cooljet.thebuylens.shop. trackingTags vazio até existir Pixel/Ads.
- * Esta URL não é destino de campanha Google Ads nesta change (overlay).
+ * Deploy: cooljet.thebuylens.shop. Google Ads AW-18351905109 + conversionLabel.
  */
 const HOP =
   "https://www.clickrtrckr.com/JF816B6/8WW1FPC/?__efq=1XzZiNTLF3AgCfINH2PTisIlTzd8oVcx";
@@ -46,7 +45,13 @@ const cooljet: CloneProductConfig = {
     themeColor: "#0173AD",
   },
 
-  trackingTags: [],
+  trackingTags: [
+    {
+      type: "google_ads",
+      id: "AW-18351905109",
+      conversionLabel: "AW-18351905109/zci5CMmw_d4cENWy765E",
+    },
+  ],
 
   clone: {
     htmlFile: "page/index.html",

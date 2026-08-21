@@ -2,6 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import type { Plugin } from "vite";
 import type { CloneProductConfig } from "./src/product/types";
+import { trackingTagHeadHtml, trackingTagNoscriptHtml } from "./vite.tracking-tags";
 
 const MIME: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
@@ -23,13 +24,58 @@ function isInside(root: string, candidate: string): boolean {
   return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
 }
 
+function cloneHandleClickScript(config: CloneProductConfig): string {
+  const googleAds = (config.trackingTags ?? []).find((tag) => tag.type === "google_ads");
+  const label = googleAds?.conversionLabel ?? null;
+  return `function handleClick(event) {
+  if (event) event.preventDefault();
+  var href = ${JSON.stringify(config.clone.affiliateHref)};
+  var label = ${JSON.stringify(label)};
+  var go = function () { window.location.href = href; };
+  if (label && typeof window.gtag === "function") {
+    var redirected = false;
+    var once = function () {
+      if (redirected) return;
+      redirected = true;
+      go();
+    };
+    window.gtag("event", "conversion", {
+      send_to: label,
+      currency: ${JSON.stringify(config.locale.currency)},
+      event_callback: once
+    });
+    window.setTimeout(once, 800);
+    return false;
+  }
+  go();
+  return false;
+}`;
+}
+
+function injectCloneTracking(html: string, config: CloneProductConfig): string {
+  const tags = config.trackingTags ?? [];
+  const head = tags.map(trackingTagHeadHtml).join("\n");
+  const noscript = tags.map(trackingTagNoscriptHtml).join("\n");
+  let out = html;
+  if (head) {
+    out = out.replace("</head>", `${head}\n</head>`);
+  }
+  if (noscript) {
+    out = out.replace(/<body([^>]*)>/i, `<body$1>${noscript}`);
+  }
+  return out.replace(/function handleClick\(event\) \{[\s\S]*?\n\}/, cloneHandleClickScript(config));
+}
+
 function materializeCloneHtml(html: string, config: CloneProductConfig): string {
-  return html
-    .replaceAll("__AFFILIATE_HREF__", config.clone.affiliateHref)
-    .replaceAll(
-      "__AFFILIATE_DISCLOSURE__",
-      config.locale.affiliateDisclosure,
-    );
+  return injectCloneTracking(
+    html
+      .replaceAll("__AFFILIATE_HREF__", config.clone.affiliateHref)
+      .replaceAll(
+        "__AFFILIATE_DISCLOSURE__",
+        config.locale.affiliateDisclosure,
+      ),
+    config,
+  );
 }
 
 function walkFiles(dir: string, prefix: string, files: { fileName: string; source: Buffer }[]) {
