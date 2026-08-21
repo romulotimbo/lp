@@ -13,7 +13,7 @@
 import type {
   PopupGateBackdropCard,
   PopupGateConfig,
-  ProductConfig,
+  SpaProductConfig,
 } from "../product/types";
 
 /** Tags de rastreamento já renderizadas pelo vite.config (mesma fonte da página de review). */
@@ -39,7 +39,7 @@ function inlineJson(value: unknown): string {
 }
 
 /** Cards da réplica: `backdrop.cards` ganha de `plans` (review não tem planos). */
-function replicaCards(config: ProductConfig, gate: PopupGateConfig): PopupGateBackdropCard[] {
+function replicaCards(config: SpaProductConfig, gate: PopupGateConfig): PopupGateBackdropCard[] {
   if ((gate.backdrop.cards?.length ?? 0) > 0) return gate.backdrop.cards ?? [];
   return (config.plans ?? []).map((plan) => ({
     name: plan.name,
@@ -58,7 +58,7 @@ function replicaCards(config: ProductConfig, gate: PopupGateConfig): PopupGateBa
  * Sem os dois: nome do Produto e value 0.
  */
 function conversionTarget(
-  config: ProductConfig,
+  config: SpaProductConfig,
   gate: PopupGateConfig,
 ): { id: string; name: string; value: number } {
   const cards = replicaCards(config, gate);
@@ -104,7 +104,7 @@ function backdropCard(card: PopupGateBackdropCard, gate: PopupGateConfig): strin
  * existe só pra réplica encher a tela em viewports altos, senão sobra uma faixa
  * lisa embaixo que denuncia que o fundo não é uma página de verdade.
  */
-function backdropBand(config: ProductConfig): string {
+function backdropBand(config: SpaProductConfig): string {
   const pillars = (config.powerGrid?.pillars ?? []).slice(0, 3);
   if (pillars.length === 0) return "";
   return `
@@ -292,7 +292,7 @@ function styles(gate: PopupGateConfig): string {
 }
 
 /** Dispara as Tags de rastreamento e só então redireciona — mesmo contrato de `trackInitiateCheckout`. */
-function script(config: ProductConfig, gate: PopupGateConfig): string {
+function script(config: SpaProductConfig, gate: PopupGateConfig): string {
   const conversion = conversionTarget(config, gate);
   const metaPixel = (config.trackingTags ?? []).find((tag) => tag.type === "meta_pixel");
   const googleAds = (config.trackingTags ?? []).find((tag) => tag.type === "google_ads");
@@ -392,7 +392,7 @@ function script(config: ProductConfig, gate: PopupGateConfig): string {
       })();`;
 }
 
-export function renderPopupGateHtml(config: ProductConfig, tracking: TrackingMarkup): string {
+export function renderPopupGateHtml(config: SpaProductConfig, tracking: TrackingMarkup): string {
   const gate = config.popupGate;
   if (!gate) throw new Error("renderPopupGateHtml chamado sem popupGate configurado");
 

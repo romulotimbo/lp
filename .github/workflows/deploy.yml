@@ -23,6 +23,7 @@ jobs:
           {"suffix":"-api","dockerfile":"api/Dockerfile","context":"./api","build_args":"","target":""},
           {"suffix":"-alpha-surge","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=alpha-surge","target":""},
           {"suffix":"-advanced-amino-formula","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=advanced-amino-formula","target":""},
-          {"suffix":"-audifort","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=audifort","target":""}
+          {"suffix":"-audifort","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=audifort","target":""},
+          {"suffix":"-cooljet","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=cooljet","target":""}
         ]
     secrets: inherit

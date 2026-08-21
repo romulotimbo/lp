@@ -54,7 +54,11 @@ _Avoid_: Pixel (Pixel é um tipo específico de Tag de rastreamento — o do Met
 
 **Página-popup** (anti-padrão, proibido):
 Segunda página estática com overlay injetado sobre réplica desfocada de checkout, CTA e Close ambos indo à oferta. Google Ads classificou como malicious injected overlay. Spec e `validateProductConfig` rejeitam `popupGate`. Não emitir. Paths antigos (`/alphasurge`, `/advanced-amino`) 404 de propósito.
-_Avoid_: reconstruir o overlay, redirect desses paths, chamar de capacidade
+_Avoid_: reconstruir o overlay em path aninhado, redirect desses paths, chamar de capacidade
+
+**Clone**:
+Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. O CoolJet usa um cookie popup nessa raiz; isso não é `popupGate`.
+_Avoid_: Página-popup, popupGate, segunda página no mesmo Host
 
 ## Decisions
 
@@ -70,5 +74,5 @@ _Avoid_: reconstruir o overlay, redirect desses paths, chamar de capacidade
 - Cada Produto configura suas próprias Tags de rastreamento (Meta Pixel, Google Ads, possivelmente outras depois) — nunca uma tag compartilhada entre Produtos.
 - Seções são um menu opcional (Hero/Pricing/rodapé obrigatórios, resto módulo por Produto), não um esqueleto fixo de 8 blocos — permite categorias de produto além de suplemento físico.
 - Produto continua 1:1 com Instância. A mesma oferta de afiliado vendida em dois mercados/idiomas vira dois Produtos (config duplicada e adaptada), não um Produto com múltiplas Instâncias — não existe hierarquia "oferta acima do Produto".
-- Uma Instância emite a página da raiz. Overlay injetado / Página-popup é proibido (Google Ads: malicious injected overlay). Sem segunda página de gate no mesmo Host.
+- Uma Instância emite a página da raiz. Overlay injetado / Página-popup (`popupGate`, path aninhado) é proibido (Google Ads: malicious injected overlay). Layout `clone` publica HTML estático na raiz; não é uma segunda página no mesmo Host.
 - Disclaimer de afiliado é obrigatório e bloqueante no build de toda Instância. Disclaimers de categoria (ex. saúde/suplemento) são opcionais, ativados por Produto quando aplicável.

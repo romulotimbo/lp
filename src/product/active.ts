@@ -6,17 +6,25 @@
 // Produto em runtime.
 import productConfig from "@product-config";
 import {
+  isCloneProduct,
+  ProductConfigError,
   resolveLayout,
   validateProductConfig,
   type PageLayout,
-  type ProductConfig,
+  type SpaProductConfig,
 } from "./types";
 
 validateProductConfig(productConfig);
 
-export const product: ProductConfig = productConfig;
+if (isCloneProduct(productConfig)) {
+  throw new ProductConfigError(
+    `Produto clone "${productConfig.slug}" não carrega a SPA — use o pipeline product-clone.`,
+  );
+}
 
-export function hasSection(id: ProductConfig["sections"][number]): boolean {
+export const product: SpaProductConfig = productConfig;
+
+export function hasSection(id: SpaProductConfig["sections"][number]): boolean {
   return product.sections.includes(id);
 }
 

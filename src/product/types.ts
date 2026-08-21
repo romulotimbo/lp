@@ -40,7 +40,15 @@ export type OptionalSectionId =
 /** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review` rejeita esse id. */
 export type SectionId = OptionalSectionId | "pricing";
 
-export type PageLayout = "sales" | "review";
+export type PageLayout = "sales" | "review" | "clone";
+
+/** Fonte HTML e hop de um Produto `layout: "clone"`. */
+export interface CloneConfig {
+  /** Caminho relativo à pasta do Produto, ex. `page/index.html`. */
+  htmlFile: string;
+  /** Hop de afiliado — Allow, Close e CTAs do clone apontam para cá. */
+  affiliateHref: string;
+}
 
 export interface OutboundCta {
   label: string;
@@ -447,16 +455,21 @@ export interface PopupGateConfig {
   };
 }
 
-export interface ProductConfig {
+interface ProductIdentity {
   slug: string;
   productName: string;
   domain: string;
   locale: LocaleConfig;
   tokens: DesignTokens;
   seo: SeoConfig;
+  trackingTags: TrackingTag[];
+}
+
+/** Config da SPA (`sales` / `review`) — Hero, seções e rodapé da Base. */
+export interface SpaProductConfig extends ProductIdentity {
   hero: HeroContent;
   /** Omitido = `"sales"`. */
-  layout?: PageLayout;
+  layout?: "sales" | "review";
   /** Obrigatório em layout `review`. Ignorado em `sales`. */
   outboundCta?: OutboundCta;
   /** Ordem das seções opcionais. `"pricing"` é obrigatório em `sales` e proibido em `review`. Hero e rodapé são sempre fixos. */
@@ -480,15 +493,26 @@ export interface ProductConfig {
   compare?: CompareContent;
   guarantee?: GuaranteeContent;
   midCta?: MidCtaContent;
-  trackingTags: TrackingTag[];
   footer: FooterContent;
   stickyCta: StickyCtaContent;
-  /** Página-popup opcional, publicada num path próprio da mesma Instância. */
+  /** Página-popup — proibida; o build falha se o campo estiver presente. */
   popupGate?: PopupGateConfig;
 }
 
+/** Config de Instância estática — HTML sanitizado na raiz, sem shell React. */
+export interface CloneProductConfig extends ProductIdentity {
+  layout: "clone";
+  clone: CloneConfig;
+}
+
+export type ProductConfig = SpaProductConfig | CloneProductConfig;
+
+export function isCloneProduct(config: ProductConfig): config is CloneProductConfig {
+  return config.layout === "clone";
+}
+
 /** Ligações entre uma seção opcional e o campo do config que precisa estar presente pra ela renderizar. */
-const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof ProductConfig> = {
+const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof SpaProductConfig> = {
   manifesto: "spokesperson",
   "power-grid": "powerGrid",
   "tech-mechanism": "techMechanism",
@@ -535,7 +559,22 @@ export function validateProductConfig(config: ProductConfig): void {
 
   const layout = resolveLayout(config);
 
-  if (layout === "review") {
+  if ("popupGate" in config && config.popupGate) {
+    missing.push(
+      "popupGate é proibido (injected overlay / Google Ads malicious injected overlay)",
+    );
+  }
+
+  if (isCloneProduct(config)) {
+    if (!config.clone?.htmlFile?.trim()) missing.push("clone.htmlFile");
+    if (!config.clone?.affiliateHref?.trim()) missing.push("clone.affiliateHref");
+    if ("plans" in config) {
+      const plans = (config as { plans?: Plan[] }).plans;
+      if (plans && plans.length > 0) {
+        missing.push('plans não é permitido quando layout é "clone"');
+      }
+    }
+  } else if (layout === "review") {
     if (!config.outboundCta?.label?.trim()) missing.push("outboundCta.label");
     if (!config.outboundCta?.href?.trim()) missing.push("outboundCta.href");
     if ((config.plans?.length ?? 0) > 0) {
@@ -556,17 +595,13 @@ export function validateProductConfig(config: ProductConfig): void {
     }
   }
 
-  if (config.popupGate) {
-    missing.push(
-      "popupGate é proibido (injected overlay / Google Ads malicious injected overlay)",
-    );
-  }
-
-  for (const id of config.sections ?? []) {
-    if (id === "pricing") continue;
-    const dependency = SECTION_DEPENDENCY[id as OptionalSectionId];
-    if (dependency && !config[dependency]) {
-      missing.push(`sections inclui "${id}" sem o bloco de conteúdo correspondente`);
+  if (!isCloneProduct(config)) {
+    for (const id of config.sections ?? []) {
+      if (id === "pricing") continue;
+      const dependency = SECTION_DEPENDENCY[id as OptionalSectionId];
+      if (dependency && !config[dependency]) {
+        missing.push(`sections inclui "${id}" sem o bloco de conteúdo correspondente`);
+      }
     }
   }
 

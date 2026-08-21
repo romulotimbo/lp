@@ -2,9 +2,11 @@ import { fileURLToPath, pathToFileURL, URL } from "node:url";
 import path from "node:path";
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
-import type { DesignTokens, ProductConfig, TrackingTag } from "./src/product/types";
+import type { DesignTokens, ProductConfig, SpaProductConfig, TrackingTag } from "./src/product/types";
+import { isCloneProduct, validateProductConfig } from "./src/product/types";
 import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product/tokens";
 import { renderPopupGateHtml } from "./src/popup-gate/render-html";
+import { cloneProductPlugin } from "./vite.product-clone";
 
 const DEFAULT_PRODUCT = "energi-power-vee";
 const PRODUCT = process.env.PRODUCT || DEFAULT_PRODUCT;
@@ -75,7 +77,7 @@ function tokensStyleTag(tokens: DesignTokens): string {
  * em build time — nenhum Pixel/tag fica hardcoded no HTML da Base (ver
  * openspec/changes/extract-reusable-base/design.md, "Tags injetadas no build").
  */
-function productHtmlPlugin(config: ProductConfig): Plugin {
+function productHtmlPlugin(config: SpaProductConfig): Plugin {
   return {
     name: "product-html",
     transformIndexHtml: {
@@ -140,7 +142,7 @@ function productHtmlPlugin(config: ProductConfig): Plugin {
  * middleware serve o mesmo HTML no mesmo path, pra que `/alphasurge` funcione
  * igual em `npm run dev:alpha-surge` e no build.
  */
-function popupGatePlugin(config: ProductConfig): Plugin {
+function popupGatePlugin(config: SpaProductConfig): Plugin {
   const gate = config.popupGate;
   const render = () =>
     renderPopupGateHtml(config, {
@@ -179,6 +181,24 @@ export default defineConfig(async () => {
   const activeProduct = (
     (await import(pathToFileURL(productConfigPath).href)) as { default: ProductConfig }
   ).default;
+
+  validateProductConfig(activeProduct);
+
+  if (isCloneProduct(activeProduct)) {
+    const productDir = path.resolve(__dirname, "products", PRODUCT);
+    return {
+      plugins: [cloneProductPlugin(productDir, activeProduct)],
+      publicDir: false,
+      build: {
+        rollupOptions: {
+          input: path.resolve(__dirname, "src/product/clone-noop.ts"),
+          output: {
+            entryFileNames: "assets/clone-noop.js",
+          },
+        },
+      },
+    };
+  }
 
   return {
     plugins: [react(), productHtmlPlugin(activeProduct), popupGatePlugin(activeProduct)],

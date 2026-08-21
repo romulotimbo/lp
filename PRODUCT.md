@@ -22,7 +22,7 @@ Sucesso: publicar um Produto novo rápido, sem regressão nas Instâncias já no
 
 Não é um site de um suplemento. É o sistema que faz cada oferta virar a própria página, com Locale, paleta, seções, tracking e CTA próprios — sem template único nem tag compartilhada entre Produtos.
 
-Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `review` (artigo + hop outbound). Um vizinho pode copiar uma LP; não pode afirmar que a Base trata os dois layouts como iguais e ainda assim isola build, domínio e pixel.
+Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout) e `review` (artigo + hop outbound). Um terceiro modo, `clone`, emite HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React. Um vizinho pode copiar uma LP; não pode afirmar que a Base trata os layouts como iguais e ainda assim isola build, domínio e pixel.
 
 ## Operating Context
 
@@ -31,6 +31,7 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 - Mercado declarado da Base: EUA e Canadá primeiro; Locale (idioma, moeda, disclaimers) é sempre config do Produto.
 - Sales: CTA de checkout; evento `InitiateCheckout` / conversion só nesses cliques.
 - Review: CTA único `outboundCta` (hop / página oficial, inclusive Digistore24); clique **não** é checkout.
+- Clone: HTML estático na raiz (`clone.htmlFile`); cookie popup visível no load; Allow e Close (e CTAs restantes) navegam a `clone.affiliateHref`. Sem SPA sales/review.
 - Captura de lead é módulo opcional (backend compartilhado, `source` por Produto).
 - Vocabulário canônico: Base, Produto, Instância, Spokesperson, Locale, Disclaimer de afiliado, Disclaimer de categoria, Seção, Plano, Banco de mídia, Tag de rastreamento. Ver `CONTEXT.md`. Página-popup é anti-padrão, não capacidade.
 
@@ -38,7 +39,7 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 
 **Capaz hoje**
 
-- Layout `sales` (default) e `layout: "review"`.
+- Layout `sales` (default), `layout: "review"` e `layout: "clone"`.
 - Seções ligáveis/ordenáveis; Pricing obrigatório só em sales; review exige `outboundCta` e rejeita `plans` / `"pricing"`.
 - Contrato fixo de 6 papéis de token; valores livres por Produto (incluindo fundo claro).
 - Spokesperson, Power Grid, Tech Mechanism, Testimonials, FAQ, lead capture e Área Restrita são opcionais.
@@ -51,12 +52,13 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
+- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). `trackingTags: []`.
 
 **Não fazer**
 
 - Inventar preço, kit ou checkout na **página de review**.
 - Disparar evento de checkout no `outboundCta` da review (hop, Digistore24 ou letter oficial).
-- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir.
+- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet vive **na raiz da Instância clone**, não reativa `popupGate`; não usar `cooljet.thebuylens.shop` como destino Google Ads até revisão de política.
 - Reusar foto de fornecedor como avatar de reviewer inventado.
 - Fabricar claim de resultado, número de reviews ou garantia que a fonte oficial não afirma.
 - Compartilhar Pixel/Ads entre Produtos.
@@ -64,8 +66,8 @@ Dois modos de página são contrato, não tema: `sales` (kits + checkout) e `rev
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view).
-- Terceiro layout além de sales/review.
+- IDs de Pixel/Ads do Audifort e do CoolJet (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view).
+- DNS/TLS de `cooljet.thebuylens.shop` (infra; o compose já declara o Host).
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
 
@@ -88,6 +90,7 @@ A Base não tem voz de marca única. Voz, nome e assets são do Produto.
 - Domínio (`advanced-amino.thebuylens.com`) e URL Digistore24 do Amino estão no config; a letter oficial é a fonte dos claims (perda de massa muscular, 8 EAAs, chart de utilization, garantia 90 dias, reviews datados ago/2026).
 - Domínio e hop do Audifort estão no config (`audifort.nothforge.com`; hop ClickBank `pid=pre1`). Claims da oficial (agosto de 2026): gotas 60 ml, lista em destaque, garantia 90 dias. Widget de reviews na oficial datado 14 ago 2026 (4.98/5, 2300+) — atribuído, não republicado como prova nossa. Paleta escura de sala de escuta (`#16131A`).
 - Copy de review e depoimentos do Amino e do Audifort são originais, não verbatim do fornecedor.
+- CoolJet: dump em `products/cooljet/Get CoolJet Now.html`; página publicada em `products/cooljet/page/`. Hop clickrtrckr no `product.config.ts`.
 
 **Não fabricar:** cases de cliente, benchmarks de conversão, endosso ClickBank, laudo clínico, ou rostos atribuídos a personas inventadas.
 
