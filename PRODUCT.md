@@ -53,12 +53,13 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18351905109` + conversionLabel.
+- `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). `trackingTags: []`.
 
 **Não fazer**
 
 - Inventar preço, kit ou checkout na **página de review**.
 - Disparar evento de checkout no `outboundCta` da review (hop, Digistore24 ou letter oficial).
-- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet vive **na raiz da Instância clone**, não reativa `popupGate`.
+- Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet e do Pawlax vive **na raiz da Instância clone**, não reativa `popupGate`.
 - Reusar foto de fornecedor como avatar de reviewer inventado.
 - Fabricar claim de resultado, número de reviews ou garantia que a fonte oficial não afirma.
 - Compartilhar Pixel/Ads entre Produtos.
@@ -66,8 +67,8 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
-- DNS/TLS de `cooljet.thebuylens.shop` (infra; o compose já declara o Host).
+- IDs de Pixel/Ads do Audifort e do Pawlax (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
+- DNS/TLS de `cooljet.thebuylens.shop` e `pawlax.thebuylens.shop` (infra; o compose já declara os Hosts).
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
 
@@ -91,6 +92,7 @@ A Base não tem voz de marca única. Voz, nome e assets são do Produto.
 - Domínio e hop do Audifort estão no config (`audifort.nothforge.com`; hop ClickBank `pid=pre1`). Claims da oficial (agosto de 2026): gotas 60 ml, lista em destaque, garantia 90 dias. Widget de reviews na oficial datado 14 ago 2026 (4.98/5, 2300+) — atribuído, não republicado como prova nossa. Paleta escura de sala de escuta (`#16131A`).
 - Copy de review e depoimentos do Amino e do Audifort são originais, não verbatim do fornecedor.
 - CoolJet: dump em `products/cooljet/Get CoolJet Now.html`; página publicada em `products/cooljet/page/`. Hop clickrtrckr no `product.config.ts`.
+- Pawlax: dump em `products/pawlax/Get Pawlax Now!.html`; página publicada em `products/pawlax/page/`. Hop clickrtrckr no `product.config.ts`. O cookie popup na raiz (Allow e Close → hop) tem o mesmo risco de Google Ads documentado no CoolJet — não usar esta URL como destino Ads até revisão.
 
 **Não fabricar:** cases de cliente, benchmarks de conversão, endosso ClickBank, laudo clínico, ou rostos atribuídos a personas inventadas.
 

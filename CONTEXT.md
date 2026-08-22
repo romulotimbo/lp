@@ -57,7 +57,7 @@ Segunda página estática com overlay injetado sobre réplica desfocada de check
 _Avoid_: reconstruir o overlay em path aninhado, redirect desses paths, chamar de capacidade
 
 **Clone**:
-Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. O CoolJet usa um cookie popup nessa raiz; isso não é `popupGate`.
+Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. CoolJet e Pawlax usam um cookie popup nessa raiz; isso não é `popupGate`.
 _Avoid_: Página-popup, popupGate, segunda página no mesmo Host
 
 ## Decisions
