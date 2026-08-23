@@ -53,7 +53,7 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18351905109` + conversionLabel.
-- `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). `trackingTags: []`.
+- `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` (gtag config; sem conversionLabel).
 
 **Não fazer**
 
@@ -67,7 +67,7 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Audifort e do Pawlax (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
+- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino e do Pawlax (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
 - DNS/TLS de `cooljet.thebuylens.shop` e `pawlax.thebuylens.shop` (infra; o compose já declara os Hosts).
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
