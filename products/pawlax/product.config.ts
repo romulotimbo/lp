@@ -7,7 +7,7 @@ import type { CloneProductConfig } from "@/product/types";
  * Fonte visual: products/pawlax/Get Pawlax Now!.html (dump, não servir).
  * Página publicada: products/pawlax/page/index.html.
  *
- * Deploy: pawlax.thebuylens.shop. Google Ads AW-18405296029.
+ * Deploy: pawlax.thebuylens.shop. Google Ads AW-18405296029 + conversion Compra.
  */
 const HOP =
   "https://www.clickrtrckr.com/JF816B6/92HCXFN/?__efq=9AHZHiJrzZfjA5wUzYqt9AQ0GOzhEzubez7qKC7Uef8";
@@ -49,6 +49,9 @@ const pawlax: CloneProductConfig = {
     {
       type: "google_ads",
       id: "AW-18405296029",
+      conversionLabel: "AW-18405296029/L-OtCI7xw-YcEJ2PqshE",
+      conversionValue: 1.0,
+      conversionCurrency: "BRL",
     },
   ],
 

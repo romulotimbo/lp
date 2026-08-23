@@ -27,6 +27,11 @@ function isInside(root: string, candidate: string): boolean {
 function cloneHandleClickScript(config: CloneProductConfig): string {
   const googleAds = (config.trackingTags ?? []).find((tag) => tag.type === "google_ads");
   const label = googleAds?.conversionLabel ?? null;
+  const conversionCurrency =
+    googleAds?.conversionCurrency ?? config.locale.currency;
+  const conversionValue = googleAds?.conversionValue;
+  const valueLine =
+    conversionValue === undefined ? "" : `      value: ${JSON.stringify(conversionValue)},\n`;
   return `function handleClick(event) {
   if (event) event.preventDefault();
   var href = ${JSON.stringify(config.clone.affiliateHref)};
@@ -41,7 +46,7 @@ function cloneHandleClickScript(config: CloneProductConfig): string {
     };
     window.gtag("event", "conversion", {
       send_to: label,
-      currency: ${JSON.stringify(config.locale.currency)},
+${valueLine}      currency: ${JSON.stringify(conversionCurrency)},
       event_callback: once
     });
     window.setTimeout(once, 800);

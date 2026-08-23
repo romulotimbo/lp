@@ -261,6 +261,10 @@ export interface TrackingTag {
    * genérico `begin_checkout`.
    */
   conversionLabel?: string;
+  /** Valor enviado no evento `conversion` (clone). Default: omitido. */
+  conversionValue?: number;
+  /** Moeda do evento `conversion` quando a action no Ads difere do Locale. */
+  conversionCurrency?: string;
 }
 
 /** Idioma, moeda e disclaimers legais — sempre config do Produto, nunca fixo na Base. */
