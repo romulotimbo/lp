@@ -32,7 +32,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - Sales: CTA de checkout; evento `InitiateCheckout` / conversion só nesses cliques.
 - Review: CTA único `outboundCta` (hop / página oficial, inclusive Digistore24); clique **não** é checkout. Sem preço.
 - Review-offer: mesmo hop outbound (não é checkout); pode mostrar pacotes oficiais datados (`offer.asOf`). Sem `plans` / Pricing da Base.
-- Clone: HTML estático na raiz (`clone.htmlFile`); cookie popup visível no load; Allow e Close (e CTAs restantes) navegam a `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (ex. `/it`). Sem SPA sales/review/review-offer.
+- Clone: HTML estático na raiz (`clone.htmlFile`); overlay visível no load (cookie ou verificação de país). Ações do overlay navegam a `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (ex. `/it`). Sem SPA sales/review/review-offer.
 - Captura de lead é módulo opcional (backend compartilhado, `source` por Produto).
 - Vocabulário canônico: Base, Produto, Instância, Spokesperson, Locale, Disclaimer de afiliado, Disclaimer de categoria, Seção, Plano, Banco de mídia, Tag de rastreamento. Ver `CONTEXT.md`. Página-popup é anti-padrão, não capacidade.
 
@@ -54,7 +54,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
-- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Cópia IT em `/it` (hop `8XLSNQG`). Google Ads `AW-18351905109` + conversionLabel.
+- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Overlay de países EU (bandeiras) na raiz e em `/it`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
 - `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). `trackingTags: []`. Host `burntide.thebuylens.com`.
 

@@ -34,7 +34,7 @@ function cloneHandleClickScript(config: CloneProductConfig, affiliateHref: strin
     conversionValue === undefined ? "" : `      value: ${JSON.stringify(conversionValue)},\n`;
   return `function handleClick(event) {
   if (event) event.preventDefault();
-  var href = ${JSON.stringify(affiliateHref)};
+  var href = window.__cloneHop || ${JSON.stringify(affiliateHref)};
   var label = ${JSON.stringify(label)};
   var go = function () { window.location.href = href; };
   if (label && typeof window.gtag === "function") {

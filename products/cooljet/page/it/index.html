@@ -908,6 +908,52 @@
     font-size: 0.8rem;
     color: #6b7280;
 }
+.cookie-popup-overlay-modern.country-verify-wide {
+    max-width: 520px;
+}
+.country-verify-detected {
+    margin-top: 16px;
+    padding: 12px 14px;
+    background: #f3f7fa;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+.country-verify-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+}
+.country-verify-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 6px 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    text-decoration: none;
+    color: #1a1a1a;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: center;
+}
+.country-verify-btn img {
+    width: 32px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.country-verify-btn.is-detected {
+    border-color: #0173AD;
+    box-shadow: 0 0 0 2px rgba(1, 115, 173, 0.22);
+}
 </style>
 <script>
 function handleClick(event) {
@@ -917,24 +963,63 @@ function handleClick(event) {
 }
 </script>
 <div id="cookie-popup-modern" style="display: flex;" class="cookie-popup-visible-modern">
-  <div class="cookie-popup-overlay-modern">
+  <div class="cookie-popup-overlay-modern country-verify-wide">
     <div class="cookie-popup-container-modern">
       <div class="cookie-popup-content-modern">
         <div class="cookie-popup-text-modern">
-          <h2 class="cookie-popup-title-modern">Informativa sui cookie</h2>
+          <h2 class="cookie-popup-title-modern">Conferma il tuo paese</h2>
           <p class="cookie-popup-message-modern">
-            Questo sito utilizza i cookie per personalizzare contenuti e annunci, fornire funzionalità dei social media e analizzare il nostro traffico. Cliccando su "Consenti", accetti l'uso dei cookie. Per maggiori informazioni, consulta la nostra Informativa sui cookie.
+            Scegli il tuo paese per continuare all'offerta CoolJet.
           </p>
+          <p class="country-verify-detected" id="country-verify-status">Rilevamento della posizione…</p>
+          <div class="country-verify-grid" role="list">
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="IT" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/it.png" srcset="https://flagcdn.com/w80/it.png 2x" width="32" height="24" alt="">Italia</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="DE" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/de.png" srcset="https://flagcdn.com/w80/de.png 2x" width="32" height="24" alt="">Germania</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="FR" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/fr.png" srcset="https://flagcdn.com/w80/fr.png 2x" width="32" height="24" alt="">Francia</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="ES" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/es.png" srcset="https://flagcdn.com/w80/es.png 2x" width="32" height="24" alt="">Spagna</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="GB" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/gb.png" srcset="https://flagcdn.com/w80/gb.png 2x" width="32" height="24" alt="">Regno Unito</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="PT" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/pt.png" srcset="https://flagcdn.com/w80/pt.png 2x" width="32" height="24" alt="">Portogallo</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="NL" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/nl.png" srcset="https://flagcdn.com/w80/nl.png 2x" width="32" height="24" alt="">Paesi Bassi</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="BE" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/be.png" srcset="https://flagcdn.com/w80/be.png 2x" width="32" height="24" alt="">Belgio</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="PL" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/pl.png" srcset="https://flagcdn.com/w80/pl.png 2x" width="32" height="24" alt="">Polonia</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="AT" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/at.png" srcset="https://flagcdn.com/w80/at.png 2x" width="32" height="24" alt="">Austria</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="CH" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/ch.png" srcset="https://flagcdn.com/w80/ch.png 2x" width="32" height="24" alt="">Svizzera</a>
+            <a href="__AFFILIATE_HREF__" class="country-verify-btn ratoeira-trackable" data-country="SE" role="listitem" onclick="return handleClick(event)"><img src="https://flagcdn.com/w40/se.png" srcset="https://flagcdn.com/w80/se.png 2x" width="32" height="24" alt="">Svezia</a>
+          </div>
         </div>
         <div class="cookie-popup-buttons-modern">
-          <a href="__AFFILIATE_HREF__" class="cookie-btn-accept-modern ratoeira-trackable" onclick="return handleClick(event)">Consenti</a>
           <a href="__AFFILIATE_HREF__" class="cookie-btn-close-modern ratoeira-trackable" onclick="return handleClick(event)">Chiudi</a>
         </div>
         <div class="cookie-popup-footer-modern">
-          <p class="cookie-popup-note-modern">La tua privacy è importante per noi</p>
+          <p class="cookie-popup-note-modern">Tocca la tua bandiera per continuare</p>
         </div>
       </div>
     </div>
   </div>
 </div>
+<script>
+(function () {
+  var NAMES = { IT: "Italia", DE: "Germania", FR: "Francia", ES: "Spagna", GB: "Regno Unito", PT: "Portogallo", NL: "Paesi Bassi", BE: "Belgio", PL: "Polonia", AT: "Austria", CH: "Svizzera", SE: "Svezia" };
+  var status = document.getElementById("country-verify-status");
+  function highlight(code, label) {
+    var btn = document.querySelector('.country-verify-btn[data-country="' + code + '"]');
+    if (btn) btn.classList.add("is-detected");
+    status.textContent = "Posizione rilevata: " + (NAMES[code] || label || code);
+  }
+  fetch("https://ipapi.co/json/")
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+      if (d && d.country_code) highlight(d.country_code, d.country_name);
+      else throw new Error("empty");
+    })
+    .catch(function () {
+      return fetch("https://get.geojs.io/v1/ip/geo.json")
+        .then(function (r) { return r.json(); })
+        .then(function (d) { highlight(d.country || d.country_code || "", d.country); });
+    })
+    .catch(function () {
+      status.textContent = "Seleziona il tuo paese qui sotto";
+    });
+})();
+</script>
 </body></html>
