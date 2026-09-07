@@ -22,7 +22,7 @@ Sucesso: publicar um Produto novo rápido, sem regressão nas Instâncias já no
 
 Não é um site de um suplemento. É o sistema que faz cada oferta virar a própria página, com Locale, paleta, seções, tracking e CTA próprios — sem template único nem tag compartilhada entre Produtos.
 
-Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout) e `review` (artigo + hop outbound). Um terceiro modo, `clone`, emite HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React. Um vizinho pode copiar uma LP; não pode afirmar que a Base trata os layouts como iguais e ainda assim isola build, domínio e pixel.
+Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout), `review` (artigo + hop outbound, sem preço) e `review-offer` (advertorial + hop outbound + tabela de oferta datada). Um quarto modo, `clone`, emite HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React. Um vizinho pode copiar uma LP; não pode afirmar que a Base trata os layouts como iguais e ainda assim isola build, domínio e pixel.
 
 ## Operating Context
 
@@ -30,8 +30,9 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 - Scripts `dev:<slug>` / `build:<slug>` por Produto. Deploy no padrão Traefik/container, host próprio.
 - Mercado declarado da Base: EUA e Canadá primeiro; Locale (idioma, moeda, disclaimers) é sempre config do Produto.
 - Sales: CTA de checkout; evento `InitiateCheckout` / conversion só nesses cliques.
-- Review: CTA único `outboundCta` (hop / página oficial, inclusive Digistore24); clique **não** é checkout.
-- Clone: HTML estático na raiz (`clone.htmlFile`); cookie popup visível no load; Allow e Close (e CTAs restantes) navegam a `clone.affiliateHref`. Sem SPA sales/review.
+- Review: CTA único `outboundCta` (hop / página oficial, inclusive Digistore24); clique **não** é checkout. Sem preço.
+- Review-offer: mesmo hop outbound (não é checkout); pode mostrar pacotes oficiais datados (`offer.asOf`). Sem `plans` / Pricing da Base.
+- Clone: HTML estático na raiz (`clone.htmlFile`); cookie popup visível no load; Allow e Close (e CTAs restantes) navegam a `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (ex. `/it`). Sem SPA sales/review/review-offer.
 - Captura de lead é módulo opcional (backend compartilhado, `source` por Produto).
 - Vocabulário canônico: Base, Produto, Instância, Spokesperson, Locale, Disclaimer de afiliado, Disclaimer de categoria, Seção, Plano, Banco de mídia, Tag de rastreamento. Ver `CONTEXT.md`. Página-popup é anti-padrão, não capacidade.
 
@@ -39,11 +40,12 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 
 **Capaz hoje**
 
-- Layout `sales` (default), `layout: "review"` e `layout: "clone"`.
-- Seções ligáveis/ordenáveis; Pricing obrigatório só em sales; review exige `outboundCta` e rejeita `plans` / `"pricing"`.
+- Layout `sales` (default), `layout: "review"`, `layout: "review-offer"` e `layout: "clone"`.
+- Seções ligáveis/ordenáveis; Pricing obrigatório só em sales; review e review-offer exigem `outboundCta` e rejeitam `plans` / `"pricing"`. Review-offer adiciona `offer` (pacotes datados). Review que liste `offer` falha o build.
 - Contrato fixo de 6 papéis de token; valores livres por Produto (incluindo fundo claro).
 - Spokesperson, Power Grid, Tech Mechanism, Testimonials, FAQ, lead capture e Área Restrita são opcionais.
 - Review acrescenta `pain`, `research`, `official-claims`, `verdict`, e módulos de conversão opt-in: `trust`, `highlights`, `ritual`, `compare`, `guarantee`, `mid-cta`. CTA outbound no fim de cada dobra editorial.
+- Review-offer acrescenta `what-is`, `formula`, `authenticity`, `side-effects`, `pros-cons`, `offer`. CTA outbound nas dobras; tabela de oferta é display-only.
 - Tags de rastreamento por Produto, nunca compartilhadas.
 
 **Produtos no ar / em curso**
@@ -52,13 +54,14 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
-- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18351905109` + conversionLabel.
+- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Cópia IT em `/it` (hop `8XLSNQG`). Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
+- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). `trackingTags: []`. Host `burntide.thebuylens.com`.
 
 **Não fazer**
 
-- Inventar preço, kit ou checkout na **página de review**.
-- Disparar evento de checkout no `outboundCta` da review (hop, Digistore24 ou letter oficial).
+- Inventar preço, kit ou checkout na **página de review** (editorial). Review-offer só cita pacotes oficiais com `asOf` — sem `plans` e sem inventar kit que a loja não vende.
+- Disparar evento de checkout no `outboundCta` da review ou review-offer (hop, Digistore24, letter oficial ou funil DTC).
 - Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet e do Pawlax vive **na raiz da Instância clone**, não reativa `popupGate`.
 - Reusar foto de fornecedor como avatar de reviewer inventado.
 - Fabricar claim de resultado, número de reviews ou garantia que a fonte oficial não afirma.
@@ -67,8 +70,8 @@ Dois modos de página da SPA são contrato, não tema: `sales` (kits + checkout)
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
-- DNS/TLS de `cooljet.thebuylens.shop` e `pawlax.thebuylens.shop` (infra; o compose já declara os Hosts).
+- IDs de Pixel/Ads do Audifort e do Burntide (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
+- DNS/TLS de `cooljet.thebuylens.shop`, `pawlax.thebuylens.shop` e `burntide.thebuylens.com` (infra; o compose já declara os Hosts).
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
 
@@ -91,15 +94,16 @@ A Base não tem voz de marca única. Voz, nome e assets são do Produto.
 - Domínio (`advanced-amino.thebuylens.com`) e URL Digistore24 do Amino estão no config; a letter oficial é a fonte dos claims (perda de massa muscular, 8 EAAs, chart de utilization, garantia 90 dias, reviews datados ago/2026).
 - Domínio e hop do Audifort estão no config (`audifort.nothforge.com`; hop ClickBank `pid=pre1`). Claims da oficial (agosto de 2026): gotas 60 ml, lista em destaque, garantia 90 dias. Widget de reviews na oficial datado 14 ago 2026 (4.98/5, 2300+) — atribuído, não republicado como prova nossa. Paleta escura de sala de escuta (`#16131A`).
 - Copy de review e depoimentos do Amino e do Audifort são originais, não verbatim do fornecedor.
-- CoolJet: dump em `products/cooljet/Get CoolJet Now.html`; página publicada em `products/cooljet/page/`. Hop clickrtrckr no `product.config.ts`.
+- CoolJet: dump em `products/cooljet/Get CoolJet Now.html`; página publicada em `products/cooljet/page/`. Cópia italiana em `page/it/` (`/it`, hop `8XLSNQG`). Hop EN no `product.config.ts`.
 - Pawlax: dump em `products/pawlax/Get Pawlax Now!.html`; página publicada em `products/pawlax/page/`. Hop clickrtrckr no `product.config.ts`. O cookie popup na raiz (Allow e Close → hop) tem o mesmo risco de Google Ads documentado no CoolJet — não usar esta URL como destino Ads até revisão.
+- Burntide: assets do funil v3 em `products/burntide/recursos/` (publicados em `public/imagens/burntide/`). Hop v3 `aff_id=31010`. Fatos e preços datados 6 set 2026 (gummy 525 mg ACV+BHB; kits 2/3/6). Sem depoimentos Henry/Samuel/Harper.
 
 **Não fabricar:** cases de cliente, benchmarks de conversão, endosso ClickBank, laudo clínico, ou rostos atribuídos a personas inventadas.
 
 ## Product Principles
 
 1. **Uma Instância, um Produto.** Locale, pixel, domínio e copy não se misturam.
-2. **Sales e review são iguais em prioridade.** Componente compartilhado se adapta; não vira híbrido nem sacrifica um cromo.
+2. **Sales, review e review-offer são iguais em prioridade.** Componente compartilhado se adapta; não vira híbrido nem sacrifica um cromo.
 3. **Ship sem regressão.** Produto novo não pode quebrar checkout, tracking ou tom das Instâncias já publicadas.
 4. **Afiliado visível, claim atribuído.** Disclosure no rodapé; número e promessa só com fonte e data.
 5. **A Base não assume paleta, idioma nem narrador.** Isso vive no config.

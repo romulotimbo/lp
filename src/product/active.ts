@@ -35,3 +35,11 @@ export function activeLayout(): PageLayout {
 export function isReviewLayout(): boolean {
   return activeLayout() === "review";
 }
+
+export function isReviewOfferLayout(): boolean {
+  return activeLayout() === "review-offer";
+}
+
+export function usesOutboundCta(): boolean {
+  return isReviewLayout() || isReviewOfferLayout();
+}

@@ -4,6 +4,7 @@ import { Manifesto } from "@/sections/Manifesto";
 import { PowerGrid } from "@/sections/PowerGrid";
 import { TechMechanism } from "@/sections/TechMechanism";
 import { Testimonials } from "@/sections/Testimonials";
+import { UgcProof } from "@/sections/UgcProof";
 import { Faq } from "@/sections/Faq";
 import { RestrictedArea } from "@/sections/RestrictedArea";
 import { Pain } from "@/sections/Pain";
@@ -16,6 +17,12 @@ import { Ritual } from "@/sections/Ritual";
 import { Compare } from "@/sections/Compare";
 import { Guarantee } from "@/sections/Guarantee";
 import { MidCta } from "@/sections/MidCta";
+import { WhatIs } from "@/sections/WhatIs";
+import { Formula } from "@/sections/Formula";
+import { Authenticity } from "@/sections/Authenticity";
+import { SideEffects } from "@/sections/SideEffects";
+import { ProsCons } from "@/sections/ProsCons";
+import { Offer } from "@/sections/Offer";
 
 /**
  * Registro de seções opcionais que renderizam um bloco próprio na página.
@@ -31,6 +38,7 @@ export const OPTIONAL_SECTION_COMPONENTS: Partial<
   "power-grid": PowerGrid,
   "tech-mechanism": TechMechanism,
   testimonials: Testimonials,
+  "ugc-proof": UgcProof,
   faq: Faq,
   restricted: RestrictedArea,
   pain: Pain,
@@ -43,4 +51,10 @@ export const OPTIONAL_SECTION_COMPONENTS: Partial<
   compare: Compare,
   guarantee: Guarantee,
   "mid-cta": MidCta,
+  "what-is": WhatIs,
+  formula: Formula,
+  authenticity: Authenticity,
+  "side-effects": SideEffects,
+  "pros-cons": ProsCons,
+  offer: Offer,
 };

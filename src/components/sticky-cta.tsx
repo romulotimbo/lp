@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { OutboundLink } from "@/components/outbound-link";
 import { cn } from "@/lib/utils";
-import { isReviewLayout, product } from "@/product/active";
+import { product, usesOutboundCta } from "@/product/active";
 
 export function StickyCta() {
   const [visible, setVisible] = useState(false);
-  const review = isReviewLayout();
-  const href = review && product.outboundCta ? product.outboundCta.href : "#pricing";
+  const outbound = usesOutboundCta();
+  const href = outbound && product.outboundCta ? product.outboundCta.href : "#pricing";
 
   useEffect(() => {
     const hero = document.getElementById("hero");
@@ -25,13 +25,13 @@ export function StickyCta() {
     <div
       className={cn(
         "fixed bottom-0 left-0 right-0 z-50 border-t p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] shadow-lift-sm transition-transform duration-500 ease-out-expo md:hidden",
-        review
+        outbound
           ? "border-cyber-titanium/12 bg-cyber-graphite shadow-[0_-10px_28px_rgb(var(--color-text-primary)/0.08)]"
           : "border-blood-red/25 bg-cyber-black",
         visible ? "translate-y-0" : "translate-y-full",
       )}
     >
-      {review && product.outboundCta ? (
+      {outbound && product.outboundCta ? (
         <OutboundLink href={href} label={product.stickyCta.label} className="btn-primary w-full" />
       ) : (
         <a href={href} className="btn-primary w-full">

@@ -1,5 +1,6 @@
-import { useEffect, useRef, type RefObject } from "react";
+import { useEffect, useId, useRef, type RefObject } from "react";
 import { useReducedMotion } from "motion/react";
+import { cn } from "@/lib/utils";
 
 /**
  * Luz de estúdio no Hero editorial claro (Amino): uma key que orbita
@@ -99,11 +100,165 @@ export function useStudioLight(enabled: boolean): RefObject<HTMLElement | null> 
   return ref;
 }
 
-export function ReviewStillLife({ src, alt }: { src: string; alt: string }) {
+function useHeatHaze(
+  enabled: boolean,
+  rootRef: RefObject<HTMLElement | null>,
+  mapRef: RefObject<SVGFEDisplacementMapElement | null>,
+  noiseRef: RefObject<SVGFETurbulenceElement | null>,
+) {
+  useEffect(() => {
+    const root = rootRef.current;
+    const map = mapRef.current;
+    const noise = noiseRef.current;
+    if (!enabled || !root || !map || !noise) return;
+
+    let inView = true;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        if (!entry.isIntersecting) map.setAttribute("scale", "0");
+      },
+      { threshold: 0.08 },
+    );
+    io.observe(root);
+
+    let raf = 0;
+    let last = 0;
+    const tick = (now: number) => {
+      if (inView && now - last >= 32) {
+        last = now;
+        const host = root.closest("[data-layout]") ?? document.documentElement;
+        const heat = Number.parseFloat(getComputedStyle(host).getPropertyValue("--letter-heat")) || 0;
+        const stage = root.closest(".review-still-stage");
+        const light = getComputedStyle(stage ?? host);
+        const lx = Number.parseFloat(light.getPropertyValue("--lx")) || 0.32;
+        const ly = Number.parseFloat(light.getPropertyValue("--ly")) || 0.28;
+        const offset = Math.hypot(lx - 0.5, ly - 0.34);
+        map.setAttribute("scale", Math.min(16, 8 + heat * 6 + offset * 3).toFixed(2));
+        const t = now / 1000;
+        noise.setAttribute(
+          "baseFrequency",
+          `${(0.011 + Math.sin(t * 0.35) * 0.003).toFixed(4)} ${(0.024 + Math.cos(t * 0.28) * 0.004).toFixed(4)}`,
+        );
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+    };
+  }, [enabled, mapRef, noiseRef, rootRef]);
+}
+
+export function ReviewStillLife({
+  src,
+  alt,
+  heatHaze = false,
+  caustic = false,
+}: {
+  src: string;
+  alt: string;
+  heatHaze?: boolean;
+  caustic?: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+  const haze = heatHaze && !reducedMotion;
+  const glass = caustic;
+  const filterId = `letter-heat-haze${useId().replace(/:/g, "")}`;
+  const causticId = `lab-caustic${useId().replace(/:/g, "")}`;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<SVGFEDisplacementMapElement>(null);
+  const noiseRef = useRef<SVGFETurbulenceElement>(null);
+  useHeatHaze(Boolean(haze), rootRef, mapRef, noiseRef);
+
   return (
-    <div className="review-still-rig">
+    <div
+      className={cn("review-still-rig", glass && "review-still-rig--glass")}
+      ref={rootRef}
+    >
+      {haze ? (
+        <svg className="letter-heat-filter" aria-hidden>
+          <filter
+            id={filterId}
+            x="-12%"
+            y="-12%"
+            width="124%"
+            height="124%"
+            colorInterpolationFilters="sRGB"
+          >
+            <feTurbulence
+              ref={noiseRef}
+              type="fractalNoise"
+              baseFrequency="0.012 0.026"
+              numOctaves="2"
+              seed="4"
+              stitchTiles="stitch"
+              result="noise"
+            />
+            <feDisplacementMap
+              ref={mapRef}
+              in="SourceGraphic"
+              in2="noise"
+              scale="4"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </svg>
+      ) : null}
+      {glass ? (
+        <>
+          <svg className="review-glass-filter" aria-hidden>
+            <filter
+              id={causticId}
+              x="-20%"
+              y="-20%"
+              width="140%"
+              height="140%"
+              colorInterpolationFilters="sRGB"
+            >
+              <feTurbulence
+                type="fractalNoise"
+                baseFrequency="0.016 0.028"
+                numOctaves="3"
+                seed="7"
+                stitchTiles="stitch"
+                result="noise"
+              />
+              <feColorMatrix
+                in="noise"
+                type="matrix"
+                values="0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 1.8 -0.55"
+                result="ridges"
+              />
+              <feGaussianBlur in="ridges" stdDeviation="0.7" result="soft" />
+            </filter>
+          </svg>
+          <div className="review-glass-slab" aria-hidden>
+            <span className="review-glass-caustic" />
+            <span
+              className="review-glass-caustic-ridges"
+              style={{ filter: `url(#${causticId})` }}
+            />
+            <span className="review-glass-edge" />
+            <span className="review-glass-sheen" />
+          </div>
+        </>
+      ) : null}
       <div className="review-still-ground" aria-hidden />
-      <figure className="review-product-shot review-product-shot--plate review-still-life">
+      <figure
+        className={cn(
+          "review-product-shot review-product-shot--plate review-still-life",
+          haze && "review-still-life--haze",
+          glass && "review-still-life--glass",
+        )}
+        style={haze ? { ["--haze-filter" as string]: `url(#${filterId})` } : undefined}
+      >
         <img
           src={src}
           alt={alt}

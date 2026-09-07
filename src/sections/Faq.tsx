@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/accordion";
 import { OutboundLink } from "@/components/outbound-link";
 import { cn } from "@/lib/utils";
-import { isReviewLayout, product } from "@/product/active";
+import { product, usesOutboundCta } from "@/product/active";
 
 /** Seção opcional — só montada quando `faq` está configurado (ver product/registry.tsx). */
 export function Faq() {
@@ -18,8 +18,8 @@ export function Faq() {
     return <AminoFaq config={config} />;
   }
 
-  const review = isReviewLayout();
-  const ctaHref = review && product.outboundCta ? product.outboundCta.href : "#pricing";
+  const outbound = usesOutboundCta();
+  const ctaHref = outbound && product.outboundCta ? product.outboundCta.href : "#pricing";
 
   return (
     <>
@@ -31,7 +31,7 @@ export function Faq() {
               <p className="section-eyebrow mb-5">{config.eyebrow}</p>
               <h2 className="section-title text-balance">{config.title}</h2>
               <p className="mt-5 text-sm leading-relaxed text-cyber-muted">{config.lead}</p>
-              {!review ? (
+              {!outbound ? (
                 <p
                   className="hud-tag mt-6 font-mono text-[10px] uppercase tracking-[0.16em] text-cyber-muted/45"
                   aria-hidden
@@ -39,7 +39,7 @@ export function Faq() {
                   faq_index · {config.items.length} entries
                 </p>
               ) : null}
-              {review && product.outboundCta ? (
+              {outbound && product.outboundCta ? (
                 <OutboundLink
                   href={ctaHref}
                   label={config.ctaLabel}
@@ -71,7 +71,7 @@ export function Faq() {
                 <AccordionItem key={faq.id} value={faq.id}>
                   <AccordionTrigger>
                     <span className="flex min-w-0 flex-1 items-baseline gap-4 sm:gap-5">
-                      {!review ? (
+                      {!outbound ? (
                         <span
                           className="shrink-0 font-display text-sm tabular-nums text-blood-red/55 transition-colors duration-300 group-data-[state=open]:text-blood-red"
                           aria-hidden
@@ -82,7 +82,7 @@ export function Faq() {
                       <span
                         className={cn(
                           "font-semibold leading-snug tracking-tight text-cyber-titanium transition-colors duration-300 group-data-[state=open]:text-inherit sm:text-lg",
-                          review
+                          outbound
                             ? "font-body text-base"
                             : "font-display text-base uppercase",
                         )}
@@ -91,8 +91,8 @@ export function Faq() {
                       </span>
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent className={review ? "pl-0 sm:pl-0" : undefined}>
-                    {!review ? (
+                  <AccordionContent className={outbound ? "pl-0 sm:pl-0" : undefined}>
+                    {!outbound ? (
                       <span className="hud-tag mb-2 block font-mono text-[10px] uppercase tracking-[0.14em] text-blood-red/55">
                         ans::{faq.id}
                       </span>

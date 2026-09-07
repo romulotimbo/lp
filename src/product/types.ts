@@ -23,6 +23,7 @@ export type OptionalSectionId =
   | "power-grid"
   | "tech-mechanism"
   | "testimonials"
+  | "ugc-proof"
   | "faq"
   | "lead-capture"
   | "restricted"
@@ -35,12 +36,18 @@ export type OptionalSectionId =
   | "ritual"
   | "compare"
   | "guarantee"
-  | "mid-cta";
+  | "mid-cta"
+  | "what-is"
+  | "formula"
+  | "authenticity"
+  | "side-effects"
+  | "pros-cons"
+  | "offer";
 
-/** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review` rejeita esse id. */
+/** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review` e `review-offer` rejeitam esse id. */
 export type SectionId = OptionalSectionId | "pricing";
 
-export type PageLayout = "sales" | "review" | "clone";
+export type PageLayout = "sales" | "review" | "clone" | "review-offer";
 
 /** Página extra de um clone (ex. locale em `/it`), no mesmo Host. */
 export interface CloneExtraPage {
@@ -77,12 +84,14 @@ export interface EditorialFigure {
   height?: number;
 }
 
-/** Bloco de artigo para seções editoriais do layout `review`. */
+/** Bloco de artigo para seções editoriais do layout `review` e `review-offer`. */
 export interface EditorialBlock {
   eyebrow?: string;
   title: string;
   body: string;
   figure?: EditorialFigure;
+  /** Label do CTA no fim do bloco. Omitido = `outboundCta.label`. */
+  ctaLabel?: string;
 }
 
 export interface Plan {
@@ -199,6 +208,38 @@ export interface TestimonialsContent {
   avatarAltPrefix: string;
   /** aria-label da lista de metadados do depoimento em destaque (leitor de tela). */
   metadataAriaLabel: string;
+}
+
+/**
+ * Um item de prova em formato de captura de tela — depoimento, DM ou mensagem
+ * apresentado como imagem (print real ou recriação visual de conversa), em vez
+ * de citação de texto (ver `TestimonialContent` para o formato clássico de card).
+ *
+ * `attribution` é obrigatório por design: esta Base nunca publica prova
+ * anônima nem que implique endosso de terceiro não autorizado (ver
+ * `docs/research/ugc-review-nutra-google-ads.md`, §2.3 — a política de
+ * Misrepresentation do Google Ads cita "undisclosed affiliate marketing" e
+ * identidade não declarada como violação de suspensão imediata). Todo claim
+ * quantificado dentro do print (número, resultado) segue a mesma exigência já
+ * aplicada ao resto do conteúdo de review: fonte e data, nunca fabricado (ver
+ * `PRODUCT.md` → "Não fazer").
+ */
+export interface ScreenshotProofItem {
+  /** Imagem do print. Tamanho intrínseco evita upscale e CLS (ver `EditorialFigure`). */
+  image: EditorialFigure;
+  /** Legenda curta opcional sobre a imagem — ex. plataforma/contexto ("Mensagem via Instagram"). */
+  caption?: string;
+  /** Atribuição da prova — nunca anônima. Ex.: "Marina R., cliente verificada · ago/2026". */
+  attribution: string;
+  /** Data ou contexto adicional do print, quando sustenta um claim quantificado citado nele. */
+  dateOrContext?: string;
+}
+
+export interface ScreenshotProofContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  items: ScreenshotProofItem[];
 }
 
 export interface FaqItemContent {
@@ -375,6 +416,52 @@ export interface MidCtaContent {
   ctaLabel?: string;
 }
 
+export interface FormulaIngredient {
+  name: string;
+  role: string;
+}
+
+export interface FormulaContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  blendLabel?: string;
+  items: FormulaIngredient[];
+  note?: string;
+}
+
+export interface ProsConsContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  pros: string[];
+  cons: string[];
+}
+
+export interface OfferPackage {
+  id: string;
+  name: string;
+  bottles: number;
+  supplyLabel: string;
+  pricePerBottle: string;
+  compareAtTotal?: string;
+  total: string;
+  shipping: string;
+  badges?: string[];
+  featured?: boolean;
+}
+
+export interface OfferContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  asOf: string;
+  sourceLabel: string;
+  packages: OfferPackage[];
+  advice?: string;
+  ctaLabel?: string;
+}
+
 export interface HeroContent {
   eyebrowLine1: string;
   hudTag: string;
@@ -483,14 +570,14 @@ interface ProductIdentity {
   trackingTags: TrackingTag[];
 }
 
-/** Config da SPA (`sales` / `review`) — Hero, seções e rodapé da Base. */
+/** Config da SPA (`sales` / `review` / `review-offer`) — Hero, seções e rodapé da Base. */
 export interface SpaProductConfig extends ProductIdentity {
   hero: HeroContent;
   /** Omitido = `"sales"`. */
-  layout?: "sales" | "review";
-  /** Obrigatório em layout `review`. Ignorado em `sales`. */
+  layout?: "sales" | "review" | "review-offer";
+  /** Obrigatório em layout `review` e `review-offer`. Ignorado em `sales`. */
   outboundCta?: OutboundCta;
-  /** Ordem das seções opcionais. `"pricing"` é obrigatório em `sales` e proibido em `review`. Hero e rodapé são sempre fixos. */
+  /** Ordem das seções opcionais. `"pricing"` é obrigatório em `sales` e proibido em `review` / `review-offer`. Hero e rodapé são sempre fixos. */
   sections: SectionId[];
   pricing?: PricingContent;
   plans?: Plan[];
@@ -498,6 +585,7 @@ export interface SpaProductConfig extends ProductIdentity {
   powerGrid?: PowerGridContent;
   techMechanism?: TechMechanismContent;
   testimonials?: TestimonialsContent;
+  ugcProof?: ScreenshotProofContent;
   faq?: FaqContent;
   leadCapture?: LeadCaptureConfig;
   restrictedArea?: RestrictedAreaContent;
@@ -511,6 +599,12 @@ export interface SpaProductConfig extends ProductIdentity {
   compare?: CompareContent;
   guarantee?: GuaranteeContent;
   midCta?: MidCtaContent;
+  whatIs?: EditorialBlock;
+  formula?: FormulaContent;
+  authenticity?: EditorialBlock;
+  sideEffects?: EditorialBlock;
+  prosCons?: ProsConsContent;
+  offer?: OfferContent;
   footer: FooterContent;
   stickyCta: StickyCtaContent;
   /** Página-popup — proibida; o build falha se o campo estiver presente. */
@@ -535,6 +629,7 @@ const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof SpaProductConfig> = {
   "power-grid": "powerGrid",
   "tech-mechanism": "techMechanism",
   testimonials: "testimonials",
+  "ugc-proof": "ugcProof",
   faq: "faq",
   "lead-capture": "leadCapture",
   restricted: "restrictedArea",
@@ -548,6 +643,12 @@ const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof SpaProductConfig> = {
   compare: "compare",
   guarantee: "guarantee",
   "mid-cta": "midCta",
+  "what-is": "whatIs",
+  formula: "formula",
+  authenticity: "authenticity",
+  "side-effects": "sideEffects",
+  "pros-cons": "prosCons",
+  offer: "offer",
 };
 
 export function resolveLayout(config: ProductConfig): PageLayout {
@@ -606,14 +707,26 @@ export function validateProductConfig(config: ProductConfig): void {
       if (!page.htmlFile?.trim()) missing.push(`${prefix}.htmlFile`);
       if (!page.affiliateHref?.trim()) missing.push(`${prefix}.affiliateHref`);
     }
-  } else if (layout === "review") {
+  } else if (layout === "review" || layout === "review-offer") {
     if (!config.outboundCta?.label?.trim()) missing.push("outboundCta.label");
     if (!config.outboundCta?.href?.trim()) missing.push("outboundCta.href");
     if ((config.plans?.length ?? 0) > 0) {
-      missing.push('plans não é permitido quando layout é "review"');
+      missing.push(`plans não é permitido quando layout é "${layout}"`);
     }
     if (config.sections?.includes("pricing")) {
-      missing.push('sections não pode incluir "pricing" quando layout é "review"');
+      missing.push(`sections não pode incluir "pricing" quando layout é "${layout}"`);
+    }
+    if (layout === "review" && config.sections?.includes("offer")) {
+      missing.push('sections não pode incluir "offer" quando layout é "review"');
+    }
+    if (layout === "review-offer" && config.sections?.includes("offer")) {
+      if (!config.offer?.asOf?.trim()) missing.push("offer.asOf");
+      if (!config.offer?.sourceLabel?.trim()) missing.push("offer.sourceLabel");
+      if (!config.offer?.packages?.length) missing.push("offer.packages (mínimo 1)");
+      const featuredCount = (config.offer?.packages ?? []).filter((p) => p.featured).length;
+      if (featuredCount > 1) {
+        missing.push("offer.packages: no máximo 1 package marcado como featured");
+      }
     }
   } else {
     if (!config.plans || config.plans.length < 1) missing.push("plans (mínimo 1)");

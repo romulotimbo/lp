@@ -1,12 +1,12 @@
 import { OutboundLink } from "@/components/outbound-link";
-import { isReviewLayout, product } from "@/product/active";
+import { product, usesOutboundCta } from "@/product/active";
 import { cn } from "@/lib/utils";
 
 export function PageFooter() {
   const { footer, locale, outboundCta } = product;
-  const review = isReviewLayout();
-  const ctaHref = review && outboundCta ? outboundCta.href : "#pricing";
-  const ctaClassName = review
+  const outbound = usesOutboundCta();
+  const ctaHref = outbound && outboundCta ? outboundCta.href : "#pricing";
+  const ctaClassName = outbound
     ? "btn-primary"
     : "font-display text-xs uppercase tracking-wider text-cyber-muted transition-colors duration-300 hover:text-blood-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-darker";
 
@@ -14,7 +14,7 @@ export function PageFooter() {
     <footer
       className={cn(
         "border-t px-6 py-8 lg:px-8",
-        review
+        outbound
           ? "review-rule border-cyber-titanium/12 bg-cyber-black"
           : "border-blood-red/12 bg-cyber-darker",
       )}
@@ -25,7 +25,7 @@ export function PageFooter() {
             <p
               className={cn(
                 "text-lg font-bold tracking-tight text-cyber-titanium",
-                review ? "font-body" : "font-display uppercase",
+                outbound ? "font-body" : "font-display uppercase",
               )}
             >
               {footer.brandName}
@@ -33,7 +33,7 @@ export function PageFooter() {
             <p
               className={cn(
                 "mt-1 text-blood-red/70",
-                review
+                outbound
                   ? "text-xs tracking-wide"
                   : "hud-tag font-mono text-[10px] uppercase tracking-[0.18em]",
               )}
@@ -43,7 +43,7 @@ export function PageFooter() {
           </div>
 
           <div className="flex flex-col gap-2 sm:items-end">
-            {review && outboundCta ? (
+            {outbound && outboundCta ? (
               <OutboundLink href={ctaHref} label={footer.ctaLabel} className={ctaClassName} />
             ) : (
               <a href={ctaHref} className={ctaClassName}>
@@ -52,7 +52,7 @@ export function PageFooter() {
             )}
             <p
               className={cn(
-                review
+                outbound
                   ? "review-micro"
                   : "hud-tag font-mono text-[10px] uppercase tracking-[0.14em] text-cyber-muted/40",
               )}
@@ -65,7 +65,7 @@ export function PageFooter() {
         <div
           className={cn(
             "border-t pt-5 leading-relaxed",
-            review
+            outbound
               ? "review-rule border-cyber-graphite/60 text-xs text-cyber-muted"
               : "border-cyber-graphite/60 text-[11px] text-cyber-muted/70",
           )}

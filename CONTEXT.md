@@ -57,8 +57,12 @@ Segunda página estática com overlay injetado sobre réplica desfocada de check
 _Avoid_: reconstruir o overlay em path aninhado, redirect desses paths, chamar de capacidade
 
 **Clone**:
-Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. CoolJet e Pawlax usam um cookie popup nessa raiz; isso não é `popupGate`.
+Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`/`review-offer`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (CoolJet `/it`). CoolJet e Pawlax usam um cookie popup nessa raiz; isso não é `popupGate`.
 _Avoid_: Página-popup, popupGate, segunda página no mesmo Host
+
+**Review-offer**:
+Modo de Instância advertorial (busca scam/legit) com hop outbound e tabela de oferta datada. Não é `review` (artigo sem preço) nem `sales` (checkout da Base). Config: `layout: "review-offer"`, `outboundCta`, módulos `what-is` / `formula` / `authenticity` / `side-effects` / `pros-cons` / `offer`. Clique no hop não dispara `InitiateCheckout`.
+_Avoid_: misturar com `plans` / Pricing, chamar de review editorial
 
 ## Decisions
 

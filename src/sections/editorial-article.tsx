@@ -8,7 +8,7 @@ import {
   type MotionValue,
 } from "motion/react";
 import { OutboundLink } from "@/components/outbound-link";
-import { isReviewLayout, product } from "@/product/active";
+import { product, usesOutboundCta } from "@/product/active";
 import type { EditorialBlock } from "@/product/types";
 import { cn } from "@/lib/utils";
 
@@ -120,6 +120,7 @@ export function EditorialArticle({
   mediaExtra,
   sourceNote,
   ctaVariant = "ghost",
+  ctaLabel,
   markPhrase,
   ghostStat,
 }: {
@@ -132,12 +133,14 @@ export function EditorialArticle({
   sourceNote?: string;
   /** Fold CTAs stay ghost so guarantee / mid-cta / Hero keep the primary weight. */
   ctaVariant?: "primary" | "ghost";
+  ctaLabel?: string;
   markPhrase?: string;
   ghostStat?: { value: string; dateline: string };
 }) {
   const paras = paragraphs(block.body);
   const figureFirst = figureSide === "start" && Boolean(block.figure);
-  const cta = isReviewLayout() ? product.outboundCta : undefined;
+  const cta = usesOutboundCta() ? product.outboundCta : undefined;
+  const label = ctaLabel ?? block.ctaLabel ?? cta?.label;
   const sectionRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const live = Boolean(ghostStat) && !reducedMotion;
@@ -230,11 +233,11 @@ export function EditorialArticle({
                 </p>
               ))}
               {children}
-              {cta ? (
+              {cta && label ? (
                 <div className="pt-2">
                   <OutboundLink
                     href={cta.href}
-                    label={cta.label}
+                    label={label}
                     className={ctaVariant === "primary" ? "btn-primary" : "btn-ghost"}
                   />
                 </div>

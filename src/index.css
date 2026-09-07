@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -89,17 +89,17 @@
   }
 }
 
-[data-layout="review"] {
+:is([data-layout="review"], [data-layout="review-offer"]) {
   font-family: "Atkinson Hyperlegible", sans-serif;
   scrollbar-color: rgb(var(--color-accent) / 0.45) rgb(var(--color-surface));
   caret-color: rgb(var(--color-accent));
 }
 
-[data-layout="review"] a {
+:is([data-layout="review"], [data-layout="review-offer"]) a {
   text-underline-offset: 0.18em;
 }
 
-[data-layout="review"] .section-eyebrow {
+:is([data-layout="review"], [data-layout="review-offer"]) .section-eyebrow {
   display: block;
   font-family: "Atkinson Hyperlegible", sans-serif;
   font-size: 0.8125rem;
@@ -109,7 +109,7 @@
   color: rgb(var(--color-accent));
 }
 
-[data-layout="review"] .section-title {
+:is([data-layout="review"], [data-layout="review-offer"]) .section-title {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(1.75rem, 1.4vw + 1.2rem, 2.5rem);
   font-weight: 600;
@@ -118,19 +118,19 @@
   text-transform: none;
 }
 
-[data-layout="review"] .section-lead {
+:is([data-layout="review"], [data-layout="review-offer"]) .section-lead {
   font-family: "Atkinson Hyperlegible", sans-serif;
 }
 
-[data-layout="review"] .text-display-hero {
+:is([data-layout="review"], [data-layout="review-offer"]) .text-display-hero {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(2.15rem, 3.2vw + 1rem, 4rem);
   letter-spacing: -0.035em;
   line-height: 1.05;
 }
 
-[data-layout="review"] .btn-primary,
-[data-layout="review"] .btn-ghost {
+:is([data-layout="review"], [data-layout="review-offer"]) .btn-primary,
+:is([data-layout="review"], [data-layout="review-offer"]) .btn-ghost {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -144,77 +144,77 @@
   border-radius: 999px;
 }
 
-[data-layout="review"] .btn-primary {
+:is([data-layout="review"], [data-layout="review-offer"]) .btn-primary {
   color: rgb(var(--color-on-accent));
   box-shadow: 0 10px 22px rgb(var(--color-text-primary) / 0.12);
 }
 
-[data-layout="review"] .btn-primary:focus-visible,
-[data-layout="review"] .btn-ghost:focus-visible {
+:is([data-layout="review"], [data-layout="review-offer"]) .btn-primary:focus-visible,
+:is([data-layout="review"], [data-layout="review-offer"]) .btn-ghost:focus-visible {
   --tw-ring-offset-color: rgb(var(--color-background));
 }
 
-[data-layout="review"] .hud-tag {
+:is([data-layout="review"], [data-layout="review-offer"]) .hud-tag {
   display: none;
 }
 
-[data-layout="review"] .shadow-lift-sm {
+:is([data-layout="review"], [data-layout="review-offer"]) .shadow-lift-sm {
   box-shadow: 0 10px 28px rgb(var(--color-text-primary) / 0.12);
 }
 
-[data-layout="review"] .section-divider {
+:is([data-layout="review"], [data-layout="review-offer"]) .section-divider {
   background: rgb(var(--color-text-primary) / 0.1);
   max-width: 72rem;
 }
 
-[data-layout="review"] .editorial-figure {
+:is([data-layout="review"], [data-layout="review-offer"]) .editorial-figure {
   border-color: rgb(var(--color-text-primary) / 0.12);
   background: rgb(var(--color-surface));
   display: flex;
   justify-content: center;
 }
 
-[data-layout="review"] .editorial-figure img {
+:is([data-layout="review"], [data-layout="review-offer"]) .editorial-figure img {
   width: auto;
   max-width: 100%;
   height: auto;
   object-fit: contain;
 }
 
-[data-layout="review"] .editorial-cinema-prose {
+:is([data-layout="review"], [data-layout="review-offer"]) .editorial-cinema-prose {
   position: relative;
   z-index: 1;
 }
 
-[data-layout="review"] .editorial-media--stack {
+:is([data-layout="review"], [data-layout="review-offer"]) .editorial-media--stack {
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
 }
 
-[data-layout="review"] .util-source-label {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-source-label {
   margin-bottom: 0.55rem;
   font-size: 0.75rem;
   letter-spacing: 0.03em;
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .util-source-plate .editorial-figure {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-source-plate .editorial-figure {
   width: 100%;
 }
 
-[data-layout="review"] .util-source-plate .editorial-figure img {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-source-plate .editorial-figure img {
   max-height: 9.75rem;
   width: 100%;
 }
 
-[data-layout="review"] .util-figure {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-figure {
   margin: 0;
   view-timeline-name: --util-ink;
   view-timeline-axis: block;
 }
 
-[data-layout="review"] .util-caption {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-caption {
   display: block;
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 1.05rem;
@@ -224,7 +224,7 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .util-dateline {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-dateline {
   display: block;
   margin-top: 0.35rem;
   font-size: 0.75rem;
@@ -233,7 +233,7 @@
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .util-legend {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem 1.15rem;
@@ -243,7 +243,7 @@
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .util-swatch {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-swatch {
   display: inline-block;
   width: 0.7rem;
   height: 0.7rem;
@@ -251,15 +251,15 @@
   vertical-align: -0.08em;
 }
 
-[data-layout="review"] .util-swatch--protein {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-swatch--protein {
   background: rgb(var(--color-text-primary) / 0.7);
 }
 
-[data-layout="review"] .util-swatch--waste {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-swatch--waste {
   background: rgb(var(--color-text-primary) / 0.14);
 }
 
-[data-layout="review"] .util-axis {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-axis {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.45rem;
@@ -270,17 +270,17 @@
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .util-rows {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-rows {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-[data-layout="review"] .util-row + .util-row {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-row + .util-row {
   margin-top: 0.62rem;
 }
 
-[data-layout="review"] .util-meta {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-meta {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -288,7 +288,7 @@
   margin-bottom: 0.38rem;
 }
 
-[data-layout="review"] .util-source {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-source {
   font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -296,7 +296,7 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .util-value {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-value {
   flex: 0 0 auto;
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 0.95rem;
@@ -306,14 +306,14 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .util-track {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-track {
   position: relative;
   height: 0.55rem;
   overflow: hidden;
   background: rgb(var(--color-text-primary) / 0.12);
 }
 
-[data-layout="review"] .util-protein {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-protein {
   display: block;
   height: 100%;
   width: var(--bar);
@@ -322,42 +322,42 @@
   background: rgb(var(--color-text-primary) / 0.7);
 }
 
-[data-layout="review"] .util-row--emphasis .util-track {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-row--emphasis .util-track {
   height: 0.82rem;
 }
 
-[data-layout="review"] .util-row--emphasis .util-protein {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-row--emphasis .util-protein {
   background: rgb(var(--color-accent));
 }
 
-[data-layout="review"] .util-row--emphasis .util-source,
-[data-layout="review"] .util-row--emphasis .util-value {
+:is([data-layout="review"], [data-layout="review-offer"]) .util-row--emphasis .util-source,
+:is([data-layout="review"], [data-layout="review-offer"]) .util-row--emphasis .util-value {
   color: rgb(var(--color-accent-dark));
 }
 
 @supports (animation-timeline: view()) {
-  [data-layout="review"] .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-protein {
     animation: util-ink linear both;
     animation-timeline: --util-ink;
   }
 
-  [data-layout="review"] .util-row:nth-child(1) .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-row:nth-child(1) .util-protein {
     animation-range: cover 26% cover 40%;
   }
 
-  [data-layout="review"] .util-row:nth-child(2) .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-row:nth-child(2) .util-protein {
     animation-range: cover 30% cover 45%;
   }
 
-  [data-layout="review"] .util-row:nth-child(3) .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-row:nth-child(3) .util-protein {
     animation-range: cover 34% cover 50%;
   }
 
-  [data-layout="review"] .util-row:nth-child(4) .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-row:nth-child(4) .util-protein {
     animation-range: cover 38% cover 55%;
   }
 
-  [data-layout="review"] .util-row:nth-child(5) .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-row:nth-child(5) .util-protein {
     animation-range: cover 42% cover 60%;
   }
 }
@@ -373,18 +373,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .util-protein {
+  :is([data-layout="review"], [data-layout="review-offer"]) .util-protein {
     animation: none;
   }
 }
 
-[data-layout="review"] .acid-figure {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-figure {
   margin: 0;
   view-timeline-name: --acid-ink;
   view-timeline-axis: block;
 }
 
-[data-layout="review"] .acid-caption {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-caption {
   display: block;
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 1.05rem;
@@ -394,7 +394,7 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .acid-dateline {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-dateline {
   display: block;
   margin-top: 0.35rem;
   font-size: 0.75rem;
@@ -403,13 +403,13 @@
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .acid-roster {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-roster {
   margin: 0.85rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-[data-layout="review"] .acid-row {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-row {
   display: grid;
   grid-template-columns: 2.15rem 1.15rem minmax(0, 1fr);
   align-items: center;
@@ -418,7 +418,7 @@
   border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
 }
 
-[data-layout="review"] .acid-glyph {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-glyph {
   display: block;
   width: 2.15rem;
   height: 2.15rem;
@@ -426,7 +426,7 @@
   overflow: visible;
 }
 
-[data-layout="review"] .acid-glyph path {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-glyph path {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.55;
@@ -436,7 +436,7 @@
   stroke-dashoffset: 0;
 }
 
-[data-layout="review"] .acid-code {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-code {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
@@ -445,7 +445,7 @@
   color: rgb(var(--color-accent-dark));
 }
 
-[data-layout="review"] .acid-name {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-name {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
@@ -457,7 +457,7 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .acid-abbr {
+:is([data-layout="review"], [data-layout="review-offer"]) .acid-abbr {
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -465,40 +465,40 @@
 }
 
 @supports (animation-timeline: view()) {
-  [data-layout="review"] .acid-glyph path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-glyph path {
     animation: acid-draw linear both;
     animation-timeline: --acid-ink;
   }
 
-  [data-layout="review"] .acid-row:nth-child(1) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(1) path {
     animation-range: cover 24% cover 34%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(2) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(2) path {
     animation-range: cover 27% cover 38%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(3) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(3) path {
     animation-range: cover 30% cover 42%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(4) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(4) path {
     animation-range: cover 33% cover 46%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(5) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(5) path {
     animation-range: cover 36% cover 50%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(6) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(6) path {
     animation-range: cover 39% cover 54%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(7) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(7) path {
     animation-range: cover 42% cover 57%;
   }
 
-  [data-layout="review"] .acid-row:nth-child(8) path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-row:nth-child(8) path {
     animation-range: cover 45% cover 60%;
   }
 }
@@ -514,57 +514,57 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .acid-glyph path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .acid-glyph path {
     animation: none;
     stroke-dashoffset: 0;
   }
 }
 
 @media (max-width: 1023px) {
-  [data-layout="review"] #official-claims .editorial-media {
+  :is([data-layout="review"], [data-layout="review-offer"]) #official-claims .editorial-media {
     order: -1;
   }
 }
 
-[data-layout="review"] .guarantee-panel {
+:is([data-layout="review"], [data-layout="review-offer"]) .guarantee-panel {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   column-gap: 2.5rem;
 }
 
-[data-layout="review"] .guarantee-panel > header {
+:is([data-layout="review"], [data-layout="review-offer"]) .guarantee-panel > header {
   grid-column: 1 / -1;
 }
 
 @media (min-width: 1024px) {
-  [data-layout="review"] .guarantee-panel {
+  :is([data-layout="review"], [data-layout="review-offer"]) .guarantee-panel {
     grid-template-columns: minmax(0, 1fr) 8.75rem;
   }
 
-  [data-layout="review"] .guarantee-panel .pill-figure {
+  :is([data-layout="review"], [data-layout="review-offer"]) .guarantee-panel .pill-figure {
     grid-column: 2;
     grid-row: 2;
     align-self: start;
   }
 
-  [data-layout="review"] .guarantee-panel .guarantee-prose {
+  :is([data-layout="review"], [data-layout="review-offer"]) .guarantee-panel .guarantee-prose {
     grid-column: 1;
     grid-row: 2;
   }
 
-  [data-layout="review"] .guarantee-panel .guarantee-prose > .mt-6 {
+  :is([data-layout="review"], [data-layout="review-offer"]) .guarantee-panel .guarantee-prose > .mt-6 {
     margin-top: 0;
   }
 }
 
-[data-layout="review"] .pill-figure {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-figure {
   margin: 1.1rem 0 0;
   max-width: 8.75rem;
   view-timeline-name: --pill-ink;
   view-timeline-axis: block;
 }
 
-[data-layout="review"] .pill-caption {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-caption {
   display: block;
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 1.05rem;
@@ -574,7 +574,7 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .pill-dateline {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-dateline {
   display: block;
   margin-top: 0.35rem;
   margin-bottom: 0.85rem;
@@ -584,14 +584,14 @@
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .pill-bottle {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-bottle {
   display: block;
   width: 100%;
   height: auto;
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .pill-outline {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-outline {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.7;
@@ -599,17 +599,17 @@
   stroke-linecap: round;
 }
 
-[data-layout="review"] .pill-level {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-level {
   fill: rgb(var(--color-accent) / 0.42);
   transform: translateY(86%);
 }
 
-[data-layout="review"] .pill-last {
+:is([data-layout="review"], [data-layout="review-offer"]) .pill-last {
   fill: rgb(var(--color-accent));
 }
 
 @supports (animation-timeline: view()) {
-  [data-layout="review"] .pill-level {
+  :is([data-layout="review"], [data-layout="review-offer"]) .pill-level {
     animation: pill-drain linear both;
     animation-timeline: --pill-ink;
     animation-range: cover 18% cover 62%;
@@ -627,13 +627,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .pill-level {
+  :is([data-layout="review"], [data-layout="review-offer"]) .pill-level {
     animation: none;
     transform: translateY(86%);
   }
 }
 
-[data-layout="review"] .pain-ghost {
+:is([data-layout="review"], [data-layout="review-offer"]) .pain-ghost {
   position: absolute;
   left: -0.12em;
   top: -0.55em;
@@ -644,7 +644,7 @@
   user-select: none;
 }
 
-[data-layout="review"] .pain-ghost-num {
+:is([data-layout="review"], [data-layout="review-offer"]) .pain-ghost-num {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: clamp(4.25rem, 10vw, 6rem);
   font-weight: 700;
@@ -654,7 +654,7 @@
   color: rgb(var(--color-accent));
 }
 
-[data-layout="review"] .pain-ghost-date {
+:is([data-layout="review"], [data-layout="review-offer"]) .pain-ghost-date {
   margin-top: 0.4rem;
   max-width: 14rem;
   font-size: 0.75rem;
@@ -663,21 +663,21 @@
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .pain-ink {
+:is([data-layout="review"], [data-layout="review-offer"]) .pain-ink {
   position: relative;
   display: inline-block;
   font-weight: 700;
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .pain-ink-count {
+:is([data-layout="review"], [data-layout="review-offer"]) .pain-ink-count {
   display: inline-block;
   min-width: 3.15ch;
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
 
-[data-layout="review"] .pain-ink-rule {
+:is([data-layout="review"], [data-layout="review-offer"]) .pain-ink-rule {
   position: absolute;
   right: 0;
   bottom: 0.06em;
@@ -690,20 +690,20 @@
   transform-origin: 0 50%;
 }
 
-[data-layout="review"] .trust-ledger {
+:is([data-layout="review"], [data-layout="review-offer"]) .trust-ledger {
   max-width: 42rem;
 }
 
-[data-layout="review"] .trust-entry {
+:is([data-layout="review"], [data-layout="review-offer"]) .trust-entry {
   position: relative;
   padding: 1.15rem 0 1.35rem;
 }
 
-[data-layout="review"] .trust-entry + .trust-entry {
+:is([data-layout="review"], [data-layout="review-offer"]) .trust-entry + .trust-entry {
   border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
 }
 
-[data-layout="review"] .trust-rule {
+:is([data-layout="review"], [data-layout="review-offer"]) .trust-rule {
   position: absolute;
   top: -1px;
   right: 0;
@@ -714,76 +714,76 @@
   pointer-events: none;
 }
 
-[data-layout="review"] .trust-entry-body {
+:is([data-layout="review"], [data-layout="review-offer"]) .trust-entry-body {
   overflow: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .trust-rule {
+  :is([data-layout="review"], [data-layout="review-offer"]) .trust-rule {
     transform: none;
   }
 
-  [data-layout="review"] .trust-entry-body {
+  :is([data-layout="review"], [data-layout="review-offer"]) .trust-entry-body {
     clip-path: none;
   }
 }
 
-[data-layout="review"] .review-product-shot {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-product-shot {
   background: transparent;
   border: 0;
   padding: 0;
 }
 
-[data-layout="review"] .review-product-shot img {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-product-shot img {
   display: block;
   width: 100%;
   height: auto;
 }
 
-[data-layout="review"] .review-product-shot--plate {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-product-shot--plate {
   background: rgb(var(--color-surface));
   border: 1px solid rgb(var(--color-text-primary) / 0.1);
   padding: clamp(1rem, 3vw, 2rem);
 }
 
-[data-layout="review"] .review-micro {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-micro {
   color: rgb(var(--color-text-muted));
   font-size: 0.8125rem;
   line-height: 1.45;
 }
 
-[data-layout="review"] .review-initials {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-initials {
   background: rgb(var(--color-accent) / 0.12);
   border-color: rgb(var(--color-accent) / 0.35);
 }
 
-[data-layout="review"] .review-rule,
-[data-layout="review"] #faq .border-t,
-[data-layout="review"] #faq .border-b,
-[data-layout="review"] footer .border-t {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-rule,
+:is([data-layout="review"], [data-layout="review-offer"]) #faq .border-t,
+:is([data-layout="review"], [data-layout="review-offer"]) #faq .border-b,
+:is([data-layout="review"], [data-layout="review-offer"]) footer .border-t {
   border-color: rgb(var(--color-text-primary) / 0.12);
 }
 
-[data-layout="review"] .review-notes {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-notes {
   max-width: 38rem;
   margin-inline: 0;
   padding: 0;
   list-style: none;
 }
 
-[data-layout="review"] .review-note {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-note {
   padding-block: clamp(1.6rem, 4vw, 2.85rem);
   border-top: 1px solid rgb(var(--color-text-primary) / 0.12);
 }
 
-[data-layout="review"] .review-note-quote {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-note-quote {
   font-size: 1.05rem;
   line-height: 1.65;
   color: rgb(var(--color-text-primary));
 }
 
 @supports (animation-timeline: view()) {
-  [data-layout="review"] .review-note-quote {
+  :is([data-layout="review"], [data-layout="review-offer"]) .review-note-quote {
     color: rgb(var(--color-text-muted));
     animation: note-focus linear none;
     animation-timeline: view(block 26% 26%);
@@ -804,13 +804,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .review-note-quote {
+  :is([data-layout="review"], [data-layout="review-offer"]) .review-note-quote {
     animation: none;
     color: rgb(var(--color-text-primary));
   }
 }
 
-[data-layout="review"] .review-hero-glow {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-hero-glow {
   background: radial-gradient(
     62% 52% at calc(var(--lx, 0.8) * 100%) calc(var(--ly, 0.4) * 100%),
     rgb(var(--color-accent) / 0.42),
@@ -818,7 +818,7 @@
   );
 }
 
-[data-layout="review"] .review-chip {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-chip {
   border: 1px solid rgb(var(--color-text-primary) / 0.14);
   background: rgb(var(--color-surface) / 0.88);
   box-shadow:
@@ -844,12 +844,12 @@
   perspective: 900px;
 }
 
-[data-layout="review"] .review-still-rig {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-rig {
   position: relative;
   transform-style: preserve-3d;
 }
 
-[data-layout="review"] .review-still-ground {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-ground {
   position: absolute;
   z-index: 0;
   left: 14%;
@@ -866,7 +866,7 @@
   );
 }
 
-[data-layout="review"] .review-still-life {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-life {
   position: relative;
   z-index: 1;
   isolation: isolate;
@@ -883,16 +883,16 @@
       rgb(255 255 255 / 0.7);
 }
 
-[data-layout="review"] .review-still-fill,
-[data-layout="review"] .review-still-key,
-[data-layout="review"] .review-still-specular {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-fill,
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-key,
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-specular {
   position: absolute;
   inset: 0;
   pointer-events: none;
   border-radius: inherit;
 }
 
-[data-layout="review"] .review-still-fill {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-fill {
   background: radial-gradient(
     70% 76% at calc((1 - var(--lx)) * 100%) calc((0.58 + var(--ly) * 0.1) * 100%),
     rgb(var(--color-accent) / 0.22),
@@ -901,7 +901,7 @@
   mix-blend-mode: multiply;
 }
 
-[data-layout="review"] .review-still-key {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-key {
   background: radial-gradient(
     52% 46% at calc(var(--lx) * 100%) calc(var(--ly) * 100%),
     rgb(255 255 255 / 0.62),
@@ -910,7 +910,7 @@
   mix-blend-mode: screen;
 }
 
-[data-layout="review"] .review-still-specular {
+:is([data-layout="review"], [data-layout="review-offer"]) .review-still-specular {
   background: radial-gradient(
     18% 28% at calc(var(--lx) * 92%) calc(var(--ly) * 100% + 4%),
     rgb(255 255 255 / 0.85),
@@ -920,9 +920,697 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .review-still-life,
-  [data-layout="review"] .review-still-ground {
+  :is([data-layout="review"], [data-layout="review-offer"]) .review-still-life,
+  :is([data-layout="review"], [data-layout="review-offer"]) .review-still-ground {
     transform: none;
+  }
+}
+
+@property --letter-heat {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.35;
+}
+
+@property --lab-caustic {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0.42;
+}
+
+[data-layout="review-offer"] {
+  --letter-heat: 0;
+  --lab-caustic: 0.42;
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  background-image:
+    radial-gradient(
+      72% 48% at 78% 8%,
+      rgb(var(--color-accent) / 0.14),
+      transparent 58%
+    ),
+    radial-gradient(38% 24% at 18% 42%, rgb(210 236 255 / 0.05), transparent 70%),
+    radial-gradient(46% 28% at 8% 92%, rgb(var(--color-accent-dark) / 0.1), transparent 70%);
+}
+
+[data-layout="review-offer"] .section-title,
+[data-layout="review-offer"] .text-display-hero,
+[data-layout="review-offer"] .font-review-display,
+[data-layout="review-offer"] .btn-primary,
+[data-layout="review-offer"] .btn-ghost,
+[data-layout="review-offer"] .faq-index-btn {
+  font-family: "Sora", sans-serif;
+}
+
+[data-layout="review-offer"] ::selection {
+  background: rgb(var(--color-accent) / 0.38);
+  color: rgb(var(--color-background));
+}
+
+[data-layout="review-offer"] .btn-primary {
+  border-radius: 0.35rem;
+  border-color: rgb(var(--color-accent));
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.22) inset,
+    0 16px 36px rgb(0 0 0 / 0.42);
+}
+
+[data-layout="review-offer"] .btn-ghost {
+  border-radius: 0.35rem;
+  border-color: rgb(var(--color-text-primary) / 0.18);
+  background: rgb(var(--color-text-primary) / 0.04);
+}
+
+[data-layout="review-offer"] .review-chip {
+  border: 1px solid rgb(var(--color-text-primary) / 0.14);
+  background: rgb(var(--color-text-primary) / 0.05);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 10px 22px rgb(0 0 0 / 0.28);
+  backdrop-filter: blur(14px);
+}
+
+[data-layout="review-offer"] .review-hero-glow {
+  background:
+    radial-gradient(
+      58% 42% at calc(var(--lx, 0.32) * 100%) calc(var(--ly, 0.28) * 100%),
+      rgb(var(--color-accent) / calc(0.14 + var(--lab-caustic) * 0.18)),
+      transparent 68%
+    ),
+    radial-gradient(36% 28% at 14% 86%, rgb(210 236 255 / 0.05), transparent 72%);
+}
+
+[data-layout="review-offer"] .review-hero-cinema {
+  position: relative;
+  min-height: 100svh;
+}
+
+[data-layout="review-offer"] .review-hero-cinema-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: min(100%, 42rem);
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: clamp(4.5rem, 14vh, 8rem) clamp(1.35rem, 5vw, 4.5rem) 5.5rem;
+}
+
+[data-layout="review-offer"] .review-hero-cinema-copy::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset: -0.35rem clamp(0.4rem, 2vw, 1.25rem) -0.55rem -0.15rem;
+  background:
+    linear-gradient(165deg, rgb(255 255 255 / 0.08), rgb(var(--color-background) / 0.78) 54%, rgb(var(--color-background) / 0.88));
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    inset 0 -28px 48px rgb(0 0 0 / 0.22),
+    0 22px 40px rgb(0 0 0 / 0.28);
+  backdrop-filter: blur(18px);
+}
+
+[data-layout="review-offer"] .review-hero-cinema-copy .text-display-hero {
+  font-size: clamp(2.55rem, 5.4vw + 1rem, 5.35rem);
+  letter-spacing: -0.038em;
+  max-width: 14ch;
+}
+
+[data-layout="review-offer"] .review-hero-stamp {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+[data-layout="review-offer"] .review-hero-cinema-shot {
+  position: absolute;
+  z-index: 1;
+  top: 4%;
+  right: -10%;
+  width: min(72vw, 50rem);
+}
+
+[data-layout="review-offer"] .review-hero-cinema-shot .review-still-life img {
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 28px 48px rgb(0 0 0 / 0.45));
+}
+
+[data-layout="review-offer"] .review-product-shot--plate {
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+[data-layout="review-offer"] .review-still-life {
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+[data-layout="review-offer"] .review-still-ground {
+  left: 18%;
+  right: 18%;
+  bottom: 2%;
+  height: 10%;
+  background: rgb(0 0 0 / 0.55);
+  filter: blur(28px);
+}
+
+[data-layout="review-offer"] .review-still-fill {
+  mix-blend-mode: soft-light;
+}
+
+[data-layout="review-offer"] .letter-heat-filter,
+[data-layout="review-offer"] .review-glass-filter {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+[data-layout="review-offer"] .review-still-rig--glass {
+  isolation: isolate;
+}
+
+[data-layout="review-offer"] .review-glass-slab {
+  position: absolute;
+  z-index: 0;
+  left: -6%;
+  right: -6%;
+  bottom: -8%;
+  height: 46%;
+  border-radius: 50%;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(236 242 244 / 0.34) 0%,
+      rgb(196 214 220 / 0.16) 36%,
+      rgb(18 26 30 / 0.88) 100%
+    );
+  box-shadow:
+    inset 0 2px 0 rgb(255 255 255 / 0.55),
+    inset 0 -26px 40px rgb(0 0 0 / 0.38),
+    0 0 0 1px rgb(var(--color-accent) / 0.28),
+    0 8px 0 rgb(255 255 255 / 0.08),
+    0 32px 52px rgb(0 0 0 / 0.48);
+  transform: rotateX(62deg) translate3d(calc((var(--lx) - 0.5) * 14px), calc((var(--ly) - 0.28) * 6px), 0);
+  transform-origin: 50% 50%;
+}
+
+[data-layout="review-offer"] .review-glass-caustic {
+  position: absolute;
+  inset: -8%;
+  background:
+    radial-gradient(
+      38% 22% at calc(32% + (var(--lx) - 0.32) * 28%) calc(38% + (var(--ly) - 0.28) * 18%),
+      rgb(var(--color-accent) / calc(0.7 + var(--lab-caustic) * 0.22)),
+      transparent 62%
+    ),
+    radial-gradient(
+      16% 10% at calc(54% + (var(--lx) - 0.32) * 20%) calc(32% + (var(--ly) - 0.28) * 12%),
+      rgb(255 255 255 / 0.42),
+      transparent 64%
+    ),
+    radial-gradient(
+      22% 14% at calc(68% + (var(--lx) - 0.32) * 16%) calc(48% + (var(--ly) - 0.28) * 10%),
+      rgb(var(--color-accent-dark) / 0.5),
+      transparent 68%
+    ),
+    radial-gradient(
+      12% 8% at 24% 52%,
+      rgb(var(--color-accent) / 0.45),
+      transparent 70%
+    );
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+[data-layout="review-offer"] .review-glass-caustic-ridges {
+  position: absolute;
+  inset: 8% 12%;
+  border-radius: 50%;
+  background:
+    linear-gradient(
+      118deg,
+      transparent 28%,
+      rgb(var(--color-accent) / 0.38) 42%,
+      transparent 48%,
+      rgb(255 255 255 / 0.22) 56%,
+      transparent 64%
+    );
+  opacity: 0.85;
+}
+
+[data-layout="review-offer"] .review-glass-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 2px rgb(255 255 255 / 0.38),
+    inset 0 10px 18px rgb(255 255 255 / 0.12);
+}
+
+[data-layout="review-offer"] .review-glass-sheen {
+  position: absolute;
+  inset: 6% 10% auto;
+  height: 42%;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.42), transparent 78%);
+  opacity: 0.85;
+}
+
+[data-layout="review-offer"] .review-still-life--haze img {
+  filter: none;
+}
+
+@media (max-width: 1023px) {
+  [data-layout="review-offer"] .review-hero-cinema {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  [data-layout="review-offer"] .review-hero-cinema-shot {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: min(70%, 17.5rem);
+    margin: 0.35rem auto 0;
+    order: -1;
+  }
+
+  [data-layout="review-offer"] .review-hero-cinema-copy {
+    width: 100%;
+    gap: 1.15rem;
+    padding-top: 0.35rem;
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  [data-layout="review-offer"] .review-hero-cinema-copy > .relative {
+    gap: 1.1rem;
+  }
+
+  [data-layout="review-offer"] .review-hero-cinema-copy::before {
+    inset: 0.15rem 0.35rem 0.85rem;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.1), rgb(var(--color-background) / 0.82));
+    border: 1px solid rgb(255 255 255 / 0.18);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.22),
+      inset 0 -24px 36px rgb(0 0 0 / 0.2),
+      0 16px 32px rgb(0 0 0 / 0.3);
+    backdrop-filter: blur(18px);
+  }
+
+  [data-layout="review-offer"] .review-hero-cinema-copy .text-display-hero {
+    max-width: none;
+    font-size: clamp(2.05rem, 8.2vw, 2.55rem);
+  }
+}
+
+[data-layout="review-offer"] .review-still-fill {
+  background: radial-gradient(
+    70% 76% at calc((1 - var(--lx)) * 100%) calc((0.58 + var(--ly) * 0.1) * 100%),
+    rgb(var(--color-accent) / 0.08),
+    transparent 66%
+  );
+  mix-blend-mode: normal;
+}
+
+[data-layout="review-offer"] .review-still-key {
+  opacity: 0.35;
+  mix-blend-mode: normal;
+}
+
+[data-layout="review-offer"] .review-still-specular {
+  opacity: 0.28;
+  mix-blend-mode: normal;
+}
+
+[data-layout="review-offer"] .letter-formula {
+  display: grid;
+  gap: clamp(1.1rem, 2.6vw, 1.75rem);
+}
+
+[data-layout="review-offer"] .letter-formula-blend {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 1.15rem;
+}
+
+[data-layout="review-offer"] .letter-formula-rule {
+  height: 1px;
+  width: min(100%, 36rem);
+  transform: scaleX(calc(0.42 + var(--lab-caustic) * 0.58));
+  transform-origin: 0 50%;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--color-accent) / calc(0.55 + var(--lab-caustic) * 0.4)),
+    rgb(210 236 255 / 0.22),
+    transparent
+  );
+}
+
+@property --formula-unmask {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 100%;
+}
+
+[data-layout="review-offer"] .letter-formula-sheet {
+  --formula-unmask: 100%;
+  position: relative;
+}
+
+[data-layout="review-offer"] .letter-formula-face {
+  position: relative;
+  isolation: isolate;
+  background:
+    linear-gradient(165deg, rgb(255 255 255 / 0.1), rgb(var(--color-surface) / 0.82) 46%, rgb(16 24 28 / 0.94));
+  padding: clamp(1.5rem, 3.4vw, 2.25rem);
+  border: 1px solid rgb(255 255 255 / 0.16);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.2),
+    inset 0 -40px 60px rgb(var(--color-accent) / 0.04),
+    0 22px 44px rgb(0 0 0 / 0.38);
+  backdrop-filter: blur(16px);
+  mask-image: linear-gradient(
+    90deg,
+    #000 0,
+    #000 var(--formula-unmask),
+    transparent var(--formula-unmask)
+  );
+}
+
+[data-layout="review-offer"] .letter-formula-face::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: calc(0.18 + var(--lab-caustic) * 0.22);
+  background:
+    radial-gradient(
+      70% 80% at 12% 0%,
+      rgb(var(--color-accent) / 0.16),
+      transparent 58%
+    );
+}
+
+[data-layout="review-offer"] .letter-formula-sheet--start {
+  transform: none;
+}
+
+[data-layout="review-offer"] .letter-formula-sheet--end {
+  transform: none;
+}
+
+[data-layout="review-offer"] .letter-formula-sheet--end .letter-formula-face {
+  mask-image: linear-gradient(
+    270deg,
+    #000 0,
+    #000 var(--formula-unmask),
+    transparent var(--formula-unmask)
+  );
+}
+
+[data-layout="review-offer"] .letter-formula-name,
+[data-layout="review-offer"] .letter-formula-role {
+  position: relative;
+  z-index: 1;
+}
+
+[data-layout="review-offer"] .btn-ghost {
+  box-shadow: none;
+}
+
+[data-layout="review-offer"] .btn-ghost:focus-visible {
+  --tw-ring-offset-color: rgb(var(--color-background));
+}
+
+[data-layout="review-offer"] .editorial-figure {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(var(--color-surface) / 0.72));
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 22px 40px rgb(0 0 0 / 0.32);
+}
+
+[data-layout="review-offer"] #what-is .editorial-figure img {
+  mix-blend-mode: normal;
+}
+
+[data-layout="review-offer"] #guarantee > div {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.06), rgb(var(--color-surface) / 0.9));
+  border-color: rgb(255 255 255 / 0.12);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.12),
+    0 28px 48px rgb(0 0 0 / 0.4);
+}
+
+[data-layout="review-offer"] .review-ledger-list {
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-layout="review-offer"] .review-ledger-col--pro > h3::after {
+  content: "";
+  display: block;
+  width: 2.4rem;
+  height: 1px;
+  margin-top: 0.55rem;
+  background: rgb(var(--color-accent));
+}
+
+[data-layout="review-offer"] .review-ledger-item {
+  padding-block: 0.85rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-offer"] .review-ledger-item + .review-ledger-item {
+  border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
+}
+
+[data-layout="review-offer"] .offer-ledger {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.45rem 0.7rem;
+}
+
+[data-layout="review-offer"] .offer-ledger-rule {
+  display: inline-block;
+  width: 1.6rem;
+  height: 1px;
+  align-self: center;
+  background: rgb(var(--color-accent) / calc(0.45 + var(--lab-caustic) * 0.4));
+}
+
+[data-layout="review-offer"] .offer-table {
+  display: grid;
+  gap: 1rem;
+}
+
+[data-layout="review-offer"] .offer-pack {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.05), rgb(var(--color-surface) / 0.92));
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.1),
+    0 22px 40px rgb(0 0 0 / 0.36);
+}
+
+[data-layout="review-offer"] .offer-pack--featured {
+  border-color: transparent;
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.07), rgb(var(--color-surface)))
+      padding-box,
+    linear-gradient(
+        158deg,
+        rgb(var(--color-accent) / calc(0.7 + var(--lab-caustic) * 0.28)),
+        rgb(210 236 255 / 0.22) 46%,
+        rgb(var(--color-accent-dark) / 0.55)
+      )
+      border-box;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.16),
+    0 28px 48px rgb(0 0 0 / 0.42);
+}
+
+[data-layout="review-offer"] .offer-seal {
+  position: absolute;
+  top: -0.9rem;
+  right: 0.85rem;
+  z-index: 2;
+  width: 3.4rem;
+  height: 3.4rem;
+  color: rgb(var(--color-accent));
+  filter: drop-shadow(0 10px 16px rgb(0 0 0 / 0.4));
+}
+
+[data-layout="review-offer"] .offer-seal text {
+  font-family: "Sora", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+@supports (animation-timeline: scroll()) {
+  [data-layout="review-offer"] {
+    --lab-caustic: 0.22;
+    animation: lab-caustic-drive linear both;
+    animation-timeline: scroll();
+    animation-range: 0% 68%;
+  }
+}
+
+@keyframes lab-caustic-drive {
+  from {
+    --lab-caustic: 0.22;
+  }
+
+  to {
+    --lab-caustic: 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  [data-layout="review-offer"] .letter-formula-sheet--start {
+    animation: formula-unmask-start linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 42%;
+  }
+
+  [data-layout="review-offer"] .letter-formula-sheet--end {
+    animation: formula-unmask-end linear both;
+    animation-timeline: view();
+    animation-range: entry 6% cover 48%;
+  }
+
+  [data-layout="review-offer"] .offer-pack--featured {
+    animation: offer-press linear both;
+    animation-timeline: view();
+    animation-range: entry 12% cover 52%;
+  }
+}
+
+@keyframes formula-unmask-start {
+  from {
+    --formula-unmask: 42%;
+    transform: translateY(0.65rem);
+    filter: blur(6px);
+  }
+
+  to {
+    --formula-unmask: 100%;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes formula-unmask-end {
+  from {
+    --formula-unmask: 42%;
+    transform: translateY(0.65rem);
+    filter: blur(6px);
+  }
+
+  to {
+    --formula-unmask: 100%;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes offer-press {
+  from {
+    transform: translateY(0.55rem) scale(1.02);
+    filter: blur(4px);
+  }
+
+  to {
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (min-width: 640px) {
+  [data-layout="review-offer"] .letter-formula {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+    column-gap: 0.35rem;
+  }
+
+  [data-layout="review-offer"] .letter-formula-sheet--end {
+    margin-top: 1.35rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-layout="review-offer"] .offer-table {
+    grid-template-columns: 1fr 1.14fr 1fr;
+    align-items: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-layout="review-offer"] {
+    animation: none;
+    --lab-caustic: 0.42;
+  }
+
+  [data-layout="review-offer"] .letter-formula-sheet--start,
+  [data-layout="review-offer"] .letter-formula-sheet--end,
+  [data-layout="review-offer"] .offer-pack--featured,
+  [data-layout="review-offer"] .review-glass-slab {
+    animation: none;
+    transform: none;
+    filter: none;
+  }
+
+  [data-layout="review-offer"] .review-glass-slab {
+    transform: rotateX(64deg);
+  }
+}
+
+[data-layout="review-offer"] .section-eyebrow {
+  font-family: "Atkinson Hyperlegible", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-offer"] #faq .review-rule {
+  border-color: rgb(255 255 255 / 0.1);
+}
+
+[data-layout="review-offer"] #faq [data-state] {
+  border-color: rgb(255 255 255 / 0.1);
+}
+
+[data-layout="review-offer"] footer.review-rule {
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.03), rgb(var(--color-background)));
+}
+
+@media (max-width: 1023px) {
+  [data-layout="review-offer"] .review-glass-slab {
+    left: 2%;
+    right: 2%;
+    bottom: -2%;
+    height: 32%;
   }
 }
 
@@ -932,13 +1620,13 @@
   initial-value: 5.75rem;
 }
 
-[data-layout="review"] .letter-desk {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-desk {
   --peel: 5.75rem;
   position: relative;
   perspective: 1400px;
 }
 
-[data-layout="review"] .letter-under {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-under {
   position: absolute;
   z-index: 0;
   right: 0;
@@ -950,7 +1638,7 @@
   clip-path: polygon(100% 0, 100% 100%, 0 100%);
 }
 
-[data-layout="review"] .letter-under-mark {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-under-mark {
   position: absolute;
   right: 0.55rem;
   bottom: 0.7rem;
@@ -967,7 +1655,7 @@
   transform-origin: 100% 100%;
 }
 
-[data-layout="review"] .letter-sheet {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-sheet {
   position: relative;
   z-index: 1;
   background: transparent;
@@ -981,7 +1669,7 @@
     box-shadow 420ms var(--ease-out-expo);
 }
 
-[data-layout="review"] .letter-face {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-face {
   position: relative;
   z-index: 1;
   background: rgb(var(--color-surface));
@@ -994,7 +1682,7 @@
   );
 }
 
-[data-layout="review"] .letter-face::after {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-face::after {
   content: "";
   position: absolute;
   right: 0;
@@ -1010,15 +1698,15 @@
   );
 }
 
-[data-layout="review"] .letter-sheet:hover,
-[data-layout="review"] .letter-sheet:focus-within {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-sheet:hover,
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-sheet:focus-within {
   transform: rotate(0deg) translateY(-0.4rem);
   box-shadow:
     0 1px 0 rgb(255 255 255 / 0.9),
     12px 28px 52px rgb(var(--color-text-primary) / 0.16);
 }
 
-[data-layout="review"] .letter-stock {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-stock {
   position: absolute;
   z-index: 0;
   inset: 0;
@@ -1028,7 +1716,7 @@
   pointer-events: none;
 }
 
-[data-layout="review"] .letter-copy {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-copy {
   position: relative;
   z-index: 2;
   padding: clamp(1.6rem, 4vw, 2.75rem);
@@ -1036,7 +1724,7 @@
   padding-bottom: max(1.75rem, calc(var(--peel) * 0.55));
 }
 
-[data-layout="review"] .letter-mark {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-mark {
   margin-bottom: 0.85rem;
   font-size: 0.75rem;
   font-weight: 700;
@@ -1045,11 +1733,11 @@
   color: rgb(var(--color-accent-dark));
 }
 
-[data-layout="review"] .letter-cta-btn {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-cta-btn {
   margin-top: 1.5rem;
 }
 
-[data-layout="review"] .letter-curl {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-curl {
   position: absolute;
   z-index: 2;
   right: 0;
@@ -1059,7 +1747,7 @@
   pointer-events: none;
 }
 
-[data-layout="review"] .letter-curl-flap {
+:is([data-layout="review"], [data-layout="review-offer"]) .letter-curl-flap {
   display: block;
   width: 100%;
   height: 100%;
@@ -1077,7 +1765,7 @@
 }
 
 @supports (animation-timeline: view()) {
-  [data-layout="review"] .letter-desk {
+  :is([data-layout="review"], [data-layout="review-offer"]) .letter-desk {
     animation: letter-peel linear both;
     animation-timeline: view();
     animation-range: cover 8% cover 62%;
@@ -1095,34 +1783,34 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .letter-desk {
+  :is([data-layout="review"], [data-layout="review-offer"]) .letter-desk {
     animation: none;
     --peel: 6.25rem;
   }
 
-  [data-layout="review"] .letter-sheet,
-  [data-layout="review"] .letter-sheet:hover,
-  [data-layout="review"] .letter-sheet:focus-within {
+  :is([data-layout="review"], [data-layout="review-offer"]) .letter-sheet,
+  :is([data-layout="review"], [data-layout="review-offer"]) .letter-sheet:hover,
+  :is([data-layout="review"], [data-layout="review-offer"]) .letter-sheet:focus-within {
     transform: none;
   }
 }
 
-[data-layout="review"] .verdict-letter {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-letter {
   view-timeline-name: --verdict-ink;
   view-timeline-axis: block;
 }
 
-[data-layout="review"] .verdict-finding {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-finding {
   position: relative;
 }
 
-[data-layout="review"] .verdict-index {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-index {
   margin: 1.75rem 0 0;
   padding: 0;
   list-style: none;
 }
 
-[data-layout="review"] .verdict-index-item {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-index-item {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
@@ -1130,11 +1818,11 @@
   border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
 }
 
-[data-layout="review"] .verdict-index-item:last-child {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-index-item:last-child {
   border-bottom: 1px solid rgb(var(--color-text-primary) / 0.1);
 }
 
-[data-layout="review"] .verdict-index-label {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-index-label {
   font-family: "Bricolage Grotesque", sans-serif;
   font-size: 1.05rem;
   font-weight: 600;
@@ -1143,14 +1831,14 @@
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .verdict-index-detail {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-index-detail {
   font-size: 0.75rem;
   letter-spacing: 0.03em;
   line-height: 1.35;
   color: rgb(var(--color-text-muted));
 }
 
-[data-layout="review"] .verdict-stop {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-stop {
   margin-top: 2.25rem;
   max-width: 42rem;
   padding: 1.15rem 1.25rem 1.25rem;
@@ -1159,14 +1847,14 @@
   box-shadow: 0 14px 32px rgb(var(--color-text-primary) / 0.18);
 }
 
-[data-layout="review"] .verdict-stop p {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-stop p {
   margin: 0;
   font-size: 0.98rem;
   line-height: 1.55;
   color: rgb(var(--color-surface) / 0.92);
 }
 
-[data-layout="review"] .verdict-close {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-close {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -1175,24 +1863,24 @@
   margin-top: 2.35rem;
 }
 
-[data-layout="review"] .verdict-sign {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign {
   margin: 0;
   min-width: min(100%, 16rem);
 }
 
-[data-layout="review"] .verdict-sign-ink {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-ink {
   position: relative;
   width: min(100%, 19.5rem);
 }
 
-[data-layout="review"] .verdict-sign-bloom,
-[data-layout="review"] .verdict-sign-path {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-bloom,
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-path {
   display: block;
   width: 100%;
   height: auto;
 }
 
-[data-layout="review"] .verdict-sign-bloom {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-bloom {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -1200,13 +1888,13 @@
   pointer-events: none;
 }
 
-[data-layout="review"] .verdict-sign-path {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-path {
   position: relative;
   overflow: visible;
   color: rgb(var(--color-accent-dark));
 }
 
-[data-layout="review"] .verdict-sign-path path {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-path path {
   fill: none;
   stroke: currentColor;
   stroke-width: 2.35;
@@ -1216,7 +1904,7 @@
   stroke-dashoffset: 0;
 }
 
-[data-layout="review"] .verdict-sign-caption {
+:is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-caption {
   margin-top: 0.15rem;
   font-size: 0.75rem;
   letter-spacing: 0.03em;
@@ -1225,20 +1913,20 @@
 }
 
 @supports (animation-timeline: view()) {
-  [data-layout="review"] .verdict-sign-path path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-path path {
     animation: verdict-ink linear both;
     animation-timeline: --verdict-ink;
   }
 
-  [data-layout="review"] .verdict-sign-stem {
+  :is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-stem {
     animation-range: cover 30% cover 50%;
   }
 
-  [data-layout="review"] .verdict-sign-bar {
+  :is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-bar {
     animation-range: cover 38% cover 54%;
   }
 
-  [data-layout="review"] .verdict-sign-flourish {
+  :is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-flourish {
     animation-range: cover 46% cover 72%;
   }
 }
@@ -1254,48 +1942,48 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-layout="review"] .verdict-sign-path path {
+  :is([data-layout="review"], [data-layout="review-offer"]) .verdict-sign-path path {
     animation: none;
     stroke-dashoffset: 0;
   }
 }
 
-[data-layout="review"] .amino-faq .amino-faq-trigger {
+:is([data-layout="review"], [data-layout="review-offer"]) .amino-faq .amino-faq-trigger {
   --tw-ring-offset-color: rgb(var(--color-background));
 }
 
-[data-layout="review"] .amino-faq .faq-item-stop[data-state="open"] {
+:is([data-layout="review"], [data-layout="review-offer"]) .amino-faq .faq-item-stop[data-state="open"] {
   border-color: rgb(var(--color-text-primary) / 0.28);
 }
 
-[data-layout="review"] .amino-faq #faq-pku,
-[data-layout="review"] .amino-faq [id^="faq-"] {
+:is([data-layout="review"], [data-layout="review-offer"]) .amino-faq #faq-pku,
+:is([data-layout="review"], [data-layout="review-offer"]) .amino-faq [id^="faq-"] {
   scroll-margin-top: 1.25rem;
 }
 
-[data-layout="review"] .faq-index {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index {
   margin-top: 1.65rem;
   max-height: min(28rem, calc(100vh - 14rem));
   overflow-y: auto;
   scrollbar-color: rgb(var(--color-accent) / 0.45) transparent;
 }
 
-[data-layout="review"] .faq-index ul {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-[data-layout="review"] .faq-index-item {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-item {
   position: relative;
   padding: 0.48rem 0 0.52rem;
 }
 
-[data-layout="review"] .faq-index-item + .faq-index-item {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-item + .faq-index-item {
   border-top: 1px solid rgb(var(--color-text-primary) / 0.1);
 }
 
-[data-layout="review"] .faq-index-ink {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-ink {
   position: absolute;
   top: -1px;
   right: 0;
@@ -1305,11 +1993,11 @@
   pointer-events: none;
 }
 
-[data-layout="review"] .faq-index-item--stop .faq-index-ink {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-item--stop .faq-index-ink {
   background: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .faq-index-btn {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-btn {
   display: flex;
   align-items: flex-start;
   gap: 0.45rem;
@@ -1327,21 +2015,21 @@
   cursor: pointer;
 }
 
-[data-layout="review"] .faq-index-btn:hover,
-[data-layout="review"] .faq-index-btn:focus-visible {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-btn:hover,
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-btn:focus-visible {
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .faq-index-btn:focus-visible {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-btn:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px rgb(var(--color-background)), 0 0 0 4px rgb(var(--color-accent) / 0.45);
 }
 
-[data-layout="review"] .faq-index-btn[aria-current="true"] {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-btn[aria-current="true"] {
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .faq-index-halt {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-index-halt {
   flex: 0 0 auto;
   width: 0.7rem;
   height: 0.7rem;
@@ -1349,11 +2037,11 @@
   fill: currentColor;
 }
 
-[data-layout="review"] .amino-faq .faq-index-halt {
+:is([data-layout="review"], [data-layout="review-offer"]) .amino-faq .faq-index-halt {
   color: rgb(var(--color-text-primary));
 }
 
-[data-layout="review"] .faq-stop-panel {
+:is([data-layout="review"], [data-layout="review-offer"]) .faq-stop-panel {
   margin: 0 0 1.15rem;
   padding: 1.05rem 1.15rem 1.15rem;
   background: rgb(var(--color-text-primary));
