@@ -24,7 +24,7 @@ function isInside(root: string, candidate: string): boolean {
   return rel === "" || (!rel.startsWith("..") && !path.isAbsolute(rel));
 }
 
-function cloneHandleClickScript(config: CloneProductConfig): string {
+function cloneHandleClickScript(config: CloneProductConfig, affiliateHref: string): string {
   const googleAds = (config.trackingTags ?? []).find((tag) => tag.type === "google_ads");
   const label = googleAds?.conversionLabel ?? null;
   const conversionCurrency =
@@ -34,7 +34,7 @@ function cloneHandleClickScript(config: CloneProductConfig): string {
     conversionValue === undefined ? "" : `      value: ${JSON.stringify(conversionValue)},\n`;
   return `function handleClick(event) {
   if (event) event.preventDefault();
-  var href = ${JSON.stringify(config.clone.affiliateHref)};
+  var href = ${JSON.stringify(affiliateHref)};
   var label = ${JSON.stringify(label)};
   var go = function () { window.location.href = href; };
   if (label && typeof window.gtag === "function") {
@@ -57,7 +57,11 @@ ${valueLine}      currency: ${JSON.stringify(conversionCurrency)},
 }`;
 }
 
-function injectCloneTracking(html: string, config: CloneProductConfig): string {
+function injectCloneTracking(
+  html: string,
+  config: CloneProductConfig,
+  affiliateHref: string,
+): string {
   const tags = config.trackingTags ?? [];
   const head = tags.map(trackingTagHeadHtml).join("\n");
   const noscript = tags.map(trackingTagNoscriptHtml).join("\n");
@@ -68,19 +72,31 @@ function injectCloneTracking(html: string, config: CloneProductConfig): string {
   if (noscript) {
     out = out.replace(/<body([^>]*)>/i, `<body$1>${noscript}`);
   }
-  return out.replace(/function handleClick\(event\) \{[\s\S]*?\n\}/, cloneHandleClickScript(config));
+  return out.replace(
+    /function handleClick\(event\) \{[\s\S]*?\n\}/,
+    cloneHandleClickScript(config, affiliateHref),
+  );
 }
 
-function materializeCloneHtml(html: string, config: CloneProductConfig): string {
+function materializeCloneHtml(
+  html: string,
+  config: CloneProductConfig,
+  page?: { affiliateHref?: string; affiliateDisclosure?: string },
+): string {
+  const affiliateHref = page?.affiliateHref ?? config.clone.affiliateHref;
+  const affiliateDisclosure =
+    page?.affiliateDisclosure ?? config.locale.affiliateDisclosure;
   return injectCloneTracking(
     html
-      .replaceAll("__AFFILIATE_HREF__", config.clone.affiliateHref)
-      .replaceAll(
-        "__AFFILIATE_DISCLOSURE__",
-        config.locale.affiliateDisclosure,
-      ),
+      .replaceAll("__AFFILIATE_HREF__", affiliateHref)
+      .replaceAll("__AFFILIATE_DISCLOSURE__", affiliateDisclosure),
     config,
+    affiliateHref,
   );
+}
+
+function extraPagePrefixes(pagePath: string): string[] {
+  return [`/${pagePath}`, `/${pagePath}/`, `/${pagePath}/index.html`];
 }
 
 function walkFiles(dir: string, prefix: string, files: { fileName: string; source: Buffer }[]) {
@@ -106,9 +122,16 @@ export function cloneProductPlugin(
 ): Plugin {
   const htmlPath = path.resolve(productDir, config.clone.htmlFile);
   const pageDir = path.dirname(htmlPath);
+  const extraPages = config.clone.extraPages ?? [];
 
   const readPage = () =>
     materializeCloneHtml(fs.readFileSync(htmlPath, "utf8"), config);
+
+  const readExtraPage = (page: (typeof extraPages)[number]) =>
+    materializeCloneHtml(fs.readFileSync(path.resolve(productDir, page.htmlFile), "utf8"), config, {
+      affiliateHref: page.affiliateHref,
+      affiliateDisclosure: page.affiliateDisclosure,
+    });
 
   return {
     name: "product-clone",
@@ -119,6 +142,14 @@ export function cloneProductPlugin(
           res.statusCode = 200;
           res.setHeader("Content-Type", "text/html; charset=utf-8");
           res.end(readPage());
+          return;
+        }
+
+        const extra = extraPages.find((page) => extraPagePrefixes(page.path).includes(pathname));
+        if (extra) {
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+          res.end(readExtraPage(extra));
           return;
         }
 
@@ -144,6 +175,13 @@ export function cloneProductPlugin(
         fileName: "index.html",
         source: readPage(),
       });
+      for (const page of extraPages) {
+        this.emitFile({
+          type: "asset",
+          fileName: `${page.path}/index.html`,
+          source: readExtraPage(page),
+        });
+      }
       const emitted: { fileName: string; source: Buffer }[] = [];
       walkFiles(path.join(pageDir, "assets"), "assets/", emitted);
       for (const file of emitted) {

@@ -42,12 +42,26 @@ export type SectionId = OptionalSectionId | "pricing";
 
 export type PageLayout = "sales" | "review" | "clone";
 
+/** Página extra de um clone (ex. locale em `/it`), no mesmo Host. */
+export interface CloneExtraPage {
+  /** Segmento de path sem barra, ex. `it` → `/it/`. */
+  path: string;
+  /** Caminho relativo à pasta do Produto, ex. `page/it/index.html`. */
+  htmlFile: string;
+  /** Hop desta página — Allow, Close e CTAs apontam para cá. */
+  affiliateHref: string;
+  /** Disclaimer de afiliado desta página. Omitido = `locale.affiliateDisclosure`. */
+  affiliateDisclosure?: string;
+}
+
 /** Fonte HTML e hop de um Produto `layout: "clone"`. */
 export interface CloneConfig {
   /** Caminho relativo à pasta do Produto, ex. `page/index.html`. */
   htmlFile: string;
   /** Hop de afiliado — Allow, Close e CTAs do clone apontam para cá. */
   affiliateHref: string;
+  /** Cópias no mesmo Host (locale/path). Não é `popupGate`. */
+  extraPages?: CloneExtraPage[];
 }
 
 export interface OutboundCta {
@@ -577,6 +591,20 @@ export function validateProductConfig(config: ProductConfig): void {
       if (plans && plans.length > 0) {
         missing.push('plans não é permitido quando layout é "clone"');
       }
+    }
+    for (const [index, page] of (config.clone.extraPages ?? []).entries()) {
+      const prefix = `clone.extraPages[${index}]`;
+      if (!page.path?.trim()) missing.push(`${prefix}.path`);
+      else if (
+        page.path.includes("/") ||
+        page.path.includes("\\") ||
+        page.path === ".." ||
+        page.path === "assets"
+      ) {
+        missing.push(`${prefix}.path inválido`);
+      }
+      if (!page.htmlFile?.trim()) missing.push(`${prefix}.htmlFile`);
+      if (!page.affiliateHref?.trim()) missing.push(`${prefix}.affiliateHref`);
     }
   } else if (layout === "review") {
     if (!config.outboundCta?.label?.trim()) missing.push("outboundCta.label");
