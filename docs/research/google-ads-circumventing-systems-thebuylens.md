@@ -44,6 +44,19 @@ Sticky CTA mobile não cobre a maioria da página (não é o interstitial da pol
 4. Claims de saúde só como citação datada da loja; rótulo “Weight Loss Support” entre aspas; sem blood sugar / fat burner como fato nosso; FDA = factory wording, não aprovação do produto.
 5. CTAs descritivos (“Visit the official Burntide website”), não “claim/save/avoid counterfeits”.
 
+## Amino — o que a revisão de 8 set 2026 corrigiu
+
+Instância: `advanced-amino.thebuylens.com` (mesmo registrável).
+
+| Sinal antigo | Correção |
+| --- | --- |
+| Footer `brandName: "Advanced Amino Formula"` | Identidade TheBuyLens; não o fabricante. |
+| Disclosure genérico e microcopy “in the footer” | Disclosure nomeia TheBuyLens + `advancedbionutritionals.com` no Hero (já injetado para todo outbound) e no footer. |
+| H1 “for age-related muscle loss” | H1 descreve a página (“what's on the official page”), não uma condição. |
+| CTA “Check the official offer” | “Visit the official Advanced Bionutritionals page”. |
+| Depoimentos “What people told me” + estados dos EUA | Título/lead: notas compostas ilustrativas, não reviews verificados. |
+| Hero/letter “reversing the muscle most people lose by 70” como gancho nosso | Figura de 30% fica só como citação datada da empresa. |
+
 ## Limite desta correção
 
 Se a reprovação do **domínio** veio de outro Host (`advanced-amino.thebuylens.com`) ou de anúncios anteriores, só o copy do Burntide não restabelece a conta. A contestação precisa dizer: mesmo conteúdo para AdsBot e usuário; sem cloaking; afiliação e destino visíveis; e listar os Hosts do registrável.

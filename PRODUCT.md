@@ -52,7 +52,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 
 - `energi-power-vee` — sales, pt-BR, Spokesperson Vee.
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
-- `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound).
+- `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `advanced-amino.thebuylens.com`. Copy de review independente (sem H1 de muscle loss / offer CTA); disclosure no Hero e no footer; notas ilustrativas rotuladas.
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Overlay de países EU (bandeiras) na raiz e em `/it`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
