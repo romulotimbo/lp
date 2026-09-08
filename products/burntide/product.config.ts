@@ -25,7 +25,9 @@ import type { ProductConfig } from "@/product/types";
  * Copy desta Instância é original. Depoimentos nomeados da oficial (Henry C.,
  * Samuel H., Harper E.) não entram. Sem kit de 1 frasco — a loja não vende.
  *
- * Deploy: burntide.thebuylens.com. trackingTags vazio até Pixel/Ads.
+ * Deploy: burntide.thebuylens.com. Google Ads AW-18351905109 (gtag
+ * config / page view). Sem conversionLabel: clique outbound da review-offer
+ * não é checkout.
  */
 const OFFER = "https://burntide.us/funnelb3/v3/?aff_id=31010";
 const IMG = "/imagens/burntide";
@@ -283,7 +285,7 @@ const burntide: ProductConfig = {
     ],
   },
 
-  trackingTags: [],
+  trackingTags: [{ type: "google_ads", id: "AW-18351905109" }],
 
   footer: {
     brandName: "TheBuyLens · independent Burntide review",
