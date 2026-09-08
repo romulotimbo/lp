@@ -56,7 +56,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Overlay de países EU (bandeiras) na raiz e em `/it`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
-- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). `trackingTags: []`. Host `burntide.thebuylens.com`.
+- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). `trackingTags: []`. Host `burntide.thebuylens.com`. Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
 
 **Não fazer**
 

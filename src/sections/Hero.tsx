@@ -123,6 +123,12 @@ export function Hero() {
               </motion.p>
             ) : null}
 
+            {outbound ? (
+              <motion.p variants={fadeUp} className="review-micro max-w-prose text-pretty">
+                {product.locale.affiliateDisclosure}
+              </motion.p>
+            ) : null}
+
             {!outbound ? (
               <motion.div
                 variants={fadeUp}
