@@ -8,11 +8,14 @@ import type { CloneProductConfig } from "@/product/types";
  * Página publicada: products/cooljet/page/index.html.
  *
  * Deploy: cooljet.thebuylens.shop. Cópia IT em /it (hop 8XLSNQG).
+ * Cópia UK em /uk (hop 8WXDBFZ).
  * Google Ads AW-18351905109 + conversionLabel.
  */
 const HOP =
   "https://www.clickrtrckr.com/JF816B6/8WW1FPC/?__efq=1XzZiNTLF3AgCfINH2PTisIlTzd8oVcx";
 const HOP_IT = "https://www.clickrtrckr.com/JF816B6/8XLSNQG/";
+const HOP_UK =
+  "https://www.clickrtrckr.com/JF816B6/8WXDBFZ/?creative_id=9155&uid=15838";
 const DOMAIN = "https://cooljet.thebuylens.shop";
 
 const cooljet: CloneProductConfig = {
@@ -65,6 +68,11 @@ const cooljet: CloneProductConfig = {
         affiliateHref: HOP_IT,
         affiliateDisclosure:
           "Questa pagina contiene link di affiliazione. Potremmo guadagnare una commissione quando effettui un acquisto tramite i link in questa pagina, senza costi aggiuntivi per te.",
+      },
+      {
+        path: "uk",
+        htmlFile: "page/uk/index.html",
+        affiliateHref: HOP_UK,
       },
     ],
   },
