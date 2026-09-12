@@ -54,7 +54,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - `alpha-surge` — sales, en-US, Spokesperson Nova (Banco de mídia da Vee reaproveitado).
 - `advanced-amino-formula` — review completa, en-US, outbound Digistore24 (sem ClickBank), sem Spokesperson. Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `advanced-amino.thebuylens.com`. Copy de review independente (sem H1 de muscle loss / offer CTA); disclosure no Hero e no footer; notas ilustrativas rotuladas.
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
-- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Overlay de países EU (bandeiras) na raiz, em `/it` e em `/uk`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
+- `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Overlay de países EU (bandeiras) na raiz, em `/it`, `/uk` e `/es`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
 - `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `burntide.thebuylens.com`. Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
 
@@ -94,7 +94,7 @@ A Base não tem voz de marca única. Voz, nome e assets são do Produto.
 - Domínio (`advanced-amino.thebuylens.com`) e URL Digistore24 do Amino estão no config; a letter oficial é a fonte dos claims (perda de massa muscular, 8 EAAs, chart de utilization, garantia 90 dias, reviews datados ago/2026).
 - Domínio e hop do Audifort estão no config (`audifort.nothforge.com`; hop ClickBank `pid=pre1`). Claims da oficial (agosto de 2026): gotas 60 ml, lista em destaque, garantia 90 dias. Widget de reviews na oficial datado 14 ago 2026 (4.98/5, 2300+) — atribuído, não republicado como prova nossa. Paleta escura de sala de escuta (`#16131A`).
 - Copy de review e depoimentos do Amino e do Audifort são originais, não verbatim do fornecedor.
-- CoolJet: dump em `products/cooljet/Get CoolJet Now.html`; página publicada em `products/cooljet/page/`. Cópia italiana em `page/it/` (`/it`, hop `8XLSNQG`). Cópia UK em `page/uk/` (`/uk`, hop `8WXDBFZ`). Hop EN no `product.config.ts`.
+- CoolJet: dump em `products/cooljet/Get CoolJet Now.html`; página publicada em `products/cooljet/page/`. Cópia italiana em `page/it/` (`/it`, hop `8XLSNQG`). Cópia UK em `page/uk/` (`/uk`, hop `8WXDBFZ`). Cópia ES em `page/es/` (`/es`, hop `8WZR76K`). Hop EN no `product.config.ts`.
 - Pawlax: dump em `products/pawlax/Get Pawlax Now!.html`; página publicada em `products/pawlax/page/`. Hop clickrtrckr no `product.config.ts`. O cookie popup na raiz (Allow e Close → hop) tem o mesmo risco de Google Ads documentado no CoolJet — não usar esta URL como destino Ads até revisão.
 - Burntide: assets do funil v3 em `products/burntide/recursos/` (publicados em `public/imagens/burntide/`). Hop v3 `aff_id=31010`. Fatos e preços datados 6 set 2026 (gummy 525 mg ACV+BHB; kits 2/3/6). Sem depoimentos Henry/Samuel/Harper.
 
