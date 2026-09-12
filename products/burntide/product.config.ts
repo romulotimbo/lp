@@ -25,13 +25,14 @@ import type { ProductConfig } from "@/product/types";
  * Copy desta Instância é original. Depoimentos nomeados da oficial (Henry C.,
  * Samuel H., Harper E.) não entram. Sem kit de 1 frasco — a loja não vende.
  *
- * Deploy: burntide.thebuylens.com. Google Ads AW-18351905109 (gtag
- * config / page view). Sem conversionLabel: clique outbound da review-offer
+ * Deploy: burntide.thebuylens.shop. Host antigo burntide.thebuylens.com
+ * ainda responde no Traefik. Google Ads AW-18351905109 (gtag config /
+ * page view). Sem conversionLabel: clique outbound da review-offer
  * não é checkout.
  */
 const OFFER = "https://burntide.us/funnelb3/v3/?aff_id=31010";
 const IMG = "/imagens/burntide";
-const DOMAIN = "https://burntide.thebuylens.com";
+const DOMAIN = "https://burntide.thebuylens.shop";
 
 const outboundCta = {
   label: "Visit the official Burntide website",
@@ -41,7 +42,7 @@ const outboundCta = {
 const burntide: ProductConfig = {
   slug: "burntide",
   productName: "Burntide",
-  domain: "burntide.thebuylens.com",
+  domain: "burntide.thebuylens.shop",
   layout: "review-offer",
   outboundCta,
 

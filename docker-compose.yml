@@ -129,7 +129,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-proxy"
-      - "traefik.http.routers.burntide.rule=Host(`burntide.thebuylens.com`)"
+      - "traefik.http.routers.burntide.rule=Host(`burntide.thebuylens.shop`) || Host(`burntide.thebuylens.com`)"
       - "traefik.http.routers.burntide.entrypoints=websecure"
       - "traefik.http.routers.burntide.tls.certresolver=letsencrypt"
       - "traefik.http.services.burntide.loadbalancer.server.port=80"

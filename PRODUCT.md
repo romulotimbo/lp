@@ -56,7 +56,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Overlay de países EU (bandeiras) na raiz, em `/it`, `/uk` e `/es`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
-- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `burntide.thebuylens.com`. Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
+- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `burntide.thebuylens.shop` (Host antigo `burntide.thebuylens.com` ainda responde). Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
 
 **Não fazer**
 
@@ -71,7 +71,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 **Em aberto**
 
 - IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino e do Burntide (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
-- DNS/TLS de `cooljet.thebuylens.shop`, `pawlax.thebuylens.shop` e `burntide.thebuylens.com` (infra; o compose já declara os Hosts).
+- DNS/TLS de `cooljet.thebuylens.shop`, `pawlax.thebuylens.shop` e `burntide.thebuylens.shop` (infra; o compose já declara os Hosts). Host antigo `burntide.thebuylens.com` ainda responde no Traefik.
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
 
