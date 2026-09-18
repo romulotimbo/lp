@@ -10,8 +10,8 @@ export function handleCheckoutClick(
 }
 
 /**
- * Clique em hop / página oficial (layout review). Não dispara
- * InitiateCheckout nem conversion de checkout — a navegação padrão do `<a>` segue.
+ * Clique em hop / página oficial (layout review, review-offer ou review-skeptic).
+ * Não dispara InitiateCheckout nem conversion de checkout — a navegação padrão do `<a>` segue.
  */
 export function handleOutboundClick(
   _event: MouseEvent<HTMLAnchorElement>,

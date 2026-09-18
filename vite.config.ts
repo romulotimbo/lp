@@ -6,7 +6,7 @@ import type { DesignTokens, ProductConfig, SpaProductConfig } from "./src/produc
 import { isCloneProduct, validateProductConfig } from "./src/product/types";
 import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product/tokens";
 import { renderPopupGateHtml } from "./src/popup-gate/render-html";
-import { cloneProductPlugin } from "./vite.product-clone";
+import { reviewSkepticPrerenderPlugin } from "./vite.review-skeptic-prerender";
 import { trackingTagHeadHtml, trackingTagNoscriptHtml } from "./vite.tracking-tags";
 
 const DEFAULT_PRODUCT = "energi-power-vee";
@@ -128,6 +128,14 @@ function popupGatePlugin(config: SpaProductConfig): Plugin {
   };
 }
 
+/** Base do Vite: prefixo público da Instância, com barra final. */
+function spaBase(config: ProductConfig): string {
+  if (isCloneProduct(config)) return "/";
+  const raw = config.basePath?.trim();
+  if (!raw || raw === "/") return "/";
+  return raw.endsWith("/") ? raw : `${raw}/`;
+}
+
 export default defineConfig(async () => {
   // Import dinâmico porque o caminho depende de PRODUCT (não dá pra usar `import`
   // estático no topo do arquivo). tsx/esbuild resolvem o .ts em runtime do config.
@@ -154,7 +162,13 @@ export default defineConfig(async () => {
   }
 
   return {
-    plugins: [react(), productHtmlPlugin(activeProduct), popupGatePlugin(activeProduct)],
+    base: spaBase(activeProduct),
+    plugins: [
+      react(),
+      productHtmlPlugin(activeProduct),
+      popupGatePlugin(activeProduct),
+      reviewSkepticPrerenderPlugin(activeProduct),
+    ],
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),

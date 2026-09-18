@@ -40,6 +40,10 @@ export function isReviewOfferLayout(): boolean {
   return activeLayout() === "review-offer";
 }
 
+export function isReviewSkepticLayout(): boolean {
+  return activeLayout() === "review-skeptic";
+}
+
 export function usesOutboundCta(): boolean {
-  return isReviewLayout() || isReviewOfferLayout();
+  return isReviewLayout() || isReviewOfferLayout() || isReviewSkepticLayout();
 }

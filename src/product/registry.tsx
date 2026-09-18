@@ -23,6 +23,14 @@ import { Authenticity } from "@/sections/Authenticity";
 import { SideEffects } from "@/sections/SideEffects";
 import { ProsCons } from "@/sections/ProsCons";
 import { Offer } from "@/sections/Offer";
+import { Skepticism } from "@/sections/Skepticism";
+import { Investigation } from "@/sections/Investigation";
+import { TestDiary } from "@/sections/TestDiary";
+import { UgcMosaic } from "@/sections/UgcMosaic";
+import { ProtocolVerdict } from "@/sections/ProtocolVerdict";
+import { Synergy } from "@/sections/Synergy";
+import { HonestyScale } from "@/sections/HonestyScale";
+import { SafeBuy } from "@/sections/SafeBuy";
 
 /**
  * Registro de seções opcionais que renderizam um bloco próprio na página.
@@ -57,4 +65,12 @@ export const OPTIONAL_SECTION_COMPONENTS: Partial<
   "side-effects": SideEffects,
   "pros-cons": ProsCons,
   offer: Offer,
+  skepticism: Skepticism,
+  investigation: Investigation,
+  "test-diary": TestDiary,
+  "ugc-mosaic": UgcMosaic,
+  "protocol-verdict": ProtocolVerdict,
+  synergy: Synergy,
+  "honesty-scale": HonestyScale,
+  "safe-buy": SafeBuy,
 };

@@ -134,6 +134,23 @@ services:
       - "traefik.http.routers.burntide.tls.certresolver=letsencrypt"
       - "traefik.http.services.burntide.loadbalancer.server.port=80"
 
+  moerie-hair-boost:
+    image: ghcr.io/romulotimbo/lp-moerie-hair-boost:${LP_IMAGE_TAG:-latest}
+    container_name: moerie-hair-boost
+    restart: unless-stopped
+    networks:
+      - traefik-proxy
+      - landing-internal
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-proxy"
+      - "traefik.http.routers.moerie-hair-boost.rule=Host(`hair.thebuylens.com`) && PathPrefix(`/real-hair-project-2026`)"
+      - "traefik.http.routers.moerie-hair-boost.entrypoints=websecure"
+      - "traefik.http.routers.moerie-hair-boost.tls.certresolver=letsencrypt"
+      - "traefik.http.middlewares.moerie-hair-boost-strip.stripprefix.prefixes=/real-hair-project-2026"
+      - "traefik.http.routers.moerie-hair-boost.middlewares=moerie-hair-boost-strip"
+      - "traefik.http.services.moerie-hair-boost.loadbalancer.server.port=80"
+
 networks:
   traefik-proxy:
     external: true

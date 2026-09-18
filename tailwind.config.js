@@ -40,6 +40,8 @@ export default {
         mono: ["JetBrains Mono", "monospace"],
         "review-display": ["Bricolage Grotesque", "sans-serif"],
         "review-body": ["Atkinson Hyperlegible", "sans-serif"],
+        "skeptic-display": ["Bodoni Moda", "serif"],
+        "skeptic-body": ["Figtree", "sans-serif"],
       },
       transitionTimingFunction: {
         "out-expo": "cubic-bezier(0.16, 1, 0.3, 1)",

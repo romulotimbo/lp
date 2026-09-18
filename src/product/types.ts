@@ -42,12 +42,40 @@ export type OptionalSectionId =
   | "authenticity"
   | "side-effects"
   | "pros-cons"
-  | "offer";
+  | "offer"
+  | "skepticism"
+  | "investigation"
+  | "test-diary"
+  | "ugc-mosaic"
+  | "protocol-verdict"
+  | "synergy"
+  | "honesty-scale"
+  | "safe-buy";
 
-/** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review` e `review-offer` rejeitam esse id. */
+/** `"pricing"` é obrigatório em layout `sales` (posição livre). Layout `review`, `review-offer` e `review-skeptic` rejeitam esse id. */
 export type SectionId = OptionalSectionId | "pricing";
 
-export type PageLayout = "sales" | "review" | "clone" | "review-offer";
+export type PageLayout = "sales" | "review" | "clone" | "review-offer" | "review-skeptic";
+
+/** Atos da jornada do cético — só válidos em `review-skeptic`. */
+export const REVIEW_SKEPTIC_SECTION_IDS = [
+  "skepticism",
+  "investigation",
+  "test-diary",
+  "ugc-mosaic",
+  "protocol-verdict",
+  "synergy",
+  "honesty-scale",
+  "safe-buy",
+] as const satisfies readonly OptionalSectionId[];
+
+/** Esqueleto genérico de `review` — rejeitado como narrativa de `review-skeptic`. */
+export const REVIEW_SKELETON_SECTION_IDS = [
+  "pain",
+  "research",
+  "official-claims",
+  "verdict",
+] as const satisfies readonly OptionalSectionId[];
 
 /** Página extra de um clone (ex. locale em `/it`), no mesmo Host. */
 export interface CloneExtraPage {
@@ -438,6 +466,126 @@ export interface ProsConsContent {
   cons: string[];
 }
 
+export type ProtocolId = "pills" | "spray";
+
+export type ProtocolEmphasis = ProtocolId | "unset";
+
+export interface ProtocolUgcSlot {
+  kind: "video" | "image" | "reserved";
+  src?: string;
+  caption: string;
+  attribution?: string;
+}
+
+export interface ProtocolOffer {
+  id: ProtocolId;
+  productName: string;
+  approachLabel: string;
+  whyForYou: string;
+  outboundCta: OutboundCta;
+  image?: EditorialFigure;
+  ugc?: ProtocolUgcSlot;
+}
+
+export interface ProtocolCatalog {
+  pills: ProtocolOffer;
+  spray: ProtocolOffer;
+  defaultProtocol: ProtocolId;
+}
+
+export interface ProtocolQuizAnswer {
+  label: string;
+  scores: ProtocolId;
+}
+
+export interface ProtocolQuizQuestion {
+  id: string;
+  prompt: string;
+  answers: [ProtocolQuizAnswer, ProtocolQuizAnswer];
+}
+
+export interface ProtocolQuiz {
+  questions: [
+    ProtocolQuizQuestion,
+    ProtocolQuizQuestion,
+    ProtocolQuizQuestion,
+    ProtocolQuizQuestion,
+  ];
+  diagnoseLabel: string;
+  resultTemplate: string;
+}
+
+export interface EditorialBarContent {
+  tag: string;
+  disclosure: string;
+  asOf: string;
+  readingMinutes: number;
+  learnMoreHref: string;
+}
+
+export interface TestDiaryPhase {
+  label: string;
+  title: string;
+  body: string;
+}
+
+export interface TestDiaryContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  phases: TestDiaryPhase[];
+  caveat: string;
+}
+
+export interface UgcMosaicContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  items: ProtocolUgcSlot[];
+}
+
+export interface ProtocolVerdictContent {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+}
+
+export interface SynergyContent {
+  eyebrow?: string;
+  title: string;
+  body: string;
+  acceleratorCtaLabel?: string;
+}
+
+export interface SafeBuyContent {
+  eyebrow?: string;
+  title: string;
+  body: string;
+  counterfeitWarning: string;
+  guaranteeNote: string;
+}
+
+export interface CompliancePageContent {
+  title: string;
+  paragraphs: string[];
+}
+
+export interface CompliancePages {
+  terms: CompliancePageContent;
+  privacy: CompliancePageContent;
+  medicalDisclaimer: CompliancePageContent;
+  about: CompliancePageContent;
+}
+
+export const COMPLIANCE_PAGE_PATHS = [
+  "/terms",
+  "/privacy",
+  "/medical-disclaimer",
+  "/about",
+] as const;
+
+export type CompliancePagePath = (typeof COMPLIANCE_PAGE_PATHS)[number];
+
 export interface OfferPackage {
   id: string;
   name: string;
@@ -563,21 +711,44 @@ export interface PopupGateConfig {
 interface ProductIdentity {
   slug: string;
   productName: string;
+  /** Host público, sem scheme (ex. `hair.thebuylens.com`). */
   domain: string;
+  /**
+   * Prefix da URL pública quando a Instância não vive na raiz do Host
+   * (ex. `/real-hair-project-2026`). Barra inicial, sem barra final.
+   * Omitido = Host na raiz. Não altera o slug interno do Produto.
+   */
+  basePath?: string;
   locale: LocaleConfig;
   tokens: DesignTokens;
   seo: SeoConfig;
   trackingTags: TrackingTag[];
 }
 
-/** Config da SPA (`sales` / `review` / `review-offer`) — Hero, seções e rodapé da Base. */
+/** Config da SPA (`sales` / `review` / `review-offer` / `review-skeptic`) — Hero, seções e rodapé da Base. */
 export interface SpaProductConfig extends ProductIdentity {
   hero: HeroContent;
   /** Omitido = `"sales"`. */
-  layout?: "sales" | "review" | "review-offer";
-  /** Obrigatório em layout `review` e `review-offer`. Ignorado em `sales`. */
+  layout?: "sales" | "review" | "review-offer" | "review-skeptic";
+  /** Obrigatório em layout `review` e `review-offer`. Proibido em `review-skeptic` (usar `catalog`). */
   outboundCta?: OutboundCta;
-  /** Ordem das seções opcionais. `"pricing"` é obrigatório em `sales` e proibido em `review` / `review-offer`. Hero e rodapé são sempre fixos. */
+  /** Obrigatório em `review-skeptic`. Dois hops oficiais (pílulas + Haircare Set). */
+  catalog?: ProtocolCatalog;
+  /** Obrigatório em `review-skeptic`. Quiz de 4 perguntas (pílulas vs set tópico). */
+  protocolQuiz?: ProtocolQuiz;
+  /** Obrigatório em `review-skeptic`. Barra editorial no primeiro paint. */
+  editorialBar?: EditorialBarContent;
+  /** Obrigatório em `review-skeptic`. Terms, Privacy, Medical Disclaimer, About. */
+  compliancePages?: CompliancePages;
+  skepticism?: EditorialBlock;
+  investigation?: EditorialBlock;
+  testDiary?: TestDiaryContent;
+  ugcMosaic?: UgcMosaicContent;
+  protocolVerdict?: ProtocolVerdictContent;
+  synergy?: SynergyContent;
+  honestyScale?: ProsConsContent;
+  safeBuy?: SafeBuyContent;
+  /** Ordem das seções opcionais. `"pricing"` é obrigatório em `sales` e proibido em `review` / `review-offer` / `review-skeptic`. Hero e rodapé são sempre fixos. */
   sections: SectionId[];
   pricing?: PricingContent;
   plans?: Plan[];
@@ -649,10 +820,126 @@ const SECTION_DEPENDENCY: Record<OptionalSectionId, keyof SpaProductConfig> = {
   "side-effects": "sideEffects",
   "pros-cons": "prosCons",
   offer: "offer",
+  skepticism: "skepticism",
+  investigation: "investigation",
+  "test-diary": "testDiary",
+  "ugc-mosaic": "ugcMosaic",
+  "protocol-verdict": "protocolVerdict",
+  synergy: "synergy",
+  "honesty-scale": "honestyScale",
+  "safe-buy": "safeBuy",
 };
 
 export function resolveLayout(config: ProductConfig): PageLayout {
   return config.layout ?? "sales";
+}
+
+function isHttpUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function validateProtocolOffer(
+  offer: ProtocolOffer | undefined,
+  key: ProtocolId,
+  missing: string[],
+) {
+  if (!offer) {
+    missing.push(`catalog.${key}`);
+    return;
+  }
+  if (offer.id !== key) missing.push(`catalog.${key}.id deve ser "${key}"`);
+  if (!offer.productName?.trim()) missing.push(`catalog.${key}.productName`);
+  if (!offer.approachLabel?.trim()) missing.push(`catalog.${key}.approachLabel`);
+  if (!offer.whyForYou?.trim()) missing.push(`catalog.${key}.whyForYou`);
+  if (!offer.outboundCta?.label?.trim()) missing.push(`catalog.${key}.outboundCta.label`);
+  if (!offer.outboundCta?.href?.trim()) {
+    missing.push(`catalog.${key}.outboundCta.href`);
+  } else if (!isHttpUrl(offer.outboundCta.href)) {
+    missing.push(`catalog.${key}.outboundCta.href deve ser http(s)`);
+  }
+}
+
+function validateReviewSkepticConfig(config: SpaProductConfig, missing: string[]) {
+  if (config.outboundCta) {
+    missing.push("outboundCta não é permitido quando layout é \"review-skeptic\" — use catalog dual");
+  }
+  if ((config.plans?.length ?? 0) > 0) {
+    missing.push('plans não é permitido quando layout é "review-skeptic"');
+  }
+  if (config.sections?.includes("pricing")) {
+    missing.push('sections não pode incluir "pricing" quando layout é "review-skeptic"');
+  }
+  for (const id of REVIEW_SKELETON_SECTION_IDS) {
+    if (config.sections?.includes(id)) {
+      missing.push(`"${id}" não é o esqueleto de layout "review-skeptic"`);
+    }
+  }
+
+  validateProtocolOffer(config.catalog?.pills, "pills", missing);
+  validateProtocolOffer(config.catalog?.spray, "spray", missing);
+  if (config.catalog?.pills?.outboundCta?.href && config.catalog?.spray?.outboundCta?.href) {
+    if (config.catalog.pills.outboundCta.href === config.catalog.spray.outboundCta.href) {
+      missing.push("catalog.pills e catalog.spray precisam de hrefs distintos");
+    }
+  }
+  if (!config.catalog?.defaultProtocol) {
+    missing.push("catalog.defaultProtocol");
+  } else if (
+    config.catalog.defaultProtocol !== "pills" &&
+    config.catalog.defaultProtocol !== "spray"
+  ) {
+    missing.push('catalog.defaultProtocol deve ser "pills" ou "spray"');
+  }
+
+  const questions = config.protocolQuiz?.questions;
+  if (!questions || questions.length !== 4) {
+    missing.push("protocolQuiz.questions (exatamente 4)");
+  } else {
+    questions.forEach((question, index) => {
+      if (!question.prompt?.trim()) missing.push(`protocolQuiz.questions[${index}].prompt`);
+      if (!question.answers || question.answers.length !== 2) {
+        missing.push(`protocolQuiz.questions[${index}].answers (exatamente 2)`);
+        return;
+      }
+      question.answers.forEach((answer, answerIndex) => {
+        if (!answer.label?.trim()) {
+          missing.push(`protocolQuiz.questions[${index}].answers[${answerIndex}].label`);
+        }
+        if (answer.scores !== "pills" && answer.scores !== "spray") {
+          missing.push(`protocolQuiz.questions[${index}].answers[${answerIndex}].scores`);
+        }
+      });
+    });
+  }
+  if (!config.protocolQuiz?.diagnoseLabel?.trim()) {
+    missing.push("protocolQuiz.diagnoseLabel");
+  }
+
+  if (!config.editorialBar?.tag?.trim()) missing.push("editorialBar.tag");
+  if (!config.editorialBar?.disclosure?.trim()) missing.push("editorialBar.disclosure");
+  if (!config.editorialBar?.asOf?.trim()) missing.push("editorialBar.asOf");
+  if (!config.editorialBar?.readingMinutes || config.editorialBar.readingMinutes < 1) {
+    missing.push("editorialBar.readingMinutes");
+  }
+
+  const pages = config.compliancePages;
+  if (!pages?.terms?.title?.trim() || !pages.terms.paragraphs?.length) {
+    missing.push("compliancePages.terms");
+  }
+  if (!pages?.privacy?.title?.trim() || !pages.privacy.paragraphs?.length) {
+    missing.push("compliancePages.privacy");
+  }
+  if (!pages?.medicalDisclaimer?.title?.trim() || !pages.medicalDisclaimer.paragraphs?.length) {
+    missing.push("compliancePages.medicalDisclaimer");
+  }
+  if (!pages?.about?.title?.trim() || !pages.about.paragraphs?.length) {
+    missing.push("compliancePages.about");
+  }
 }
 
 export class ProductConfigError extends Error {}
@@ -667,6 +954,14 @@ export function validateProductConfig(config: ProductConfig): void {
 
   if (!config.slug) missing.push("slug");
   if (!config.productName) missing.push("productName");
+  if (config.basePath !== undefined) {
+    const basePath = config.basePath.trim();
+    if (!basePath.startsWith("/") || basePath === "/" || basePath.endsWith("/") || /\s/.test(basePath)) {
+      missing.push(
+        'basePath deve ser um prefixo absoluto sem barra final (ex. "/real-hair-project-2026")',
+      );
+    }
+  }
   if (!config.locale?.language) missing.push("locale.language");
   if (!config.locale?.currency) missing.push("locale.currency");
   if (!config.locale?.affiliateDisclosure?.trim()) {
@@ -682,6 +977,14 @@ export function validateProductConfig(config: ProductConfig): void {
     missing.push(
       "popupGate é proibido (injected overlay / Google Ads malicious injected overlay)",
     );
+  }
+
+  if (!isCloneProduct(config) && layout !== "review-skeptic") {
+    for (const id of REVIEW_SKEPTIC_SECTION_IDS) {
+      if (config.sections?.includes(id)) {
+        missing.push(`"${id}" só é válido em layout "review-skeptic"`);
+      }
+    }
   }
 
   if (isCloneProduct(config)) {
@@ -707,6 +1010,8 @@ export function validateProductConfig(config: ProductConfig): void {
       if (!page.htmlFile?.trim()) missing.push(`${prefix}.htmlFile`);
       if (!page.affiliateHref?.trim()) missing.push(`${prefix}.affiliateHref`);
     }
+  } else if (layout === "review-skeptic") {
+    validateReviewSkepticConfig(config, missing);
   } else if (layout === "review" || layout === "review-offer") {
     if (!config.outboundCta?.label?.trim()) missing.push("outboundCta.label");
     if (!config.outboundCta?.href?.trim()) missing.push("outboundCta.href");

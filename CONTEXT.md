@@ -57,12 +57,16 @@ Segunda página estática com overlay injetado sobre réplica desfocada de check
 _Avoid_: reconstruir o overlay em path aninhado, redirect desses paths, chamar de capacidade
 
 **Clone**:
-Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`/`review-offer`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (CoolJet `/it`, `/uk`, `/es`). CoolJet usa cookie popup na raiz (EUA); extra pages usam overlay de países EU com bandeiras. Todos os cliques (incluindo o fundo do popup na raiz) vão ao hop da página. Pawlax usa cookie popup na raiz. Nenhum dos dois é `popupGate`.
+Modo de Instância que publica HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React `sales`/`review`/`review-offer`/`review-skeptic`. Config: `layout: "clone"`, `clone.htmlFile`, `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (CoolJet `/it`, `/uk`, `/es`). CoolJet usa cookie popup na raiz (EUA); extra pages usam overlay de países EU com bandeiras. Todos os cliques (incluindo o fundo do popup na raiz) vão ao hop da página. Pawlax usa cookie popup na raiz. Nenhum dos dois é `popupGate`.
 _Avoid_: Página-popup, popupGate, segunda página no mesmo Host
 
 **Review-offer**:
 Modo de Instância advertorial (busca scam/legit) com hop outbound e tabela de oferta datada. Não é `review` (artigo sem preço) nem `sales` (checkout da Base). Config: `layout: "review-offer"`, `outboundCta`, módulos `what-is` / `formula` / `authenticity` / `side-effects` / `pros-cons` / `offer`. Clique no hop não dispara `InitiateCheckout`.
 _Avoid_: misturar com `plans` / Pricing, chamar de review editorial
+
+**Review-skeptic**:
+Modo de Instância advertorial “jornada do cético” para linha dual (cápsulas sistêmicas + Haircare Set tópico). Config: `layout: "review-skeptic"`, `catalog.pills` + `catalog.spray`, quiz de 4 perguntas, barra editorial, atos 1–7, `compliancePages`. Quiz só enfatiza e rola; hops oficiais não são checkout. Moérie (`moerie-hair-boost`) é a Instância deste layout — não é review genérico Amino/Audifort.
+_Avoid_: `plans`, `"pricing"`, `outboundCta` único, HUD de sales, cromo clínico Amino, glass-lab Burntide
 
 ## Decisions
 

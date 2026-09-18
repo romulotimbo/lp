@@ -26,6 +26,7 @@ jobs:
           {"suffix":"-audifort","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=audifort","target":""},
           {"suffix":"-cooljet","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=cooljet","target":""},
           {"suffix":"-pawlax","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=pawlax","target":""},
-          {"suffix":"-burntide","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=burntide","target":""}
+          {"suffix":"-burntide","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=burntide","target":""},
+          {"suffix":"-moerie-hair-boost","dockerfile":"Dockerfile","context":".","build_args":"PRODUCT=moerie-hair-boost","target":""}
         ]
     secrets: inherit

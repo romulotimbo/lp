@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-18T00:00:00.000Z",
+  "title": "Design System: Moérie Mineral Folio",
+  "instance": "moerie-hair-boost",
+  "layout": "review-skeptic",
+  "replacesRootDesignMd": false,
+  "extensions": {
+    "tokenMap": {
+      "background": "#D7E3DC",
+      "surface": "#F4F8F5",
+      "textPrimary": "#1C2A24",
+      "textMuted": "#5A6D64",
+      "accent": "#C4A035",
+      "accentDark": "#5C3E0A"
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero and act titles. Bodoni Moda 600, sentence case." },
+      "body": { "displayName": "Body", "purpose": "Article, quiz, legal. Figtree." },
+      "label": { "displayName": "Label", "purpose": "Editorial bar tag, act numbers." }
+    }
+  },
+  "narrative": {
+    "northStar": "The Mineral Compounding Folio",
+    "overview": "A celadon blotter under north light. Pharmacy ink, brass CTAs darkened from the yellow capsules, Bodoni masthead. The visitor reads a 90-day skeptic review and hops to official stores — pills or the Haircare Set.",
+    "rules": [
+      { "name": "The Brass CTA Rule", "body": "Primary actions fill accentDark, not the yellow pill. Hover may warm to ochre with ink text." },
+      { "name": "The No HUD Rule", "body": "No uppercase display, no neon glow, no Sora, no Bricolage, no glass caustics." },
+      { "name": "The Dual Hop Rule", "body": "Two official URLs. Quiz emphasizes; it never hides a SKU or a legal page." }
+    ]
+  }
+}

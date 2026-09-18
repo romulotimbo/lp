@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600;700&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Figtree:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -2112,3 +2112,453 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── review-skeptic: Mineral Folio (Moérie) ── */
+[data-layout="review-skeptic"] {
+  --skeptic-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: Figtree, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgb(var(--color-accent) / 0.08), transparent 46%),
+    linear-gradient(180deg, rgb(var(--color-background)), rgb(var(--color-surface)));
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review-skeptic"] .skeptic-display,
+[data-layout="review-skeptic"] .skeptic-act-title,
+[data-layout="review-skeptic"] .skeptic-footer-brand,
+[data-layout="review-skeptic"] .skeptic-legal h1,
+[data-layout="review-skeptic"] .skeptic-protocol-card h3,
+[data-layout="review-skeptic"] .skeptic-diary-phase h3 {
+  font-family: "Bodoni Moda", "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
+[data-layout="review-skeptic"] .skeptic-bar {
+  border-bottom: 1px solid rgb(var(--color-text-primary) / 0.12);
+  background: rgb(var(--color-surface) / 0.92);
+}
+
+[data-layout="review-skeptic"] .skeptic-bar-inner {
+  display: grid;
+  gap: 0.45rem 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.85rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  [data-layout="review-skeptic"] .skeptic-bar-inner {
+    grid-template-columns: auto 1fr auto;
+    align-items: baseline;
+    padding: 0.7rem 2rem;
+  }
+}
+
+[data-layout="review-skeptic"] .skeptic-bar-tag,
+[data-layout="review-skeptic"] .skeptic-kicker,
+[data-layout="review-skeptic"] .skeptic-act-num {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(var(--color-accent-dark));
+}
+
+[data-layout="review-skeptic"] .skeptic-bar-disclosure,
+[data-layout="review-skeptic"] .skeptic-bar-meta,
+[data-layout="review-skeptic"] .skeptic-micro {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-skeptic"] .skeptic-bar-learn {
+  color: rgb(var(--color-text-primary));
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+[data-layout="review-skeptic"] .skeptic-hero {
+  display: grid;
+  gap: 2.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 5rem) 1.5rem 3rem;
+}
+
+@media (min-width: 1024px) {
+  [data-layout="review-skeptic"] .skeptic-hero {
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    align-items: start;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+[data-layout="review-skeptic"] .skeptic-display {
+  margin: 0.35rem 0 0;
+  font-size: clamp(2.15rem, 4.4vw + 1rem, 3.85rem);
+  line-height: 1.08;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+[data-layout="review-skeptic"] .skeptic-lede,
+[data-layout="review-skeptic"] .skeptic-prose,
+[data-layout="review-skeptic"] .skeptic-caveat,
+[data-layout="review-skeptic"] .skeptic-synergy-note {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-skeptic"] .skeptic-lede {
+  margin: 1rem 0 1.75rem;
+  max-width: 40rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-hero-figure {
+  margin: 0;
+  padding: 1.25rem;
+  background: rgb(var(--color-surface));
+  border: 1px solid rgb(var(--color-text-primary) / 0.1);
+  box-shadow: 12px 18px 0 rgb(var(--color-text-primary) / 0.06);
+}
+
+[data-layout="review-skeptic"] .skeptic-hero-figure img,
+[data-layout="review-skeptic"] .skeptic-protocol-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+  mix-blend-mode: normal;
+}
+
+[data-layout="review-skeptic"] .skeptic-hero-figure figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0 0 1.25rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-list {
+  display: grid;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-item fieldset {
+  border: 1px solid rgb(var(--color-text-primary) / 0.12);
+  background: rgb(var(--color-surface) / 0.8);
+  padding: 1rem 1rem 0.85rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-item legend {
+  display: flex;
+  gap: 0.65rem;
+  align-items: baseline;
+  padding: 0 0.35rem;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-index {
+  font-family: "Bodoni Moda", serif;
+  font-size: 1.15rem;
+  color: rgb(var(--color-accent-dark));
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-answers {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.7rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-choice {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid rgb(var(--color-text-primary) / 0.1);
+  background: rgb(var(--color-background) / 0.55);
+  cursor: pointer;
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-choice:has(input:checked) {
+  border-color: rgb(var(--color-accent-dark));
+  background: rgb(var(--color-accent) / 0.12);
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-choice input {
+  margin-top: 0.2rem;
+  accent-color: rgb(var(--color-accent-dark));
+}
+
+[data-layout="review-skeptic"] .skeptic-quiz-banner {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: rgb(var(--color-accent) / 0.16);
+  border-left: 3px solid rgb(var(--color-accent-dark));
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review-skeptic"] .skeptic-cta,
+[data-layout="review-skeptic"] .skeptic-cta-ghost {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.15rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 220ms var(--skeptic-ease), border-color 220ms var(--skeptic-ease),
+    transform 220ms var(--skeptic-ease);
+}
+
+[data-layout="review-skeptic"] .skeptic-cta {
+  background: rgb(var(--color-accent-dark));
+  color: #f7f3ea;
+  border: 1px solid rgb(var(--color-accent-dark));
+}
+
+[data-layout="review-skeptic"] .skeptic-cta:hover {
+  background: rgb(var(--color-accent));
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review-skeptic"] .skeptic-cta-ghost {
+  background: transparent;
+  color: rgb(var(--color-text-primary));
+  border: 1px solid rgb(var(--color-text-primary) / 0.28);
+}
+
+[data-layout="review-skeptic"] .skeptic-cta-ghost:hover {
+  border-color: rgb(var(--color-accent-dark));
+}
+
+[data-layout="review-skeptic"] .skeptic-cta:focus-visible,
+[data-layout="review-skeptic"] .skeptic-cta-ghost:focus-visible,
+[data-layout="review-skeptic"] .skeptic-quiz-choice:focus-within {
+  outline: 2px solid rgb(var(--color-accent-dark));
+  outline-offset: 2px;
+}
+
+[data-layout="review-skeptic"] .skeptic-cta:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+[data-layout="review-skeptic"] .skeptic-cta-row,
+[data-layout="review-skeptic"] .skeptic-hero-ctas,
+[data-layout="review-skeptic"] .skeptic-act-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-act {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 5.5rem) 1.5rem 0;
+}
+
+[data-layout="review-skeptic"] .skeptic-act-title {
+  margin: 0.4rem 0 0;
+  font-size: clamp(1.7rem, 2vw + 1rem, 2.45rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+[data-layout="review-skeptic"] .skeptic-prose {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.35rem;
+  color: rgb(var(--color-text-primary) / 0.92);
+}
+
+[data-layout="review-skeptic"] .skeptic-prose p,
+[data-layout="review-skeptic"] .skeptic-diary-phase p,
+[data-layout="review-skeptic"] .skeptic-legal p {
+  margin: 0;
+}
+
+[data-layout="review-skeptic"] .skeptic-diary {
+  display: grid;
+  gap: 1.15rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-layout="review-skeptic"] .skeptic-diary-phase {
+  padding: 1.15rem 0 0;
+  border-top: 1px solid rgb(var(--color-text-primary) / 0.12);
+}
+
+[data-layout="review-skeptic"] .skeptic-diary-phase h3 {
+  margin: 0.3rem 0 0.45rem;
+  font-size: 1.35rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-caveat,
+[data-layout="review-skeptic"] .skeptic-warning,
+[data-layout="review-skeptic"] .skeptic-synergy-note {
+  margin-top: 1.25rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-warning {
+  padding: 1rem 1.1rem;
+  border: 1px solid rgb(var(--color-text-primary) / 0.16);
+  background: rgb(var(--color-surface));
+  color: rgb(var(--color-text-primary));
+}
+
+[data-layout="review-skeptic"] .skeptic-ugc-grid,
+[data-layout="review-skeptic"] .skeptic-protocol-grid,
+[data-layout="review-skeptic"] .skeptic-honesty {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  [data-layout="review-skeptic"] .skeptic-ugc-grid,
+  [data-layout="review-skeptic"] .skeptic-protocol-grid,
+  [data-layout="review-skeptic"] .skeptic-honesty {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  [data-layout="review-skeptic"] .skeptic-ugc-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+[data-layout="review-skeptic"] .skeptic-ugc-slot,
+[data-layout="review-skeptic"] .skeptic-protocol-card {
+  margin: 0;
+  padding: 1rem;
+  background: rgb(var(--color-surface));
+  border: 1px solid rgb(var(--color-text-primary) / 0.1);
+}
+
+[data-layout="review-skeptic"] .skeptic-protocol-card--featured {
+  border-color: rgb(var(--color-accent-dark));
+  box-shadow: inset 0 0 0 1px rgb(var(--color-accent-dark) / 0.35);
+}
+
+[data-layout="review-skeptic"] .skeptic-protocol-card h3 {
+  margin: 0.25rem 0 0.6rem;
+  font-size: 1.45rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-protocol-card p {
+  margin: 0 0 1rem;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-skeptic"] .skeptic-ugc-frame {
+  display: grid;
+  place-items: center;
+  min-height: 11rem;
+  background:
+    repeating-linear-gradient(
+      -12deg,
+      rgb(var(--color-text-primary) / 0.04),
+      rgb(var(--color-text-primary) / 0.04) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  color: rgb(var(--color-text-muted));
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-ugc-slot figcaption,
+[data-layout="review-skeptic"] .skeptic-ugc-attr {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 0.875rem;
+  color: rgb(var(--color-text-muted));
+}
+
+[data-layout="review-skeptic"] .skeptic-honesty h3 {
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+[data-layout="review-skeptic"] .skeptic-honesty ul {
+  margin: 0;
+  padding: 0 0 0 1.1rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-honesty li + li {
+  margin-top: 0.55rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-legal {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 1.5rem 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-legal h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw + 1rem, 2.8rem);
+}
+
+[data-layout="review-skeptic"] .skeptic-footer {
+  margin-top: clamp(3.5rem, 8vw, 6rem);
+  border-color: rgb(var(--color-text-primary) / 0.12);
+  background: rgb(var(--color-surface) / 0.72);
+}
+
+[data-layout="review-skeptic"] .skeptic-legal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+}
+
+[data-layout="review-skeptic"] .skeptic-legal-nav a {
+  color: rgb(var(--color-text-primary));
+  text-underline-offset: 0.18em;
+}
+
+[data-layout="review-skeptic"] .skeptic-sticky {
+  border-color: rgb(var(--color-text-primary) / 0.12);
+  background: rgb(var(--color-surface));
+}
+
+[data-layout="review-skeptic"] .skeptic-sticky .skeptic-cta,
+[data-layout="review-skeptic"] .skeptic-sticky .skeptic-cta-ghost {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.78rem;
+  padding: 0.55rem 0.5rem;
+}
+
+[data-layout="review-skeptic"][data-protocol-emphasis="pills"] .skeptic-protocol-card:has(h3),
+[data-layout="review-skeptic"][data-protocol-emphasis="spray"] .skeptic-protocol-card:has(h3) {
+  opacity: 1;
+}
+

@@ -1,22 +1,36 @@
+import { DualOfficialCtas } from "@/components/dual-official-ctas";
 import { OutboundLink } from "@/components/outbound-link";
-import { product, usesOutboundCta } from "@/product/active";
+import { isReviewSkepticLayout, product, usesOutboundCta } from "@/product/active";
+import { siteHref } from "@/lib/pathname";
 import { cn } from "@/lib/utils";
+
+const LEGAL_LINKS = [
+  { href: "/terms", label: "Terms" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/medical-disclaimer", label: "Medical disclaimer" },
+  { href: "/about", label: "About" },
+] as const;
 
 export function PageFooter() {
   const { footer, locale, outboundCta } = product;
+  const skeptic = isReviewSkepticLayout();
   const outbound = usesOutboundCta();
   const ctaHref = outbound && outboundCta ? outboundCta.href : "#pricing";
   const ctaClassName = outbound
-    ? "btn-primary"
+    ? skeptic
+      ? "skeptic-cta"
+      : "btn-primary"
     : "font-display text-xs uppercase tracking-wider text-cyber-muted transition-colors duration-300 hover:text-blood-red focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blood-red/40 focus-visible:ring-offset-2 focus-visible:ring-offset-cyber-darker";
 
   return (
     <footer
       className={cn(
         "border-t px-6 py-8 lg:px-8",
-        outbound
-          ? "review-rule border-cyber-titanium/12 bg-cyber-black"
-          : "border-blood-red/12 bg-cyber-darker",
+        skeptic
+          ? "skeptic-footer"
+          : outbound
+            ? "review-rule border-cyber-titanium/12 bg-cyber-black"
+            : "border-blood-red/12 bg-cyber-darker",
       )}
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-6 lg:gap-8">
@@ -26,6 +40,7 @@ export function PageFooter() {
               className={cn(
                 "text-lg font-bold tracking-tight text-cyber-titanium",
                 outbound ? "font-body" : "font-display uppercase",
+                skeptic && "skeptic-footer-brand",
               )}
             >
               {footer.brandName}
@@ -43,7 +58,12 @@ export function PageFooter() {
           </div>
 
           <div className="flex flex-col gap-2 sm:items-end">
-            {outbound && outboundCta ? (
+            {skeptic ? (
+              <DualOfficialCtas
+                pillsLabel={product.catalog?.pills.outboundCta.label}
+                sprayLabel={product.catalog?.spray.outboundCta.label}
+              />
+            ) : outbound && outboundCta ? (
               <OutboundLink href={ctaHref} label={footer.ctaLabel} className={ctaClassName} />
             ) : (
               <a href={ctaHref} className={ctaClassName}>
@@ -62,7 +82,18 @@ export function PageFooter() {
           </div>
         </div>
 
+        {skeptic ? (
+          <nav className="skeptic-legal-nav" aria-label="Legal">
+            {LEGAL_LINKS.map((link) => (
+              <a key={link.href} href={siteHref(link.href)}>
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        ) : null}
+
         <div
+          id="footer-disclosure"
           className={cn(
             "border-t pt-5 leading-relaxed",
             outbound

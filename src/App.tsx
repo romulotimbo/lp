@@ -2,8 +2,13 @@ import { PageFooter } from "@/components/page-footer";
 import { StickyCta } from "@/components/sticky-cta";
 import { Hero } from "@/sections/Hero";
 import { Pricing } from "@/sections/Pricing";
+import { EditorialBar } from "@/sections/EditorialBar";
+import { SkepticHero } from "@/sections/SkepticHero";
+import { CompliancePageView, isCompliancePath } from "@/sections/CompliancePage";
 import { OPTIONAL_SECTION_COMPONENTS } from "@/product/registry";
-import { activeLayout, product } from "@/product/active";
+import { ProtocolEmphasisProvider, useProtocolEmphasis } from "@/product/protocol-emphasis";
+import { activeLayout, isReviewSkepticLayout, product } from "@/product/active";
+import { getPathname } from "@/lib/pathname";
 import type { OptionalSectionId } from "@/product/types";
 
 const GLASS_LAB_CONTRACT = `<!--
@@ -15,8 +20,56 @@ FORM: Overdrive glass-lab (user-locked). Seed: overdrive-glass-lab.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->`;
 
+const MINERAL_FOLIO_CONTRACT = `<!--
+THESIS: A mineral compounding folio on celadon blotter — not a sales HUD, not a clinic chart, not a glass lab.
+OWN-WORLD: Cool mineral paper, pharmacy ink, brass-ochre accent from the yellow capsules, Bodoni masthead + Figtree reading type, hairline rules.
+STORY: A skeptical US reader tests the TikTok hair brand for 90 days, picks inside-out pills or the Haircare Set ritual, and hops only to official stores.
+FIRST VIEWPORT: Editorial bar, sentence-case 90-day headline, four-question annotation quiz, bottle still-life with no glow. Dual official CTAs, never checkout.
+FORM: Mineral Folio. Seed: mineral-folio-desk.
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->`;
+
+function ReviewSkepticApp() {
+  const pathname = getPathname();
+  const legal = isCompliancePath(pathname);
+  const { emphasis } = useProtocolEmphasis();
+
+  return (
+    <main
+      data-layout="review-skeptic"
+      data-protocol-emphasis={emphasis}
+      className="bg-cyber-black text-cyber-titanium antialiased pb-[calc(4.5rem+env(safe-area-inset-bottom,0px))] md:pb-0"
+    >
+      <span hidden aria-hidden dangerouslySetInnerHTML={{ __html: MINERAL_FOLIO_CONTRACT }} />
+      <EditorialBar />
+      {legal ? (
+        <CompliancePageView />
+      ) : (
+        <>
+          <SkepticHero />
+          {product.sections.map((id) => {
+            if (id === "pricing") return null;
+            const Component = OPTIONAL_SECTION_COMPONENTS[id as OptionalSectionId];
+            return Component ? <Component key={id} /> : null;
+          })}
+        </>
+      )}
+      <PageFooter />
+      {legal ? null : <StickyCta />}
+    </main>
+  );
+}
+
 export default function App() {
   const layout = activeLayout();
+
+  if (isReviewSkepticLayout()) {
+    return (
+      <ProtocolEmphasisProvider>
+        <ReviewSkepticApp />
+      </ProtocolEmphasisProvider>
+    );
+  }
 
   return (
     <main
@@ -35,8 +88,6 @@ export default function App() {
         }
 
         const Component = OPTIONAL_SECTION_COMPONENTS[id as OptionalSectionId];
-        // Seções desconhecidas ou sem componente próprio (ex. "lead-capture",
-        // que é consumido por outra seção) simplesmente não produzem bloco.
         return Component ? <Component key={id} /> : null;
       })}
 

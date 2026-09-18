@@ -22,7 +22,7 @@ Sucesso: publicar um Produto novo rápido, sem regressão nas Instâncias já no
 
 Não é um site de um suplemento. É o sistema que faz cada oferta virar a própria página, com Locale, paleta, seções, tracking e CTA próprios — sem template único nem tag compartilhada entre Produtos.
 
-Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout), `review` (artigo + hop outbound, sem preço) e `review-offer` (advertorial + hop outbound + tabela de oferta datada). Um quarto modo, `clone`, emite HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React. Um vizinho pode copiar uma LP; não pode afirmar que a Base trata os layouts como iguais e ainda assim isola build, domínio e pixel.
+Quatro modos de página da SPA são contrato, não tema: `sales` (kits + checkout), `review` (artigo + hop outbound, sem preço), `review-offer` (advertorial + hop outbound + tabela de oferta datada) e `review-skeptic` (advertorial dual-SKU, quiz híbrido, hops oficiais, sem preço). Um quinto modo, `clone`, emite HTML estático na raiz (cópia sanitizada de uma PDP/checkout), sem o shell React. Um vizinho pode copiar uma LP; não pode afirmar que a Base trata os layouts como iguais e ainda assim isola build, domínio e pixel.
 
 ## Operating Context
 
@@ -32,6 +32,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - Sales: CTA de checkout; evento `InitiateCheckout` / conversion só nesses cliques.
 - Review: CTA único `outboundCta` (hop / página oficial, inclusive Digistore24); clique **não** é checkout. Sem preço.
 - Review-offer: mesmo hop outbound (não é checkout); pode mostrar pacotes oficiais datados (`offer.asOf`). Sem `plans` / Pricing da Base.
+- Review-skeptic: dois hops oficiais (`catalog.pills` + `catalog.spray`); quiz só enfatiza e rola; prerender de `/` e páginas legais. Sem `plans` / Pricing / `outboundCta` legado. Clique **não** é checkout.
 - Clone: HTML estático na raiz (`clone.htmlFile`); overlay visível no load (cookie ou verificação de país). Ações do overlay navegam a `clone.affiliateHref`. `clone.extraPages` publica cópias no mesmo Host (ex. `/it`). Sem SPA sales/review/review-offer.
 - Captura de lead é módulo opcional (backend compartilhado, `source` por Produto).
 - Vocabulário canônico: Base, Produto, Instância, Spokesperson, Locale, Disclaimer de afiliado, Disclaimer de categoria, Seção, Plano, Banco de mídia, Tag de rastreamento. Ver `CONTEXT.md`. Página-popup é anti-padrão, não capacidade.
@@ -40,12 +41,13 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 
 **Capaz hoje**
 
-- Layout `sales` (default), `layout: "review"`, `layout: "review-offer"` e `layout: "clone"`.
-- Seções ligáveis/ordenáveis; Pricing obrigatório só em sales; review e review-offer exigem `outboundCta` e rejeitam `plans` / `"pricing"`. Review-offer adiciona `offer` (pacotes datados). Review que liste `offer` falha o build.
+- Layout `sales` (default), `layout: "review"`, `layout: "review-offer"`, `layout: "review-skeptic"` e `layout: "clone"`.
+- Seções ligáveis/ordenáveis; Pricing obrigatório só em sales; review e review-offer exigem `outboundCta` e rejeitam `plans` / `"pricing"`. Review-offer adiciona `offer` (pacotes datados). Review que liste `offer` falha o build. Review-skeptic exige catálogo dual + quiz + `asOf` + quatro páginas legais, e rejeita `plans` / `"pricing"` / `outboundCta` único.
 - Contrato fixo de 6 papéis de token; valores livres por Produto (incluindo fundo claro).
 - Spokesperson, Power Grid, Tech Mechanism, Testimonials, FAQ, lead capture e Área Restrita são opcionais.
 - Review acrescenta `pain`, `research`, `official-claims`, `verdict`, e módulos de conversão opt-in: `trust`, `highlights`, `ritual`, `compare`, `guarantee`, `mid-cta`. CTA outbound no fim de cada dobra editorial.
 - Review-offer acrescenta `what-is`, `formula`, `authenticity`, `side-effects`, `pros-cons`, `offer`. CTA outbound nas dobras; tabela de oferta é display-only.
+- Review-skeptic acrescenta barra editorial, Hero+quiz e atos `skepticism`, `investigation`, `test-diary`, `ugc-mosaic`, `protocol-verdict`, `synergy`, `honesty-scale`, `safe-buy`. Hops do catálogo não são checkout.
 - Tags de rastreamento por Produto, nunca compartilhadas.
 
 **Produtos no ar / em curso**
@@ -57,11 +59,12 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow, Close e clique no fundo → hop). Overlay de países EU (bandeiras) em `/it`, `/uk` e `/es`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
 - `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `burntide.thebuylens.shop` (Host antigo `burntide.thebuylens.com` ainda responde). Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
+- `moerie-hair-boost` — review-skeptic, en-US, dual SKU (Ultimate Hair Boost + Haircare Set, foco no spray do set). Hops oficiais `pills.moerie.com` e `store.moerie.com/moe-hair-growth-set` até a plataforma emitir HOP de afiliado. Sem Spokesperson, sem `plans`, `trackingTags: []`. URL pública `hair.thebuylens.com/real-hair-project-2026` (slug interno `moerie-hair-boost`). Direção visual: `products/moerie-hair-boost/DESIGN.md` (Mineral Folio; não é o Glass Lab do Burntide).
 
 **Não fazer**
 
 - Inventar preço, kit ou checkout na **página de review** (editorial). Review-offer só cita pacotes oficiais com `asOf` — sem `plans` e sem inventar kit que a loja não vende.
-- Disparar evento de checkout no `outboundCta` da review ou review-offer (hop, Digistore24, letter oficial ou funil DTC).
+- Disparar evento de checkout no `outboundCta` da review ou review-offer, ou nos hops do catálogo review-skeptic (hop, Digistore24, letter oficial ou funil DTC).
 - Emitir Página-popup / overlay injetado (`popupGate`, diálogo inescapável sobre réplica de checkout **num path aninhado**). Google Ads classificou esse padrão como malicious injected overlay. `validateProductConfig` falha se o campo existir. O cookie popup do CoolJet e do Pawlax vive **na raiz da Instância clone**, não reativa `popupGate`.
 - Reusar foto de fornecedor como avatar de reviewer inventado.
 - Fabricar claim de resultado, número de reviews ou garantia que a fonte oficial não afirma.
@@ -71,7 +74,7 @@ Três modos de página da SPA são contrato, não tema: `sales` (kits + checkout
 **Em aberto**
 
 - IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino e do Burntide (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
-- DNS/TLS de `cooljet.thebuylens.shop`, `pawlax.thebuylens.shop` e `burntide.thebuylens.shop` (infra; o compose já declara os Hosts). Host antigo `burntide.thebuylens.com` ainda responde no Traefik.
+- DNS/TLS de `cooljet.thebuylens.shop`, `pawlax.thebuylens.shop`, `burntide.thebuylens.shop` e `hair.thebuylens.com` (path `/real-hair-project-2026`; infra; o compose já declara os Hosts). Host antigo `burntide.thebuylens.com` ainda responde no Traefik.
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.
 
@@ -103,7 +106,7 @@ A Base não tem voz de marca única. Voz, nome e assets são do Produto.
 ## Product Principles
 
 1. **Uma Instância, um Produto.** Locale, pixel, domínio e copy não se misturam.
-2. **Sales, review e review-offer são iguais em prioridade.** Componente compartilhado se adapta; não vira híbrido nem sacrifica um cromo.
+2. **Sales, review, review-offer e review-skeptic são iguais em prioridade.** Componente compartilhado se adapta; não vira híbrido nem sacrifica um cromo.
 3. **Ship sem regressão.** Produto novo não pode quebrar checkout, tracking ou tom das Instâncias já publicadas.
 4. **Afiliado visível, claim atribuído.** Disclosure no rodapé; número e promessa só com fonte e data.
 5. **A Base não assume paleta, idioma nem narrador.** Isso vive no config.
