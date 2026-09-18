@@ -6,6 +6,7 @@ import type { DesignTokens, ProductConfig, SpaProductConfig } from "./src/produc
 import { isCloneProduct, validateProductConfig } from "./src/product/types";
 import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product/tokens";
 import { renderPopupGateHtml } from "./src/popup-gate/render-html";
+import { cloneProductPlugin } from "./vite.product-clone";
 import { reviewSkepticPrerenderPlugin } from "./vite.review-skeptic-prerender";
 import { trackingTagHeadHtml, trackingTagNoscriptHtml } from "./vite.tracking-tags";
 
