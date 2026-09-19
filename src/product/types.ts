@@ -711,7 +711,7 @@ export interface PopupGateConfig {
 interface ProductIdentity {
   slug: string;
   productName: string;
-  /** Host público, sem scheme (ex. `hair.thebuylens.com`). */
+  /** Host público, sem scheme (ex. `hair.thebuylens.shop`). */
   domain: string;
   /**
    * Prefix da URL pública quando a Instância não vive na raiz do Host

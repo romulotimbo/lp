@@ -17,7 +17,7 @@ import type { ProductConfig } from "@/product/types";
  * (store.moerie.com / moerie.com) — attributed, not an independent lab finding.
  */
 const BASE_PATH = "/real-hair-project-2026";
-const ORIGIN = "https://hair.thebuylens.com";
+const ORIGIN = "https://hair.thebuylens.shop";
 const SITE = `${ORIGIN}${BASE_PATH}`;
 const IMG = `${BASE_PATH}/imagens/moerie-hair-boost`;
 const PILLS_HREF = "https://pills.moerie.com/";
@@ -26,7 +26,7 @@ const SET_HREF = "https://store.moerie.com/moe-hair-growth-set";
 const moerieHairBoost: ProductConfig = {
   slug: "moerie-hair-boost",
   productName: "Moérie Ultimate Hair Boost",
-  domain: "hair.thebuylens.com",
+  domain: "hair.thebuylens.shop",
   basePath: BASE_PATH,
   layout: "review-skeptic",
 
@@ -303,7 +303,7 @@ const moerieHairBoost: ProductConfig = {
     terms: {
       title: "Terms of Service",
       paragraphs: [
-        "This independent review is published at hair.thebuylens.com/real-hair-project-2026 (\"the site\") by The Buy Lens. It is not the official Moérie website and is not affiliated with Moérie as a commissioned partner today.",
+        "This independent review is published at hair.thebuylens.shop/real-hair-project-2026 (\"the site\") by The Buy Lens. It is not the official Moérie website and is not affiliated with Moérie as a commissioned partner today.",
         "The site is provided as editorial information. Product availability, labels, policies, and prices are controlled by Moérie on their official stores. We do not process payments or take orders.",
         "Outbound buttons open third-party stores in a new tab. Those stores have their own terms. We are not responsible for their checkout, shipping, or refunds.",
         "You may not scrape, republish, or misrepresent this review as Moérie's own marketing. You may not use the site to sell counterfeit goods.",
@@ -313,7 +313,7 @@ const moerieHairBoost: ProductConfig = {
     privacy: {
       title: "Privacy Policy",
       paragraphs: [
-        "This page explains how the independent review at hair.thebuylens.com/real-hair-project-2026 handles information. We do not run an account system or a checkout.",
+        "This page explains how the independent review at hair.thebuylens.shop/real-hair-project-2026 handles information. We do not run an account system or a checkout.",
         "Cookies and similar storage. The site may use strictly necessary cookies to deliver the page. The protocol quiz can store a result in sessionStorage on your device so a refresh can remember which protocol you highlighted. That value does not leave the browser unless you send it yourself. We do not use that quiz as a content gate.",
         "If advertising pixels are added later, they will be listed in this product's tracking configuration and this policy will be updated. Today the instance ships with no Meta Pixel and no Google Ads conversion tag.",
         "GDPR. If you are in the European Economic Area or the United Kingdom, you have rights to access, rectify, erase, restrict, or object to processing of personal data we might hold, and to lodge a complaint with a supervisory authority. We do not sell personal data.",
@@ -339,7 +339,7 @@ const moerieHairBoost: ProductConfig = {
         "The Buy Lens publishes independent product reviews. This instance covers Moérie Ultimate Hair Boost and the Moérie Haircare Set for a US audience. It is not the official Moérie site.",
         "We do not currently earn a commission on the official-store buttons. Affiliate hops will be added only after the platform manager approves this landing page, and the disclosure will change on the same day.",
         "We do not invent testimonials, review counts, kit prices, or clinical trials of the finished SKUs. Claims about fulvic acid and mineral content are attributed to Moérie's own pages.",
-        "Publisher contact for this review site is listed with the host: hair.thebuylens.com/real-hair-project-2026. For questions about Moérie products, ingredients, orders, or subscriptions, write to info@moerie.com.",
+        "Publisher contact for this review site is listed with the host: hair.thebuylens.shop/real-hair-project-2026. For questions about Moérie products, ingredients, orders, or subscriptions, write to info@moerie.com.",
         "Learn more about the relationship disclosed in the footer of every page on this host.",
       ],
     },

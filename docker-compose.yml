@@ -144,7 +144,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-proxy"
-      - "traefik.http.routers.moerie-hair-boost.rule=Host(`hair.thebuylens.com`) && PathPrefix(`/real-hair-project-2026`)"
+      - "traefik.http.routers.moerie-hair-boost.rule=Host(`hair.thebuylens.shop`) && PathPrefix(`/real-hair-project-2026`)"
       - "traefik.http.routers.moerie-hair-boost.entrypoints=websecure"
       - "traefik.http.routers.moerie-hair-boost.tls.certresolver=letsencrypt"
       - "traefik.http.middlewares.moerie-hair-boost-strip.stripprefix.prefixes=/real-hair-project-2026"
