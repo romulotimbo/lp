@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch src/index.js",
+    "test": "node --test src/buygoods-conversion.test.js"
   },
   "dependencies": {
     "express": "^4.21.2",

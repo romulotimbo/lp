@@ -28,7 +28,8 @@ import type { ProductConfig } from "@/product/types";
  * Deploy: burntide.thebuylens.shop. Host antigo burntide.thebuylens.com
  * ainda responde no Traefik. Google Ads AW-18351905109 (gtag config /
  * page view). Sem conversionLabel: clique outbound da review-offer
- * não é checkout.
+ * não é checkout. O gclid da visita segue no hop (`subid`) e a venda
+ * BuyGoods volta pelo postback `/api/postback/buygoods`.
  */
 const OFFER = "https://burntide.us/funnelb3/v3/?aff_id=31010";
 const IMG = "/imagens/burntide";
@@ -45,6 +46,7 @@ const burntide: ProductConfig = {
   domain: "burntide.thebuylens.shop",
   layout: "review-offer",
   outboundCta,
+  buygoodsClickForwarding: { offerHost: "burntide.us" },
 
   locale: {
     language: "en-US",

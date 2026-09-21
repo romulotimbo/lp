@@ -8,6 +8,7 @@ import { hexToRgbChannels, onAccentChannels, TOKEN_CSS_VAR } from "./src/product
 import { renderPopupGateHtml } from "./src/popup-gate/render-html";
 import { cloneProductPlugin } from "./vite.product-clone";
 import { reviewSkepticPrerenderPlugin } from "./vite.review-skeptic-prerender";
+import { buygoodsClickForwardingScript } from "./vite.buygoods-click";
 import { trackingTagHeadHtml, trackingTagNoscriptHtml } from "./vite.tracking-tags";
 
 const DEFAULT_PRODUCT = "energi-power-vee";
@@ -38,6 +39,9 @@ function productHtmlPlugin(config: SpaProductConfig): Plugin {
       order: "pre",
       handler(html) {
         const tagsHead = (config.trackingTags ?? []).map(trackingTagHeadHtml).join("\n");
+        const clickScript = config.buygoodsClickForwarding
+          ? buygoodsClickForwardingScript(config.buygoodsClickForwarding.offerHost)
+          : "";
         const tagsBody = (config.trackingTags ?? []).map(trackingTagNoscriptHtml).join("\n");
         return html
           .replace(/lang="[^"]*"/, `lang="${config.locale.language}"`)
@@ -83,7 +87,7 @@ function productHtmlPlugin(config: SpaProductConfig): Plugin {
             `<meta name="theme-color" content="${config.seo.themeColor ?? config.tokens.background}" />`,
           )
           .replace("<!-- PRODUCT_TOKENS -->", tokensStyleTag(config.tokens))
-          .replace("<!-- PRODUCT_TRACKING_TAGS -->", tagsHead)
+          .replace("<!-- PRODUCT_TRACKING_TAGS -->", `${tagsHead}${clickScript}`)
           .replace("<!-- PRODUCT_TRACKING_NOSCRIPT -->", tagsBody);
       },
     },

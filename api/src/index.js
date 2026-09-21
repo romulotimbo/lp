@@ -1,5 +1,6 @@
 import express from "express";
 import { z } from "zod";
+import { registerBuygoodsPostback } from "./buygoods-postback.js";
 import { ensureSchema, pool } from "./db.js";
 
 const PORT = Number(process.env.PORT || 3001);
@@ -11,6 +12,7 @@ const RATE_MAX = 8;
 
 app.set("trust proxy", 1);
 app.use(express.json({ limit: "16kb" }));
+app.use(express.urlencoded({ extended: false, limit: "16kb" }));
 
 app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
@@ -106,6 +108,8 @@ app.post("/api/leads", async (req, res) => {
     });
   }
 });
+
+registerBuygoodsPostback(app);
 
 async function main() {
   await ensureSchema();

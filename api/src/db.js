@@ -55,5 +55,28 @@ export async function ensureSchema() {
       ON landing.lead_capture (created_at DESC);
     CREATE INDEX IF NOT EXISTS idx_lead_capture_product_slug
       ON landing.lead_capture (product_slug);
+
+    CREATE TABLE IF NOT EXISTS landing.buygoods_conversion (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      product_slug TEXT NOT NULL,
+      order_id TEXT NOT NULL,
+      gclid TEXT,
+      gbraid TEXT,
+      wbraid TEXT,
+      email_hash TEXT,
+      commission_amount NUMERIC(12, 2),
+      currency TEXT NOT NULL DEFAULT 'USD',
+      conv_type TEXT,
+      product_codename TEXT,
+      status TEXT NOT NULL,
+      google_request_id TEXT,
+      google_error TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+      CONSTRAINT buygoods_conversion_order_unique UNIQUE (product_slug, order_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_buygoods_conversion_status
+      ON landing.buygoods_conversion (status, created_at DESC);
   `);
 }

@@ -58,7 +58,7 @@ Quatro modos de página da SPA são contrato, não tema: `sales` (kits + checkou
 - `audifort` — review, en-US, hop ClickBank, sem Spokesperson.
 - `cooljet` — clone, en-US, HTML sanitizado da PDP CoolJet, hop clickrtrckr, Host `cooljet.thebuylens.shop`. Cookie popup na raiz (Allow, Close e clique no fundo → hop). Overlay de países EU (bandeiras) em `/it`, `/uk` e `/es`; todos os países vão ao hop da página. Google Ads `AW-18351905109` + conversionLabel.
 - `pawlax` — clone, en-US, HTML sanitizado da PDP Pawlax, hop clickrtrckr, Host `pawlax.thebuylens.shop`. Cookie popup na raiz (Allow e Close → hop). Google Ads `AW-18405296029` + conversion `L-OtCI7xw-YcEJ2PqshE` (BRL 1.0 no clique do hop).
-- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). Host `burntide.thebuylens.shop` (Host antigo `burntide.thebuylens.com` ainda responde). Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
+- `burntide` — review-offer, en-US, hop `burntide.us/funnelb3/v3/?aff_id=31010`, sem Spokesperson. Pacotes oficiais datados (2/3/6). Google Ads `AW-18351905109` (gtag config; sem conversionLabel no outbound). O hop leva `gclid`/`gbraid`/`wbraid` em `subid`/`subid2`/`subid3`; a venda BuyGoods entra por `POST/GET /api/postback/buygoods` e sobe como conversão importada de clique. Host `burntide.thebuylens.shop` (Host antigo `burntide.thebuylens.com` ainda responde). Copy de review independente (sem scam/alert/fat-burner); disclosure de afiliado no Hero e no footer.
 - `moerie-hair-boost` — review-skeptic, en-US, dual SKU (Ultimate Hair Boost + Haircare Set, foco no spray do set). Hops oficiais `pills.moerie.com` e `store.moerie.com/moe-hair-growth-set` até a plataforma emitir HOP de afiliado. Sem Spokesperson, sem `plans`, `trackingTags: []`. URL pública `hair.thebuylens.shop/real-hair-project-2026` (slug interno `moerie-hair-boost`). Direção visual: `products/moerie-hair-boost/DESIGN.md` (Mineral Folio; não é o Glass Lab do Burntide).
 
 **Não fazer**
@@ -73,7 +73,7 @@ Quatro modos de página da SPA são contrato, não tema: `sales` (kits + checkou
 
 **Em aberto**
 
-- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino e do Burntide (se a campanha precisar de um rótulo próprio, além do gtag de page view). CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
+- IDs de Pixel/Ads do Audifort (`trackingTags: []`). Conversion action do Amino (se a campanha precisar de um rótulo próprio, além do gtag de page view). No Burntide a venda não usa `conversionLabel` de clique: a action no Ads tem de ser “Website (Import from clicks)” e o ID numérico entra em `GOOGLE_ADS_CONVERSION_ACTION_ID` na API. CoolJet e Alpha Surge compartilham o mesmo `conversionLabel` até existir uma action só do CoolJet.
 - DNS/TLS de `cooljet.thebuylens.shop`, `pawlax.thebuylens.shop`, `burntide.thebuylens.shop` e `hair.thebuylens.shop` (path `/real-hair-project-2026`; infra; o compose já declara os Hosts). Host antigo `burntide.thebuylens.com` ainda responde no Traefik.
 - Padrão de acessibilidade obrigatório da Base (nenhum foi fixado).
 - Deploy DNS/Traefik de `advanced-amino.thebuylens.com` e `audifort.nothforge.com` (infra, não verdade de produto). Host antigo `advanced-amino.nothforge.com` ainda responde no Traefik.

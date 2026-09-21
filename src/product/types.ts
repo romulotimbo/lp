@@ -350,6 +350,16 @@ export interface TrackingTag {
   conversionCurrency?: string;
 }
 
+/**
+ * Encaminha o clique do Google Ads (`gclid` / `gbraid` / `wbraid`) no hop da
+ * BuyGoods (`subid` / `subid2` / `subid3`). A venda em si não dispara tag no
+ * clique — volta pelo postback da API.
+ */
+export interface BuygoodsClickForwarding {
+  /** Host do hop oficial, sem scheme. Só links desse host recebem os subids. */
+  offerHost: string;
+}
+
 /** Idioma, moeda e disclaimers legais — sempre config do Produto, nunca fixo na Base. */
 export interface LocaleConfig {
   /** BCP-47, ex. "en-US". */
@@ -732,6 +742,8 @@ export interface SpaProductConfig extends ProductIdentity {
   layout?: "sales" | "review" | "review-offer" | "review-skeptic";
   /** Obrigatório em layout `review` e `review-offer`. Proibido em `review-skeptic` (usar `catalog`). */
   outboundCta?: OutboundCta;
+  /** Quando presente, o HTML da Instância grava o click id e anexa no hop. */
+  buygoodsClickForwarding?: BuygoodsClickForwarding;
   /** Obrigatório em `review-skeptic`. Dois hops oficiais (pílulas + Haircare Set). */
   catalog?: ProtocolCatalog;
   /** Obrigatório em `review-skeptic`. Quiz de 4 perguntas (pílulas vs set tópico). */
@@ -1042,6 +1054,26 @@ export function validateProductConfig(config: ProductConfig): void {
     const recommendedCount = (config.plans ?? []).filter((p) => p.recommended).length;
     if (recommendedCount > 1) {
       missing.push("plans: no máximo 1 plano marcado como recommended");
+    }
+  }
+
+  if (!isCloneProduct(config) && config.buygoodsClickForwarding) {
+    const host = config.buygoodsClickForwarding.offerHost?.trim().toLowerCase() ?? "";
+    if (!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(host) || host.includes("..")) {
+      missing.push("buygoodsClickForwarding.offerHost");
+    }
+    const href = config.outboundCta?.href?.trim() ?? "";
+    if (!href) {
+      missing.push("buygoodsClickForwarding exige outboundCta.href");
+    } else {
+      try {
+        const hostname = new URL(href).hostname.toLowerCase();
+        if (hostname !== host && hostname !== `www.${host}`) {
+          missing.push("buygoodsClickForwarding.offerHost não bate com outboundCta.href");
+        }
+      } catch {
+        missing.push("outboundCta.href inválida para buygoodsClickForwarding");
+      }
     }
   }
 
