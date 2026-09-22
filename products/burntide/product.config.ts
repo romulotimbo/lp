@@ -26,7 +26,7 @@ import type { ProductConfig } from "@/product/types";
  * Samuel H., Harper E.) não entram. Sem kit de 1 frasco — a loja não vende.
  *
  * Deploy: burntide.thebuylens.shop. Host antigo burntide.thebuylens.com
- * ainda responde no Traefik. Google Ads AW-18351905109 (gtag config /
+ * ainda responde no Traefik. Google Ads AW-4678254098 (gtag config /
  * page view). Sem conversionLabel: clique outbound da review-offer
  * não é checkout. O gclid da visita segue no hop (`subid`) e a venda
  * BuyGoods volta pelo postback `/api/postback/buygoods`.
@@ -288,7 +288,7 @@ const burntide: ProductConfig = {
     ],
   },
 
-  trackingTags: [{ type: "google_ads", id: "AW-18351905109" }],
+  trackingTags: [{ type: "google_ads", id: "AW-4678254098" }],
 
   footer: {
     brandName: "TheBuyLens · independent Burntide review",
